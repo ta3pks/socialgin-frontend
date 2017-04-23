@@ -1,0 +1,44 @@
+//main:./main.less
+
+.upload_image{
+    display: none;
+    flex-direction: row;
+    min-width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow: auto;
+    border: 3px dashed rgba(102, 97, 91, 0.5);
+    border-radius: 6px;
+    min-height: 150px;
+    margin-top: 15px;
+    cursor : pointer;
+    background-image: url(/img/icons/cloud-upload.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 5em;
+    &:hover{
+        border: 3px dashed rgba(102, 97, 91, 1);
+    }
+    &.ok{
+        background: none;
+    }
+    &.active{
+        display: flex;
+    }
+    .files-input{
+        display: none;
+    }
+    .image-area{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        min-width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        img{
+            max-width: 500px;
+            max-height: 250px;
+        }
+    }
+}

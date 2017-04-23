@@ -1,0 +1,63 @@
+//main:./main.less
+.whyItsAwesome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    .title{
+        font-size: 2em;
+        font-weight: 700;
+        text-align: center;
+        color: #e9425f;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+    .thatsWhy {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: @boxWidth;
+        margin-top: 15px;
+        .whyCell {
+            flex: 1;
+            width: 50%;
+            min-width: 222px;
+            padding: 15px;
+            object{
+                width: 100%;
+                height: 100%;
+            }
+            ul {
+                padding: 25px !important;
+                li {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    list-style-type: none;
+                    margin: 12px 0;
+                    h1{
+                        font-weight: 700;
+                    }
+                }
+                li::before {
+                    content: "•";
+                    color: #e9425f;
+                    font-size: 2em;
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .whyCell {
+        width: 100%;
+    }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<title>Socialgin | Light</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/dependencies/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.8.36/css/materialdesignicons.min.css">
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1910682499164643',
+                xfbml: true,
+                version: 'v2.8'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">
+                <img src="/img/logo.png" alt="Socialgin">
+                <span>Please enter your user information.</span>
+            </div>
+            <div class="panel-body">
+                <input type="email" placeholder="Email address" id="email">
+                <input type="password" placeholder="Password" id="password">
+            </div>
+            <div class="panel-footer">
+                <div class="half">
+                    <button class="btn btn-default btn-xl" id="register">Register</button>
+                </div>
+                <div class="half">
+                    <button class="btn btn-primary btn-xl" id="login">Login</button>
+                </div>
+            </div>
+            <div class="panel-footer-social-media">
+                <button class="social-button facebook">
+                    <div class="icon">
+                        <i class="mdi mdi-facebook"></i>
+                    </div>
+                    <div class="title">
+                        Login with Facebook
+                    </div>
+                </button>
+                <button class="social-button twitter">
+                    <div class="icon">
+                        <i class="mdi mdi-twitter"></i>
+                    </div>
+                    <div class="title">
+                        Login with Twitter
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/dependencies/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

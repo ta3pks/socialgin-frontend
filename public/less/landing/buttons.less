@@ -1,0 +1,92 @@
+//main:./main.less
+.social-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-width: 250px;
+    padding: 2px;
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 3px;
+    border: none;
+    border-image: none;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Helvetica", "Arial", sans-serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    &:hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+    &:active {
+        -moz-transform: scale(0.99);
+        -ms-transform: scale(0.99);
+        -webkit-transform: scale(0.99);
+        transform: scale(0.99);
+    }
+    .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        font-size: 22px;
+        width: 40px;
+        height: 35px;
+        border-radius: 2px;
+    }
+    .title {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: 700;
+        text-align: center;
+    }
+    &.facebook {
+        color: @facebook;
+        background-color: @facebook;
+        border: 1px solid @facebook;
+        svg {
+            width: 25px;
+            height: 25px;
+            fill: @facebook;
+        }
+    }
+    &.twitter {
+        color: @twitter;
+        background-color: @twitter;
+        border: 1px solid @twitter;
+        svg {
+            width: 25px;
+            height: 25px;
+            fill: @twitter;
+        }
+    }
+    &.linkedin {
+        color: @linkedin;
+        background-color: @linkedin;
+        border: 1px solid @linkedin;
+        svg {
+            width: 25px;
+            height: 25px;
+            fill: @linkedin;
+        }
+    }
+    &.mail {
+        background-color: #34495e;
+        border: 1px solid #34495e;
+        .title {
+            color: #fff !important;
+        }
+        svg {
+            width: 25px;
+            height: 25px;
+            fill: #34495e;
+        }
+    }
+}

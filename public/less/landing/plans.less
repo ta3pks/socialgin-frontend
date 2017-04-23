@@ -1,0 +1,80 @@
+//main:./main.less
+
+.plans{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 25px;
+    margin-bottom: 100px;
+    h1{
+        font-size: 2em;
+        font-weight: 700;
+        text-align: center;
+        color: #e9425f;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+    .plans-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        max-width: @boxWidth;
+        margin-top: 25px;
+        width: 100%;
+        .plans-card{
+            text-align: center;
+            min-width: 350px;
+            padding: 15px;
+            padding: 15px;
+            color: rgb(52, 73, 94);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            margin: 15px 0;
+            &:hover{
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            }
+            .plans-topbar{
+                font-size: 2em;
+                font-weight: 200;
+                text-align: center;
+                margin: 25px 0;
+            }
+            .plans-price{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                text-align: center;
+                 margin: 25px 0;
+                .type{
+                    font-size: 1em;
+                    font-weight: 500;
+                    color: rgb(52, 73, 94);
+                    margin-top: 5px;
+                }
+                .price{
+                    font-size: 2em;
+                    font-weight: 500;
+                    color: #65c7c2;
+                }
+                .month{
+                    font-size: 1em;
+                    font-weight: 500;
+                    color: rgb(52, 73, 94);
+                    align-self: flex-end;
+                }
+            }
+            .plans-what{
+                ul{
+                    li{
+                        margin: 25px 0;
+                        list-style-type: none;
+                    }
+                }
+            }
+        }
+    }
+}
