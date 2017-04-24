@@ -1,24 +1,20 @@
-var debug = true; //process.env.NODE_ENV !== "production"
-var webpack = require('webpack');
-var path = require('path');
-var autoprefixer = require('autoprefixer');
-
+const webpack = require("webpack");
 
 module.exports = {
-  context: path.join(__dirname, "bundles"),
-  devtool: debug ? "inline-sourcemap" : null,
-  entry: "./client.js",
   module: {
-    loaders: [
-      {
-                test: /\.less$/,
-                loader: "style!css!less!"
-            },
+    loaders: [{
+        test: /\.less$/,
+        loader: "style!css!less!"
+      },
 
-            {
-                test: /\.css$/,
-                loader: "style-loader!css-loader!postcss-loader"
-            },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader!postcss-loader"
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'base64-font-loader'
+      },
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
@@ -28,24 +24,16 @@ module.exports = {
           plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
         }
       }
+    ],
+    plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: '"production"'
+        }
+      })
     ]
-  },
-  output: {
-    path: __dirname + "/public/js/",
-    filename: "client.min.js"
-  },
-  plugins: debug ? [] : [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: false,
-      sourcemap: false,
-      warnings : false
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    })
-  ],
-};
+  }
+}
