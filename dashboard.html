@@ -13,7 +13,7 @@
 
     <link rel="home" href="//Socialgin.com/">
     <link rel="canonical" href="//Socialgin.com/">
-    
+
     <!-- FACEBOOK META TAGS -->
     <meta property="og:title" content="Social Media Marketing &amp; Management Dashboard - Socialgin">
     <meta property="og:url" content="//Socialgin.com/">
@@ -32,12 +32,34 @@
     <!-- TWITTER META TAGS -->
     <!-- ADD SHEMA ON THIS PAGE ! -->
     <!-- TODO -->
-    
+
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1910682499164643',
+                xfbml: true,
+                version: 'v2.8'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script src="/public/js/client-styles.min.js"></script>
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="/js/client.min.js"></script>
+    <script src="/public/js/client.min.js"></script>
 </body>
 
 </html>

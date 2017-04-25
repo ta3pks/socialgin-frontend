@@ -1,18 +1,12 @@
 import React from "react";
 
-import Sidebar from "./partials/sidebar";
-import Accounts from "./partials/accounts";
-import Modal from "./partials/modal";
-import ShareSystem from "./partials/shareSystem";
+import Topbar from "./partials/topbar";
 
 export default class Layout extends React.Component{
     render(){
         return (
             <div class="wrapper">
-                <Sidebar />
-                <Accounts />
-                <ShareSystem />
-                <Modal />
+                <Topbar />
             </div>
         )
     }

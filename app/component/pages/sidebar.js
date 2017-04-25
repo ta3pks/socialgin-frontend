@@ -15,25 +15,6 @@ export default class Sidebar extends React.Component {
             toggle : false
         }
     }
-    changePage(e){
-        if(e.target.nodeName == "LI"){
-            var page = "/" + e.target.dataset.page;
-            this.props.dispatch(Route(page))
-            history.pushState(null, null, page);
-        }else if(e.target.parentElement.nodeName == "LI"){
-            var page = "/" + e.target.parentElement.dataset.page;
-            history.pushState(null, null, page);
-            this.props.dispatch(Route(page))
-        }else if(e.target.parentElement.parentElement.nodeName == "LI"){
-            var page = "/" + e.target.parentElement.parentElement.dataset.page;
-            history.pushState(null, null, page);
-            this.props.dispatch(Route(page))
-        }else if(e.target.parentElement.parentElement.parentElement.nodeName == "LI"){
-            var page = "/" + e.target.parentElement.parentElement.parentElement.dataset.page;
-            this.props.dispatch(Route(page))
-            history.pushState(null, null, page);
-        }
-    }
     logout(){
         window.location.href = "/logout";
     }

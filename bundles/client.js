@@ -1,3 +1,2 @@
-require("./../app/client");
-require("./../public/js/facebook");
+require("./../app/client.js");
 require("./../bower_components/sweetalert/dist/sweetalert.min.js");
