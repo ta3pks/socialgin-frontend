@@ -25,7 +25,7 @@ export default class Menu extends React.Component {
                     if(this.state.toggle){
                         return <Sidebar /> // örnek
                     }else{
-                        return <span>Merhaba Dünya</span>
+                        return <span>Content burada</span>
                     }
                 })()}
             </div>
