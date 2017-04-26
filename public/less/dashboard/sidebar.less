@@ -1,0 +1,172 @@
+//main:./main.less
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: ~"calc(100vh - 47px)";
+    max-height: ~"calc(100vh - 47px)";
+    max-width: 350px;
+    .toggle {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid #727270;
+        svg {
+            width: 35px;
+            height: 35px;
+            fill: #727270;
+        }
+    }
+    .add-account {
+        width: 100%;
+        margin: 15px 0;
+
+        padding: 0 12px;
+        button {
+            width: 100%;
+        }
+    }
+    .search-area {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 12px;
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: #727270;
+        }
+    }
+    .account-list {
+        width: 100%;
+        max-width: 100%;
+        min-height: ~"calc(100vh - 170px)";
+        max-height: ~"calc(100vh - 170px)";
+        padding: 15px 0;
+        overflow: auto;
+        .account{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            padding: 6px 12px;
+            position: relative;
+            margin: 12px 0;
+            border-radius: 2px;
+            &.facebook {
+                &.active {
+                    background-color: @facebook;
+                    transition: all .3s ease-out;
+                    span {
+                        color: #fff;
+                    }
+                }
+                img {
+                    border: 2px solid @facebook;
+                }
+                &:after {
+                    content: "";
+                    border: 1px solid #fff;
+                    background-color: @facebook;
+                    color: #fff;
+                    position: absolute;
+                    top: 17px;
+                    left: 35px;
+                    border-radius: 50%;
+                    width: 18px;
+                    height: 18px;
+                    padding: 3px;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    align-items: center;
+                    font-size: 10px;
+                    background-image: url(/public/img/facebook.svg);
+                    background-size: 80%;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                }
+            }
+            &.twitter {
+                &.active {
+                    background-color: @twitter;
+                    transition: all .3s ease-out;
+                    span {
+                        color: #fff;
+                    }
+                }
+                img {
+                    border: 2px solid @twitter;
+                }
+                &:after {
+                    content: "";
+                    border: 1px solid #fff;
+                    background-color: @twitter;
+                    color: #fff;
+                    position: absolute;
+                    top: 17px;
+                    left: 35px;
+                    border-radius: 50%;
+                    width: 18px;
+                    height: 18px;
+                    padding: 3px;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    align-items: center;
+                    font-size: 10px;
+                    background-image: url(/public/img/twitter.svg);
+                    background-size: 80%;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                }
+            }
+            &.linkedin {
+                &.active {
+                    background-color: @linkedin;
+                    transition: all .3s ease-out;
+                    span {
+                        color: #fff;
+                    }
+                }
+                img {
+                    border: 2px solid @linkedin;
+                }
+                &:after {
+                    content: "";
+                    border: 1px solid #fff;
+                    background-color: @linkedin;
+                    color: #fff;
+                    position: absolute;
+                    top: 17px;
+                    left: 35px;
+                    border-radius: 50%;
+                    width: 18px;
+                    height: 18px;
+                    padding: 3px;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    align-items: center;
+                    font-size: 10px;
+                    background-image: url(/public/img/linkedin.svg);
+                    background-size: 80%;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                }
+            }
+            .profile-image{
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+        }
+    }
+}
