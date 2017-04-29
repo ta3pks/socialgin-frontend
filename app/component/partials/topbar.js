@@ -10,7 +10,17 @@ export default class Topbar extends React.Component {
             <div className="topbar">
                 <div className="container">
                     <div className="logo-area">
+                        <a href="#" onClick={that.props.mobil_sidebar}>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </a>
                         <img class="logo" src="/public/img/icon.svg" alt="" />
+                        <a href="#" className="mobil_menu_button">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                            </svg>
+                        </a>
                     </div>
                     <div className="user-area">
                         <a>

@@ -6,6 +6,8 @@
     background-color: @maincolor;
     z-index: 100;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    position: relative;
+    transition: all 0.5s;
     .container {
         display: flex;
         flex-direction: row;
@@ -17,8 +19,11 @@
         align-items: center;
         justify-content: center;
         max-width: @sidebar-max-width;
-        width: 100%;
         padding: 6px 0;
+        width: 100%;
+        a{
+            display: none;
+        }
         .logo {
             width: 70px;
         }
@@ -79,6 +84,41 @@
             &:hover {
                 background: rgb(238, 238, 238)
             }
+        }
+    }
+}
+
+@media only screen and (max-width: 728px) {
+    .topbar {
+        .logo-area {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 100%;
+            padding: 6px 0;
+            width: 100%;
+            a{
+                display: flex;
+                flex-grow: 1;
+                user-select: none;
+                margin: 0 15px;
+                align-items: center;
+                &.mobil_menu_button{
+                    justify-content: flex-end;
+                }
+                svg{
+                    width: 30px;
+                    height: 30px;
+                    fill: #fff;
+                }
+            }
+            .logo {
+                width: 70px;
+            }
+        }
+        .user-area {
+            display: none;
         }
     }
 }
