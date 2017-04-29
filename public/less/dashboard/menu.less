@@ -1,14 +1,16 @@
 //main:./main.less
-
-.menu{
+.menu {
     width: 100%;
-    ul{
+    .mobil{
+        display: none;
+    }
+    ul {
         width: 100%;
         display: flex;
         flex-direction: row;
         margin: 15px 0;
         padding: 7px 0;
-        li{
+        li {
             list-style-type: none;
             margin: 0 15px;
             font-weight: 1.5em;
@@ -16,8 +18,70 @@
             color: #e9425f;
             cursor: pointer;
             user-select: none;
-            &.active{
+            &.active {
                 border-bottom: 2px solid #e9425f;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 728px) {
+    .menu {
+        flex-direction: column;
+        align-items: center;
+        min-width: 100%;
+        min-height: ~"calc(100vh - 43px)";
+        max-height: ~"calc(100vh - 43px)";
+        max-width: 100%;
+        z-index: 99;
+        position: absolute;
+        background-color: #fff;
+        left: 200%;
+        transition: all 0.4s;
+        display: none;
+        &.open{
+            display: flex;
+            left: 0;
+        }
+        .mobil{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin : 15px 0;
+            .profile_image{
+                width: 150px;
+                height: 150px;
+                border-radius: 6px;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+            }
+            h3{
+                margin: 15px 0;
+                text-align: center;
+                font-weight: 700;
+                font-size: 1.2em;
+            }
+        }
+        ul {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+            padding: 7px 0;
+            li {
+                list-style-type: none;
+                margin: 15px 15px;
+                font-weight: 1.5em;
+                font-weight: 700;
+                color: rgba(0, 0, 0, 0.5);
+                cursor: pointer;
+                user-select: none;
+                text-align: center;
+                &.active {
+                    color: rgba(0, 0, 0, 1);
+                    border-bottom: none;
+                }
             }
         }
     }
