@@ -1,0 +1,24 @@
+//main:./main.less
+
+.menu{
+    width: 100%;
+    ul{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin: 15px 0;
+padding: 7px 0;
+        li{
+            list-style-type: none;
+            margin: 0 15px;
+            font-weight: 1.5em;
+            font-weight: 700;
+            color: #e9425f;
+            cursor: pointer;
+            user-select: none;
+            &.active{
+                border-bottom: 2px solid #e9425f;
+            }
+        }
+    }
+}

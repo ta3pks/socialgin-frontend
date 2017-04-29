@@ -2,7 +2,7 @@ import React from "react";
 
 import Topbar from "./partials/topbar";
 import Sidebar from "./partials/sidebar";
-import Menu from "./pages/menu";
+import Menu from "./partials/menu";
 export default class Layout extends React.Component{
     constructor(){
         super();
@@ -20,11 +20,13 @@ export default class Layout extends React.Component{
     render(){
         return (
             <div class="wrapper">
-                <Topbar mobil_sidebar={this.mobil_sidebar.bind(this)} />
+                <Topbar mobilSidebar={this.state.mobilSidebar} mobil_sidebar={this.mobil_sidebar.bind(this)} />
                 <div className="contents">
                     <div className="container">
                         <Sidebar mobilSidebar={this.state.mobilSidebar} />
-                        <Menu />
+                        <div className="page-contents">
+                            <Menu />
+                        </div>
                     </div>
                 </div>
             </div>

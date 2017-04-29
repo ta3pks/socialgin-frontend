@@ -15,35 +15,10 @@ export default function reducer(state={
             profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
             account_type : "linkedin"
         },
-        4 : {
+        42 : {
             fullname : "Fikret Orhan",
             profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
-        },
-        5 : {
-            fullname : "Fikret Orhan",
-            profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
-        },
-        6 : {
-            fullname : "Fikret Orhan",
-            profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
-        },
-        7 : {
-            fullname : "Fikret Orhan",
-            profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
-        },
-        8 : {
-            fullname : "Fikret Orhan",
-            profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
-        },
-        9 : {
-            fullname : "Fikret Orhan",
-            profile_image : "https://scontent-otp1-1.xx.fbcdn.net/v/t1.0-9/15284124_1175937995827923_2861304911399094622_n.jpg?oh=471a5f7267e512b218383455f5c4e717&oe=597A0DAE",
-            account_type : "Twitter"
+            account_type : "twitter"
         }
     }
 }, action){
