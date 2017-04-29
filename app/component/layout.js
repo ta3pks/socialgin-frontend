@@ -3,6 +3,8 @@ import React from "react";
 import Topbar from "./partials/topbar";
 import Sidebar from "./partials/sidebar";
 import Menu from "./partials/menu";
+
+import Pages from "./pages/index";
 export default class Layout extends React.Component{
     constructor(){
         super();
@@ -26,6 +28,7 @@ export default class Layout extends React.Component{
                         <Sidebar mobilSidebar={this.state.mobilSidebar} />
                         <div className="page-contents">
                             <Menu />
+                            <Pages />
                         </div>
                     </div>
                 </div>

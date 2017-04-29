@@ -1,11 +1,20 @@
 //main:./main.less
 .material-input {
     width: 100%;
-    padding: 6px 6px;
     border: none;
     border-image: none;
     background-color: transparent;
-    border-bottom: 1px solid #727270;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     outline: none;
     position: relative;
+    transition: all 0.4s;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    &:focus{
+        border-bottom: 2px solid @maincolor;
+    }
+    &.big{
+        font-size: 1em;
+        min-height: 120px;
+    }
 }
