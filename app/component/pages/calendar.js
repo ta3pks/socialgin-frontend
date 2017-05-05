@@ -7,7 +7,7 @@ export default class Calendar extends React.Component {
     render() {
         const that = this;
         return (
-            <div className="calendar-page">
+            <div className="calendar-page animated fadeIn">
                 Calendar Page
             </div>
         );

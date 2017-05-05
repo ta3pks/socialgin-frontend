@@ -7,7 +7,7 @@ export default class Logs extends React.Component {
     render() {
         const that = this;
         return (
-            <div className="logs-page">
+            <div className="logs-page animated fadeIn">
                 Logs Page
             </div>
         );

@@ -1,5 +1,6 @@
 //main:./main.less
 .menu {
+
     width: 100%;
     .mobil{
         display: none;
@@ -36,12 +37,13 @@
         z-index: 99;
         position: absolute;
         background-color: #fff;
-        left: 200%;
+        left: 0;
         transition: all 0.4s;
         display: none;
+        justify-content: center;
+        align-items: center;
         &.open{
             display: flex;
-            left: 0;
         }
         .mobil{
             display: flex;

@@ -7,18 +7,39 @@
     overflow: hidden;
     padding: 6px 15px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     border-radius: 2px;
     font-size: 1em;
     font-weight: 300;
     z-index: 10;
     &:hover{
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
     &.red{
         border-color: @buttonRedColor;
         background-color: @buttonRedColor;
         color: #fff;
+    }
+    &.small{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        padding: 6px;
+        margin-right: 7px;
+        svg{
+            width: 24px;
+            height: 24px;
+            fill:rgba(0, 0, 0, 0.3);
+        }
+    }
+    &.active{
+        background-color: @maincolor;
+        border-color: @maincolor;
+        svg{
+            width: 24px;
+            height: 24px;
+            fill:rgba(255, 255, 255, 1) !important;
+        }
     }
 }

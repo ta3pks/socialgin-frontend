@@ -20,11 +20,7 @@ export default class Menu extends React.Component {
     render() {
         const that = this;
         return (
-            <div className={that.props.mobilMenu ? "menu open" : "menu"}>
-                <div className="mobil">
-                    <img className="profile_image" src="/public/img/default_profile.png" alt=""/>
-                    <h3>Muhammed Furkan AYDIN</h3>
-                </div>
+            <div className={that.props.mobilMenu ? "menu animated fadeIn open" : "menu"}>
                 <ul>
                     {(_=>{
                         var list = that.props.page;

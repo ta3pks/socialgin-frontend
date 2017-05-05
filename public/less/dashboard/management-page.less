@@ -4,4 +4,27 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    .panel{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        &:hover{
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+        .controller{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 12px 0;
+            .left-bar{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    }
 }
