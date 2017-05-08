@@ -12,6 +12,7 @@ export default class UploadImage extends React.Component {
       const that = this;
       const files = e.target.files;
       if (!files.length) return;
+      console.log(files)
       that.setState({images : []}, function(){
           for(let i = 0; i<files.length; i++){
               const image = new Image();
@@ -28,6 +29,7 @@ export default class UploadImage extends React.Component {
     
     render() {
         const that = this;
+        console.log(this.state.images)
         return (
             <div className="upload_image animated fadeIn">
                 {(_=>{

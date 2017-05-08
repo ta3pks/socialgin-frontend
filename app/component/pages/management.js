@@ -2,6 +2,7 @@ import React from "react";
 
 import Schedule from "./modules/share/schedule";
 import UploadImage from "./modules/share/upload_image";
+import Link from "./modules/share/link";
 
 export default class Management extends React.Component {
     constructor(){
@@ -51,6 +52,8 @@ export default class Management extends React.Component {
                         {(_=>{
                             if(that.state.upload_image){
                                 return <UploadImage />
+                            }else if(that.state.share_link){
+                                 return <Link />
                             }
                         })()}
                     </div>
