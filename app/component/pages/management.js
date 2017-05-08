@@ -48,6 +48,11 @@ export default class Management extends React.Component {
                                 return <Schedule />
                             }
                         })()}
+                        {(_=>{
+                            if(that.state.upload_image){
+                                return <UploadImage />
+                            }
+                        })()}
                     </div>
                 </div>
             </div>

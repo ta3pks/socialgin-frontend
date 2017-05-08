@@ -27,6 +27,16 @@
     width: 100%;
     min-height: ~"calc(100vh - 50px)";
     position: relative;
+    max-width: ~"calc(100% - 300px)";
+    margin-left: 300px;
+    margin-top: 50px;
+}
+
+@media only screen and (max-width: 728px) {
+    .page-contents{
+        max-width: 100%;
+        margin-left: 0 !important;
+    }
 }
 .page-area{
     display: flex;
