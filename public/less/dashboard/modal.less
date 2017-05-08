@@ -50,6 +50,9 @@
             justify-content: flex-end;
             width: 100%;
             float: right;
+            &.inside{
+                justify-content: space-between;
+            }
             .close_modal {
                 cursor: pointer;
                 width: 24px;
@@ -73,7 +76,21 @@
                 margin: 5px 0;
             }
             .social-select{
-                margin: 25px 0;
+                margin: 50px 0;
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                align-items: center;
+            }
+            .add_account{
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                button{
+                    margin-top: 50px;
+                }
             }
         }
     }
