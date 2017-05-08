@@ -4,8 +4,9 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    height: auto;
     .panel{
-        display: flex;
+        display: block;
         flex-direction: column;
         width: 100%;
         background-color: #fff;
@@ -16,15 +17,29 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         }
         .controller{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 12px 0;
+            display: block;
+            padding: 12px 0;
+            width: 100%;
             .left-bar{
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
+                display: block;
+                float: left;
+                width: 50%;
+                button{
+                    float: left;
+                }
             }
+            .right-bar{
+                display: block;
+                float: right;
+                width: 50%;
+                button{
+                    float: right;
+                }
+            }
+        }
+        .share-settings{
+            width: 100%;
+            display: block;
         }
     }
 }

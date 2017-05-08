@@ -1,0 +1,83 @@
+//main:./main.less
+.schedule {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    .timer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-width: 50%;
+        padding: 15px;
+        .time-selecter{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            margin: 15px 0;
+            .time-select-area{
+                display: flex;
+                flex-direction: row;
+                width: 50%;
+                select{
+                    font-weight: 300;
+                    font-size: 1em;
+                }
+            }
+            .am-pm{
+                display: flex;
+                flex-direction: row;
+                width: 50%;
+                justify-content: flex-end;
+                .time-zone{
+                    user-select: none;
+                    cursor: pointer;
+                    padding: 6px 12px;
+                    &.active{
+                        background-color: @maincolor;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .calendar-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 50%;
+        padding: 15px;
+        &:focus, .DayPicker{
+            outline: none;
+        }
+        .DayPicker {
+            width: 100%;
+            .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+                color: #FFF;
+                background-color: @maincolor;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 728px) {
+    .schedule {
+        flex-wrap: wrap;
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100%;
+            padding: 15px;
+        }
+        .calendar-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100%;
+            padding: 15px;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 
 import Schedule from "./modules/share/schedule";
+import UploadImage from "./modules/share/upload_image";
 
 export default class Management extends React.Component {
     constructor(){
