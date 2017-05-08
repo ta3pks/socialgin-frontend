@@ -1,5 +1,11 @@
-export function modalToggle(account_info){
+export function modalOpen(){
     return {
-        type : "TOGGLE"
+        type : "OPEN_MODAL"
+    }
+}
+
+export function modalClose(){
+    return {
+        type : "CLOSE_MODAL"
     }
 }

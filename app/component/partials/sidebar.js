@@ -2,11 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 
 import {selectAccount} from "./../../actions/accountActions";
+import {modalOpen, modalClose} from "./../../actions/modalActions";
 
 
 @connect(store=>{
     return {
-        accounts : store.Accounts.list
+        accounts : store.Accounts.list,
+        open : store.Modal.open
     }
 })
 
@@ -17,12 +19,15 @@ export default class Sidebar extends React.Component {
             searchAccount : ""
         }
     }
+    openModal(){
+        this.props.dispatch(modalOpen())
+    }
     render() {
         const that = this;
         return (
             <div className={that.props.mobilSidebar ? "sidebar active" : "sidebar"}>
                 <div className="add-account">
-                    <button className="btn red">
+                    <button className="btn red" onClick={that.openModal.bind(that)}>
                         ADD ACCOUNT
                     </button>
                 </div>

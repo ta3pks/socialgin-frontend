@@ -1,9 +1,13 @@
 export default function reducer(state={
-    modal : false
+    open : false
 }, action){
     switch(action.type){
-        case "TOGGLE":{
-            state = {...state, modal : !state.modal}
+        case "OPEN_MODAL":{
+            state = {...state, open : true}
+            break;
+        }
+        case "CLOSE_MODAL":{
+            state = {...state, open : false}
             break;
         }
     }

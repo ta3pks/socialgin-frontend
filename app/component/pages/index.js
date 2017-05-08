@@ -6,6 +6,8 @@ import CalendarPage from "./calendar";
 import ReportsPage from "./reports";
 import LogsPage from "./logs";
 
+import AddAccountModal from "./modules/add_account/modal";
+
 @connect(store=>{
     return {
         page : store.Router.page
@@ -32,6 +34,7 @@ export default class Pages extends React.Component {
                        return <LogsPage />
                    }
                 })()}
+                <AddAccountModal />
             </div>
         );
     }
