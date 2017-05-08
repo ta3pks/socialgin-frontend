@@ -34,6 +34,7 @@ export default class Schedule extends React.Component {
                                     return options
                                 })()}
                             </select>
+                            <span className="sapirate">:</span>
                             <select className="material-input">
                                 {(_=>{
                                     let options = []
