@@ -36,7 +36,8 @@
   "scripts": {
     "postinstall": "bower install",
     "dashboard-head": "webpack -w --output-filename ./public/js/client-styles.min.js --config ./webpack.config.js ./bundles/client.styles.js",
-    "dashboard-footer": "webpack -w --output-filename ./public/js/client.min.js --config ./webpack.config.js ./bundles/client.js"
+    "dashboard-footer": "webpack -w --output-filename ./public/js/client.min.js --config ./webpack.config.js ./bundles/client.js",
+    "landing": "webpack -w --output-filename ./public/js/landing.min.js --config ./webpack.config.js ./bundles/landing.js"
   },
   "author": "",
   "license": "ISC"
