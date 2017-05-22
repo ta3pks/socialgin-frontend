@@ -1,5 +1,7 @@
 import React from "react";
 
+import Config from "./../config";
+
 import Topbar from "./partials/topbar";
 import Sidebar from "./partials/sidebar";
 import Menu from "./partials/menu";
@@ -24,6 +26,19 @@ export default class Layout extends React.Component{
         that.setState({
             mobilMenu : !that.state.mobilMenu
         })
+    }
+    componentWillMount(){
+        const user_data = localStorage.getItem("socialgin_user_data");
+        if(!user_data) return window.location.href = "/";
+        var ajax = new XMLHttpRequest()
+        ajax.open("POST", Config.api_url + Config.authorize, true);
+        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        ajax.onload = function () {
+            let data = JSON.parse(ajax.response);
+            if(data.error) return window.location.href = "/";
+            console.log(data)
+        }
+        ajax.send(`authenticationtoken=${user_data}`)
     }
     render(){
         return (

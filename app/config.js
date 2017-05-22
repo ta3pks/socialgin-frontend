@@ -1,17 +1,18 @@
 module.exports = {
-  api_url : "/",
+  api_url : "http://socialgin.com:8080/",
   facebook : {
     register : "register/fb",
     authenticate : "authenticate/fb",
     addAccount : "accounts/add/fb"
   },
-  facebook_register : "",
-  twitter_register : "register/tw",
-  twitter_request_token : "twitter/requesttoken",
+  twitter : {
+    register : "register/tw",
+    request_token : "twitter/requesttoken",
+    authenticate : "authenticate/tw",
+    addAccount : "accounts/add/tw",
+    access_token : "twitter/accesstoken"
+  },
   authenticate_email : "authenticate",
-  authenticate_facebook : "",
-  authenticate_twitter : "authenticate/tw",
   authorize : "authorize",
-  add_account_facebook : "",
-  add_account_twitter : "accounts/add/tw"
+  dashboard_uri : "dashboard.html"
 };
