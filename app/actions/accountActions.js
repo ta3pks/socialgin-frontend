@@ -24,3 +24,17 @@ export function removeAccount(id){
         payload : id
     }
 }
+
+export function userName(user_name){
+    return {
+        type : "USER_NAME",
+        payload : user_name
+    }
+}
+
+export function avatar(avatar){
+    return {
+        type : "AVATAR",
+        payload : avatar
+    }
+}

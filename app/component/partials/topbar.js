@@ -1,5 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 
+@connect(store=>{
+    return {
+        user_name : store.User.user_name,
+        avatar : store.User.avatar
+    }
+})
 export default class Topbar extends React.Component {
     constructor(){
         super();
@@ -24,13 +31,13 @@ export default class Topbar extends React.Component {
                     </div>
                     <div className="user-area">
                         <a>
-                            <img className="profile-image" src="/public/img/default_profile.png" alt=""/>
-                            Muhammed Furkan AYDIN
+                            <img className="profile-image" src={that.props.avatar} alt=""/>
+                            {that.props.user_name}
                             <svg viewBox="0 0 24 24">
                                 <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                             </svg>
                         </a>
-                        <div className={ "dropdown"}>
+                        <div className={"dropdown"}>
                             <ul>
                                 <li>
                                     Settings

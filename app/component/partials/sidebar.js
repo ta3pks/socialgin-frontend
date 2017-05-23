@@ -7,7 +7,7 @@ import {modalOpen, modalClose} from "./../../actions/modalActions";
 
 @connect(store=>{
     return {
-        accounts : store.Accounts.list,
+        accounts : store.User.list,
         open : store.Modal.open
     }
 })
@@ -45,11 +45,11 @@ export default class Sidebar extends React.Component {
                             if (list.hasOwnProperty(key)) {
                                 var account = list[key];
                                 var active = account.selected ? "active" : "";
-                                if(RegExp(that.state.searchAccount, 'i').test(account.fullname)){
+                                if(RegExp(that.state.searchAccount, 'i').test(account.name)){
                                     data.push(
                                         <div key={key} onClick={(_=>{that.props.dispatch(selectAccount(key))}).bind(that)} className={"account " + account.account_type + " " + active}>
-                                            <img className="profile-image" src={account.profile_image} alt=""/>
-                                            {account.fullname}
+                                            <img className="profile-image" src={account.profile_picture_https} alt=""/>
+                                            {account.name}
                                         </div>
                                     )                      
                                 }

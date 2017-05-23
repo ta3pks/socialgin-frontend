@@ -14,5 +14,6 @@ module.exports = {
   },
   authenticate_email : "authenticate",
   authorize : "authorize",
-  dashboard_uri : "dashboard.html"
+  dashboard_uri : "dashboard.html",
+  getUserData : "user/get"
 };
