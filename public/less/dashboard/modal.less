@@ -50,7 +50,7 @@
             justify-content: flex-end;
             width: 100%;
             float: right;
-            &.inside{
+            &.inside {
                 justify-content: space-between;
             }
             .close_modal {
@@ -60,36 +60,162 @@
                 fill: rgba(52, 54, 66, 0.9);
             }
         }
-        .modal-body{
+        .modal-body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
             text-align: center;
-            h1{
+            h1 {
                 font-weight: 300;
                 font-size: 1.5em;
                 margin: 10px 0;
-            } 
-            p{
+            }
+            p {
                 margin: 5px 0;
             }
-            .social-select{
+            .social-select {
                 margin: 50px 0;
                 display: flex;
                 justify-content: space-around;
                 flex-direction: row;
                 align-items: center;
             }
-            .add_account{
+            .add_account {
                 display: flex;
                 width: 100%;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                button{
+                button {
                     margin-top: 50px;
+                }
+            }
+            .account-list {
+                width: 100%;
+                max-width: 100%;
+                padding: 15px 12px;
+                overflow: auto;
+                .account {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 100%;
+                    padding: 6px 12px;
+                    position: relative;
+                    margin: 6px 0;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    &.facebook {
+                        &.active {
+                            background-color: @facebook;
+                            transition: all .3s ease-out;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                            span {
+                                color: #fff;
+                            }
+                        }
+                        img {
+                            border: 2px solid @facebook;
+                        }
+                        &:after {
+                            content: "";
+                            border: 1px solid #fff;
+                            background-color: @facebook;
+                            color: #fff;
+                            position: absolute;
+                            top: 37px;
+                            left: 50px;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            padding: 3px;
+                            display: flex;
+                            justify-content: center;
+                            text-align: center;
+                            align-items: center;
+                            font-size: 10px;
+                            background-image: url(/public/img/facebook.svg);
+                            background-size: 80%;
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                        }
+                    }
+                    &.twitter {
+                        &.active {
+                            background-color: @twitter;
+                            transition: all .3s ease-out;
+                            span {
+                                color: #fff;
+                            }
+                        }
+                        img {
+                            border: 2px solid @twitter;
+                        }
+                        &:after {
+                            content: "";
+                            border: 1px solid #fff;
+                            background-color: @twitter;
+                            color: #fff;
+                            position: absolute;
+                            top: 37px;
+                            left: 50px;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            padding: 3px;
+                            display: flex;
+                            justify-content: center;
+                            text-align: center;
+                            align-items: center;
+                            font-size: 10px;
+                            background-image: url(/public/img/twitter.svg);
+                            background-size: 80%;
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                        }
+                    }
+                    &.linkedin {
+                        &.active {
+                            background-color: @linkedin;
+                            transition: all .3s ease-out;
+                            span {
+                                color: #fff;
+                            }
+                        }
+                        img {
+                            border: 2px solid @linkedin;
+                        }
+                        &:after {
+                            content: "";
+                            border: 1px solid #fff;
+                            background-color: @linkedin;
+                            color: #fff;
+                            position: absolute;
+                            top: 37px;
+                            left: 50px;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            padding: 3px;
+                            display: flex;
+                            justify-content: center;
+                            text-align: center;
+                            align-items: center;
+                            font-size: 10px;
+                            background-image: url(/public/img/linkedin.svg);
+                            background-size: 80%;
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                        }
+                    }
+                    .profile-image {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin-right: 15px;
+                    }
                 }
             }
         }

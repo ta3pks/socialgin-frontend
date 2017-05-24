@@ -1,11 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
+import swal from "./../../../../../bower_components/sweetalert/dist/sweetalert.min.js";
+
+import "./../../../../../bower_components/sweetalert/dist/sweetalert.css";
 
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
+import {addAccount, removeAccount} from "./../../../../actions/accountActions";
+
+import Config from "./../../../../config";
 
 @connect(store=>{
     return {
-        open : store.Modal.open
+        open : store.Modal.open,
+        addedAccounts : store.User.list
     }
 })
 
@@ -15,8 +22,112 @@ export default class Modal extends React.Component {
         this.state = {
             facebook : false,
             twitter : false,
-            linkedin : false
+            linkedin : false,
+            facebookAccounts : []
         }
+    }
+    selectAccount(e){
+        const added = e.currentTarget.dataset.added;
+        const account = JSON.parse(e.currentTarget.dataset.account);
+        const that = this;
+        const user_data = localStorage.getItem("socialgin_user_data");
+        if(!user_data) return window.location.href = "/";
+        if(added == "true"){
+            that.props.dispatch(removeAccount(account.id))
+        }else{
+            that.props.dispatch(addAccount(account))            
+        }
+        const ajax = new XMLHttpRequest()
+        ajax.open("POST", Config.api_url + Config.authorize, true);
+        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        ajax.onload = function () {
+            const data = JSON.parse(ajax.response);
+            if(data.error) return window.location.href = "/";
+            if(added == "true"){
+                const xhr = new XMLHttpRequest()
+                xhr.open("POST", Config.api_url + Config.facebook.removeAccount, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onload = function () {
+                    console.log(ajax.response)
+                    let res = JSON.parse(xhr.response);
+                    if(res.error){
+                        swal("Error !", res.error, "error");
+                        return that.props.dispatch(addAccount(account))
+                    }
+                }
+                xhr.send(`token=${encodeURIComponent(data.data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`)
+            }else{
+                let addType = "";
+                if(account.profile_type == "account") addType = Config.facebook.addAccount;
+                if(account.profile_type == "page") addType = Config.facebook.addPage;
+                if(account.profile_type == "group") addType = Config.facebook.addGroup;
+                const xhr = new XMLHttpRequest()
+                xhr.open("POST", Config.api_url + addType, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onload = function () {
+                    console.log(ajax.response)
+                    let res = JSON.parse(xhr.response);
+                    if(res.error){
+                        swal("Error !", res.error, "error");
+                        return that.props.dispatch(removeAccount(account.id))
+                    }
+                }
+                xhr.send(`token=${encodeURIComponent(data.data)}&id=${encodeURIComponent(account.id)}&access_token=${encodeURIComponent(account.access_token)}`)
+            }
+        }
+        ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
+    }
+    facebookAddAccount(){
+        const that = this;
+        FB.login(function (response) {
+            if (response.status == "connected") {
+                FB.api("/me", "get", {fields: "id,name,picture,groups{id,name,picture{url}},accounts{photos{picture},name,id,access_token}"}, function (res) {
+                    that.setState({facebookAccounts : []})
+                    const accounts = [];
+                    var access_token = FB.getAuthResponse()['accessToken'];
+                    accounts.push({
+                        id: res.id,
+                        fullname: res.name,
+                        picture: res.picture.data.url,
+                        access_token: access_token,
+                        type: "facebook",
+                        profile_type : "account"
+                    })
+                    if (res.accounts) {
+                        for (var i = 0; i < res.accounts.data.length; i++) {
+                            var iamge = res.accounts.data[i].photos ? res.accounts.data[i].photos.data[0].picture : "/public/img/icons/default-user.jpg"
+                            accounts.push({
+                                id: res.accounts.data[i].id,
+                                fullname: res.accounts.data[i].name,
+                                picture: iamge,
+                                type: "facebook",
+                                access_token: res.accounts.data[i].access_token,
+                                profile_type : "page"
+                            })
+                        }
+                    }
+                    if (res.groups) {
+                        for (var i = 0; i < res.groups.data.length; i++) {
+                            var iamge = res.groups.data[i].picture ? res.groups.data[i].picture.data.url : "/public/img/icons/default-user.jpg"
+                            accounts.push({
+                                id: res.groups.data[i].id,
+                                fullname: res.groups.data[i].name,
+                                picture: iamge,
+                                type: "facebook",
+                                access_token: access_token,
+                                profile_type : "group"
+                            })
+                        }
+                    }
+                    that.setState({
+                        facebookAccounts : accounts
+                    })
+                    FB.logout(function (response) {});
+                })
+            }
+        }, {
+            scope: 'public_profile, email, user_birthday, user_events, user_managed_groups, user_photos, user_posts, user_videos, user_website, read_page_mailboxes, manage_pages, publish_pages, publish_actions, pages_show_list, pages_manage_cta, pages_manage_instant_articles, pages_messaging'
+        });
     }
     closeModal(e){
         if(e.target.classList.contains("modal")){
@@ -31,7 +142,7 @@ export default class Modal extends React.Component {
                     if(that.props.open){
                         return (
                             <div className="modal open animated fadeIn" onClick={that.closeModal.bind(that)}>
-                                <div className="modal-container animated bounceInDown" onClick={(_=>{console.log("Açması gerekiyor.")}).bind(that)}>
+                                <div className="modal-container animated bounceInDown">
                                     <div className={this.state.facebook || this.state.twitter || this.state.linkedin ? "modal-head inside" : "modal-head"}>
                                         {(_=>{
                                             if(this.state.facebook || this.state.twitter || this.state.linkedin){
@@ -76,7 +187,7 @@ export default class Modal extends React.Component {
                                                     <div className="add_account animated fadeIn">
                                                         <h1>Add Account from Facebook</h1>
                                                         <p>Once you connect, you will able to add: Pages, Groups and Profiles</p>
-                                                        <button class="social-button facebook">
+                                                        <button class="social-button facebook" onClick={that.facebookAddAccount.bind(that)}>
                                                             <div class="icon">
                                                                 <svg viewBox="0 0 24 24">
                                                                     <path d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z" />
@@ -86,6 +197,28 @@ export default class Modal extends React.Component {
                                                                 Login with Facebook
                                                             </div>
                                                         </button>
+                                                        <div className="account-list">
+                                                            {(_=>{
+                                                                var accounts = that.state.facebookAccounts;
+                                                                var addedAccounts = that.props.addedAccounts;
+                                                                var data = [];
+                                                                accounts.forEach(function(account){
+                                                                    let added = false
+                                                                    console.log(account.id, addedAccounts[account.id])
+                                                                    if(addedAccounts[account.id]){
+                                                                        added = true
+                                                                    }
+                                                                    let addedClass =  added ? " active" : ""
+                                                                    data.push(
+                                                                        <div data-added={added ? "true" : "false"} data-account={JSON.stringify(account)} key={account.id} className={"account " + account.type + addedClass} onClick={that.selectAccount.bind(that)}>
+                                                                            <img className="profile-image" src={account.picture} alt={account.fullname}/>
+                                                                            <span>{account.fullname}</span>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                                return data
+                                                            })()}
+                                                        </div>
                                                     </div>
                                                 )
                                             }

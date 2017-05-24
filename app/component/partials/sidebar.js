@@ -47,9 +47,9 @@ export default class Sidebar extends React.Component {
                                 var active = account.selected ? "active" : "";
                                 if(RegExp(that.state.searchAccount, 'i').test(account.name)){
                                     data.push(
-                                        <div key={key} onClick={(_=>{that.props.dispatch(selectAccount(key))}).bind(that)} className={"account " + account.account_type + " " + active}>
-                                            <img className="profile-image" src={account.profile_picture_https} alt=""/>
-                                            {account.name}
+                                        <div key={key} onClick={(_=>{that.props.dispatch(selectAccount(key))}).bind(that)} className={"account " + account.type + " " + active}>
+                                            <img className="profile-image" src={account.profile_picture} alt={account.name}/>
+                                            <span>{account.name} {account.surname}</span>
                                         </div>
                                     )                      
                                 }

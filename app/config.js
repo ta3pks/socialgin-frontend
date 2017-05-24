@@ -3,7 +3,10 @@ module.exports = {
   facebook : {
     register : "register/fb",
     authenticate : "authenticate/fb",
-    addAccount : "accounts/add/fb"
+    addAccount : "accounts/add/fb",
+    addPage : "accounts/add/fb/page",
+    addGroup : "accounts/add/fb/group",
+    removeAccount : "accounts/remove/fb"
   },
   twitter : {
     register : "register/tw",

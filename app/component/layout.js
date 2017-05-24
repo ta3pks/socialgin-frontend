@@ -8,6 +8,7 @@ import Sidebar from "./partials/sidebar";
 import Menu from "./partials/menu";
 
 import Pages from "./pages/index";
+import Loading from "./pages/loading";
 
 import {fetchAccounts, userName, avatar} from "./../actions/accountActions";
 
@@ -21,7 +22,8 @@ export default class Layout extends React.Component{
         super();
         this.state = {
             mobilSidebar : false,
-            mobilMenu : false
+            mobilMenu : false,
+            page_load : false
         }
     }
     mobil_sidebar(){
@@ -52,7 +54,6 @@ export default class Layout extends React.Component{
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onload = function () {
                 let res = JSON.parse(xhr.response);
-                console.log(res)
                 if(res.error) return console.log(res);
                 const allAccounts = [...res.tw_accounts, ...res.fb_accounts]
                 that.props.dispatch({
@@ -61,21 +62,24 @@ export default class Layout extends React.Component{
                 })
                 that.props.dispatch({
                     type : "USER_NAME",
-                    payload : res.name
+                    payload : res.name + " " + res.surname
                 })
                 that.props.dispatch({
                     type : "AVATAR",
                     payload : res.profile_picture
                 })
+                that.setState({page_load : true})
             }
-            xhr.send(`token=${data.data}`)
+            xhr.send(`token=${encodeURIComponent(data.data)}`)
         }
-        ajax.send(`authenticationtoken=${user_data}`)
+        ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
     }
     render(){
         return (
             <div class="wrapper">
-                <Topbar mobil_menu={this.mobil_menu.bind(this)} mobilSidebar={this.state.mobilSidebar} mobil_sidebar={this.mobil_sidebar.bind(this)} />
+                {(_=>{
+                    if(this.state.page_load){
+                        return (<div><Topbar mobil_menu={this.mobil_menu.bind(this)} mobilSidebar={this.state.mobilSidebar} mobil_sidebar={this.mobil_sidebar.bind(this)} />
                 <div className="contents">
                     <div className="container">
                         <Sidebar mobilSidebar={this.state.mobilSidebar} />
@@ -84,7 +88,14 @@ export default class Layout extends React.Component{
                             <Pages />
                         </div>
                     </div>
-                </div>
+                </div></div>)
+                    }
+                })()}
+                {(_=>{
+                    if(!this.state.page_load){
+                        return <Loading />
+                    }
+                })()}
             </div>
         )
     }
