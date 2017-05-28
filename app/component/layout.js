@@ -40,7 +40,6 @@ export default class Layout extends React.Component{
     }
     componentWillMount(){
         const that = this;
-        console.log(that)
         const user_data = localStorage.getItem("socialgin_user_data");
         if(!user_data) return window.location.href = "/";
         const ajax = new XMLHttpRequest()
@@ -50,16 +49,18 @@ export default class Layout extends React.Component{
             const data = JSON.parse(ajax.response);
             if(data.error) return window.location.href = "/";
             const xhr = new XMLHttpRequest()
-            xhr.open("POST", Config.api_url + Config.getUserData, true);
+            xhr.open("GET", Config.api_url + Config.getUserData + `?token=${encodeURIComponent(data.data)}`, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onload = function () {
                 let res = JSON.parse(xhr.response);
                 if(res.error) return console.log(res);
-                const allAccounts = [...res.tw_accounts, ...res.fb_accounts]
-                that.props.dispatch({
-                    type : "FETCH_ACCOUNT",
-                    payload : allAccounts
-                })
+                /**
+                    const allAccounts = [...res.tw_accounts || [], ...res.fb_accounts || []]
+                    that.props.dispatch({
+                        type : "FETCH_ACCOUNT",
+                        payload : allAccounts
+                    })
+                 */
                 that.props.dispatch({
                     type : "USER_NAME",
                     payload : res.name + " " + res.surname
@@ -70,7 +71,7 @@ export default class Layout extends React.Component{
                 })
                 that.setState({page_load : true})
             }
-            xhr.send(`token=${encodeURIComponent(data.data)}`)
+            xhr.send()
         }
         ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
     }

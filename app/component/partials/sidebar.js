@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {selectAccount} from "./../../actions/accountActions";
 import {modalOpen, modalClose} from "./../../actions/modalActions";
 
+import config from "./../../config";
 
 @connect(store=>{
     return {
@@ -21,6 +22,34 @@ export default class Sidebar extends React.Component {
     }
     openModal(){
         this.props.dispatch(modalOpen())
+    }
+    componentWillMount(){
+        const that = this;
+        console.log(that)
+        const user_data = localStorage.getItem("socialgin_user_data");
+        if(!user_data) return window.location.href = "/";
+        const ajax = new XMLHttpRequest()
+        ajax.open("POST", config.api_url + config.authorize, true);
+        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        ajax.onload = function () {
+            // endpoint değiştir !
+            const data = JSON.parse(ajax.response);
+            if(data.error) return window.location.href = "/";
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", config.api_url + config.getAccounts + `?token=${encodeURIComponent(data.data)}`, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function () {
+                let res = JSON.parse(xhr.response);
+                if(res.error) return console.log(res);
+                const allAccounts = [...res.tw_accounts || [], ...res.fb_accounts || []]
+                that.props.dispatch({
+                    type : "FETCH_ACCOUNT",
+                    payload : allAccounts
+                })
+            }
+            xhr.send()
+        }
+        ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
     }
     render() {
         const that = this;

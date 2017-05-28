@@ -6,7 +6,6 @@ module.exports = {
     addAccount : "accounts/add/fb",
     addPage : "accounts/add/fb/page",
     addGroup : "accounts/add/fb/group",
-    removeAccount : "accounts/remove/fb"
   },
   twitter : {
     register : "register/tw",
@@ -15,8 +14,13 @@ module.exports = {
     addAccount : "accounts/add/tw",
     access_token : "twitter/accesstoken"
   },
-  authenticate_email : "authenticate",
+  email : {
+    register : "register",
+    authenticate : "authenticate"
+  },
+  removeAccount : "accounts/remove",
   authorize : "authorize",
   dashboard_uri : "dashboard.html",
-  getUserData : "user/get"
+  getUserData : "user/get",
+  getAccounts : "user/getaccounts"
 };

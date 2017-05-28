@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper" id="app">
         <section class="header">
             <div class="navbar">
                 <a class="logo-wrap" href="/">
@@ -49,7 +49,7 @@
                             <a href="#plans">Plans</a>
                         </li>
                     </ul>
-                    <svg viewBox="0 0 24 24" onclick="menu()">
+                    <svg viewBox="0 0 24 24" v-on:click="menu()">
                         <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
                     </svg>
                 </div>
@@ -62,7 +62,7 @@
                     <h1>Wellcome to Socialgin</h1>
                     <span>You can manage your all social media accounts in one place</span>
                     <div class="button-area">
-                        <button class="social-button facebook">
+                        <button class="social-button facebook" v-on:click="facebookRegister">
                             <div class="icon">
                                 <svg viewBox="0 0 24 24">
                                     <path d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z" />
@@ -72,7 +72,7 @@
                                 Login with Facebook
                             </div>
                         </button>
-                        <button class="social-button twitter">
+                        <button class="social-button twitter" v-on:click="twitterRegister">
                             <div class="icon">
                                 <svg viewBox="0 0 24 24">
                                     <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" />
@@ -84,18 +84,51 @@
                         </button>
                     </div>
                     <div class="button-area">
-                    <button class="social-button mail">
-                            <div class="icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12,13L2,6.76V6C2,4.89 2.89,4 4,4H20A2,2 0 0,1 22,6V6.75L12,13M22,18A2,2 0 0,1 20,20H4C2.89,20 2,19.1 2,18V9.11L4,10.36V18H20V10.36L22,9.11V18Z" />
-                                </svg>
-                            </div>
-                            <div class="title">
-                                Login with your Mail
-                            </div>
-                    </button>
+                        <button class="social-button mail" :class="openEmail ? ' active' : ' '" v-on:click="registerEmail">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12,13L2,6.76V6C2,4.89 2.89,4 4,4H20A2,2 0 0,1 22,6V6.75L12,13M22,18A2,2 0 0,1 20,20H4C2.89,20 2,19.1 2,18V9.11L4,10.36V18H20V10.36L22,9.11V18Z" />
+                                    </svg>
+                                </div>
+                                <div class="title">
+                                    Login with your Mail
+                                </div>
+                                <div class="controller">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                    </svg>
+                                </div>
+                        </button>
                     </div>
-                    
+                    <template v-if="openEmail">
+                        <div class="login-mail animated bounceIn" v-if="loginEmail">
+                            <input v-model="loginInfo.email" type="text" class="material-input" placeholder="Enter your email.">
+                            <input v-model="loginInfo.password" type="password" class="material-input" placeholder="Password">
+                            <div class="login-mail">
+                                <a href="#" v-on:click.prevent="loginEmail = false">You dont have an account?</a>
+                                <button class="btn red" v-on:click="emailLoginHandler">
+                                    Login
+                                </button>
+                            </div>
+                        </div>
+                        <div class="register-mail animated fadeIn" v-else="loginEmail">
+                            <div class="input-area">
+                                <input v-model="registerInfo.name" type="text" class="material-input" placeholder="Name">
+                                <input v-model="registerInfo.surname" type="text" class="material-input" placeholder="Surname">
+                            </div>
+                            <input v-model="registerInfo.email" type="email" class="material-input" placeholder="Email address">
+                            <div class="input-area">
+                                <input v-model="registerInfo.password" type="password" class="material-input" placeholder="Password">
+                                <input v-model="registerInfo.passwordAgain" type="password" class="material-input" placeholder="Password again.">
+                            </div>
+                            <div class="login-mail">
+                                <a href="#" v-on:click.prevent="loginEmail = true">Do you have an account?</a>
+                                <button class="btn red" v-on:click="emailRegisterer">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </section>
@@ -156,7 +189,7 @@
                                 <h1>Government level security</h1>
                                 <span>We use secure algorithms to keep your content just for you. Even we can not see your sensitive data.</span>
                             </div>
-                        </li> 
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -223,7 +256,8 @@
         <section class="footer">
             <div class="company-info">
                 <h3>Get in touch</h3>
-                <p>If you need help, or just want to tell us how you like socialgin.com, contact us at <a href="mailto:feedback@socialgin.com">feedback@socialgin.com</a>. Check out our <a href="#FAQ">FAQ</a>.</p>
+                <p>If you need help, or just want to tell us how you like socialgin.com, contact us at <a href="mailto:feedback@socialgin.com">feedback@socialgin.com</a>.
+                    Check out our <a href="#FAQ">FAQ</a>.</p>
             </div>
         </section>
         <section class="mobil-menu">
@@ -248,7 +282,6 @@
             <div class="background-fuller" onclick="menu()"></div>
         </section>
     </div>
-    <a class="event-handler" href="#" target="_blank"></a>
 </body>
 
 </html>
