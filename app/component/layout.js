@@ -12,6 +12,8 @@ import Loading from "./pages/loading";
 
 import {fetchAccounts, userName, avatar} from "./../actions/accountActions";
 
+import XHR from "./modules/ajax"
+
 @connect(store=>{
     return {
         list : store.User.list
@@ -40,40 +42,26 @@ export default class Layout extends React.Component{
     }
     componentWillMount(){
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data");
+        const user_data = localStorage.getItem("socialgin_user_data") || "";
         if(!user_data) return window.location.href = "/";
-        const ajax = new XMLHttpRequest()
-        ajax.open("POST", Config.api_url + Config.authorize, true);
-        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        ajax.onload = function () {
-            const data = JSON.parse(ajax.response);
-            if(data.error) return window.location.href = "/";
-            const xhr = new XMLHttpRequest()
-            xhr.open("GET", Config.api_url + Config.getUserData + `?token=${encodeURIComponent(data.data)}`, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                let res = JSON.parse(xhr.response);
-                if(res.error) return console.log(res);
-                /**
-                    const allAccounts = [...res.tw_accounts || [], ...res.fb_accounts || []]
-                    that.props.dispatch({
-                        type : "FETCH_ACCOUNT",
-                        payload : allAccounts
-                    })
-                 */
-                that.props.dispatch({
-                    type : "USER_NAME",
-                    payload : res.name + " " + res.surname
-                })
-                that.props.dispatch({
-                    type : "AVATAR",
-                    payload : res.profile_picture
-                })
-                that.setState({page_load : true})
+        const ajax = new XHR(user_data, Config.api_url + Config.getUserData, "");
+        ajax.getRequest(function (data) {
+            if (data.error) {
+                window.location.href = "/"
+                return swal("Error !", data.error, "error");
             }
-            xhr.send()
-        }
-        ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
+            that.props.dispatch({
+                type: "USER_NAME",
+                payload: data.name + " " + data.surname
+            })
+            that.props.dispatch({
+                type: "AVATAR",
+                payload: data.profile_picture
+            })
+            that.setState({
+                page_load: true
+            })
+        })
     }
     render(){
         return (
