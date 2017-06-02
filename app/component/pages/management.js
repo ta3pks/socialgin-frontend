@@ -1,8 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import Schedule from "./modules/share/schedule";
 import UploadImage from "./modules/share/upload_image";
 import Link from "./modules/share/link";
+
+import {setText} from "./../../actions/shareActions";
+
+import XHR from "./../modules/ajax";
+import config from "./../../config";
+
+@connect(store=>{
+    return {
+        text : store.Share.text,
+        images : store.Share.images,
+        link : store.Share.link,
+        date : store.Share.date,
+    }
+})
 
 export default class Management extends React.Component {
     constructor(){
@@ -13,12 +28,40 @@ export default class Management extends React.Component {
             share_link : false
         }
     }
+    textHandler(e){
+        this.props.dispatch(setText(e.currentTarget.value))
+    }
+    startShare(){
+        const that = this;
+        if(!that.props.text && !that.props.images.length && !that.props.link){
+            return swal("Error !", "Your content is empty.", "warning");
+        }
+        const form = new FormData();
+        if(that.props.text){
+            form.append("text", that.props.text);
+        }
+        if(that.props.images.length > 0 && that.state.upload_image){
+            that.props.images.forEach(image=>{
+                form.append("images", image)
+            })
+        }
+        if(that.props.link && that.state.share_link){
+            form.append("link", that.props.link)
+        }
+        form.append("date", that.props.date.toString())
+        const user_data = window.localStorage.getItem("socialgin_user_data");
+        if(!user_data) return window.location.href = "/";
+        const ajax = new XHR(user_data, config.api_url + config.share, form);
+        ajax.formRequest(data=>{
+            console.log(data)
+        })
+    }
     render() {
         const that = this;
         return (
             <div className="management-page animated fadeIn">
                 <div className="panel">
-                    <textarea className="material-input big" placeholder="Status update"></textarea>
+                    <textarea value={that.props.text} onChange={that.textHandler.bind(that)} className="material-input big" placeholder="Status update"></textarea>
                     <div className="controller">
                         <div className="left-bar">
                             <button onClick={(_=>{that.setState({schedule : !that.state.schedule})}).bind(that)} className={that.state.schedule ? "btn small active" : "btn small"}>
@@ -38,7 +81,7 @@ export default class Management extends React.Component {
                             </button>
                         </div>
                         <div className="right-bar">
-                            <button className="btn red">
+                            <button className="btn red" onClick={that.startShare.bind(that)}>
                                 Send
                             </button>
                         </div>
