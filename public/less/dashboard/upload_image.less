@@ -1,40 +1,82 @@
 //main:./main.less
-
-.upload_image{
+.upload_image {
     min-width: 100%;
     max-width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 15px 0;
-    .dont-show{
+    .dont-show {
         display: none;
     }
-    .new_image{
+    .new_image {
         width: 100px;
         height: 100px;
         margin-right: 15px;
         margin-top: 15px;
-        border: 3px dashed rgba(0,0,0, 0.5);
+        border: 3px dashed rgba(0, 0, 0, 0.5);
         transition: all 0.3s;
         cursor: pointer;
-        &:hover{
-            border: 3px dashed rgba(0,0,0, 0.9);
-            svg{
-                fill: rgba(0,0,0, 0.9);
+        &:hover {
+            border: 3px dashed rgba(0, 0, 0, 0.9);
+            svg {
+                fill: rgba(0, 0, 0, 0.9);
             }
         }
-        svg{
+        svg {
             width: 100%;
             height: 100%;
-            fill: rgba(0,0,0, 0.5);
+            fill: rgba(0, 0, 0, 0.5);
             transition: fill 0.3s;
         }
     }
-    img{
-        width: 100px;
-        height: 100px;
-        margin-right: 15px;
-        margin-top: 15px;
+    .image-area {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: 100%;
+        max-width: 100%;
+        .image {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-right: 15px;
+            margin-top: 15px;
+            transition: all 0.4s;
+            &:hover{
+                .remove-image{
+                    visibility: visible;
+                    background-color: rgba(0, 0, 0, 0.3);
+                }
+            }
+            img{
+                width: 100%;
+                height: 100%;
+            }
+            .remove-image{
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                visibility: hidden;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: none;
+                transition: background-color 0.2s;
+                svg{
+                    width:34px;
+                    height:34px;
+                    fill: #fff;
+                    cursor: pointer;
+                    &:hover{
+                        fill : #e74c3c;
+                        transition: all 0.2s;
+                    }
+                }
+            }
+        }
     }
 }
