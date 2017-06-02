@@ -4,18 +4,26 @@ import Moment from "moment";
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
+import { connect } from "react-redux";
+
+import {setDate} from "./../../../../actions/shareActions";
+
+@connect(store=>{
+    return {
+        date : store.Share.date
+    }
+})
+
+
 export default class Schedule extends React.Component {
     constructor(){
         super();
         this.state = {
-            selected_day : new Date(),
             time_zone : "AM"
         }
     }
     select_day(day){
-        this.setState({
-            selected_day : day
-        })
+        this.props.dispatch(setDate(day))
     }
     render() {
         const that = this;
@@ -58,7 +66,7 @@ export default class Schedule extends React.Component {
                     <label><input type="checkbox" name="checkbox" value="value" />Email me when message is sent</label>
                 </div>
                 <div className="calendar-area">
-                    <DayPicker selectedDays={this.state.selected_day} onDayClick={day => that.select_day(day)} />
+                    <DayPicker selectedDays={that.props.date} onDayClick={day => that.select_day(day)} />
                 </div>
             </div>
         );
