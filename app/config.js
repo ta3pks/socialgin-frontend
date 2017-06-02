@@ -19,6 +19,7 @@ module.exports = {
     authenticate : "authenticate"
   },
   removeAccount : "accounts/remove",
+  share:"accounts/share/upload",
   authorize : "authorize",
   dashboard_uri : "dashboard.html",
   getUserData : "user/get",
