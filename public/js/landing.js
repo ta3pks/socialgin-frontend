@@ -151,7 +151,8 @@ document.addEventListener("DOMContentLoaded", _ => {
                             }
                             if (data.data == "Success") return that.twitterAuthenticate(access_token)
                         }
-                        ajax.send(`access_token=${access_token}`)
+                        console.log(localStorage.getItem("twitter_access_token"))
+                        ajax.send(`access_token=${localStorage.getItem("twitter_access_token")}`)
                     }
                 }, 300)
                 that.loader(".social-button.twitter", true, "Twitter")
