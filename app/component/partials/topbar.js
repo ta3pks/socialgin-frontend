@@ -11,6 +11,10 @@ export default class Topbar extends React.Component {
     constructor(){
         super();
     }
+    logout(){
+        window.localStorage.setItem("socialgin_user_data", "");
+        window.location.href = "/"
+    }
     render() {
         const that = this;
         return (
@@ -42,7 +46,7 @@ export default class Topbar extends React.Component {
                                 <li>
                                     Settings
                                 </li>
-                                <li>
+                                <li onClick={this.logout.bind(this)}>
                                     Logout
                                 </li>
                             </ul>
