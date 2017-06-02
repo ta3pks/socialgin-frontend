@@ -9,6 +9,8 @@ import {addAccount, removeAccount} from "./../../../../actions/accountActions";
 
 import Config from "./../../../../config";
 
+import XHR from "./../../../modules/ajax";
+
 @connect(store=>{
     return {
         open : store.Modal.open,
@@ -45,7 +47,7 @@ export default class Modal extends React.Component {
             if(data.error) return window.location.href = "/";
             if(added == "true"){
                 const xhr = new XMLHttpRequest()
-                xhr.open("POST", Config.api_url + Config.facebook.removeAccount, true);
+                xhr.open("POST", Config.api_url + Config.removeAccount, true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onload = function () {
                     console.log(ajax.response)
@@ -65,7 +67,6 @@ export default class Modal extends React.Component {
                 xhr.open("POST", Config.api_url + addType, true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onload = function () {
-                    console.log(ajax.response)
                     let res = JSON.parse(xhr.response);
                     if(res.error){
                         swal("Error !", res.error, "error");
@@ -128,6 +129,39 @@ export default class Modal extends React.Component {
         }, {
             scope: 'public_profile, email, user_birthday, user_events, user_managed_groups, user_photos, user_posts, user_videos, user_website, read_page_mailboxes, manage_pages, publish_pages, publish_actions, pages_show_list, pages_manage_cta, pages_manage_instant_articles, pages_messaging'
         });
+    }
+    twitterAddAccount(){
+        const that = this;
+        const ajax = new XMLHttpRequest()
+        var w = window,
+            d = document,
+            e = d.documentElement,
+            g = d.getElementsByTagName('body')[0],
+            x = w.innerWidth || e.clientWidth || g.clientWidth,
+            y = w.innerHeight || e.clientHeight || g.clientHeight;
+            window.twitter_app = window.open("", "_blank", "width=700,height=500,top=" + ((y / 2) - 250) + ",left=" + ((x / 2) - 350));
+            window.twitter_app.document.write("<p>Please wait...</p>");
+            const windowCloser = setInterval(_ => {
+                if (window.twitter_app.closed) {
+                    clearInterval(windowCloser);
+                    const access_token = localStorage.getItem("twitter_access_token");
+                    if(!access_token) return swal("Error !", "Somethings wrong ! Please try again later.", "error");                    
+                    const user_data = localStorage.getItem("socialgin_user_data");
+                    if(!user_data) return swal("Error !", "Please login first !", "error");
+                    const xhr = new XHR(user_data, Config.api_url + Config.twitter.addAccount, `access_token=${access_token}`)
+                    xhr.postRequest(function(data){
+                        console.log(data)
+                    })
+                }
+            }, 300)
+            ajax.open("GET", Config.api_url + Config.twitter.request_token, true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            ajax.onload = function () {
+                let data = JSON.parse(ajax.response);
+                if (data.error) return swal("Error !", data.error, "error");
+                window.twitter_app.location.href = data.data
+            }
+            ajax.send()
     }
     closeModal(e){
         if(e.target.classList.contains("modal")){
@@ -229,7 +263,7 @@ export default class Modal extends React.Component {
                                                     <div className="add_account animated fadeIn">
                                                         <h1>Add Account from Twitter</h1>
                                                         <p>Once you connect, you will able to add your profile</p>
-                                                        <button class="social-button twitter">
+                                                        <button class="social-button twitter" onClick={that.twitterAddAccount.bind(that)}>
                                                             <div class="icon">
                                                                 <svg viewBox="0 0 24 24">
                                                                     <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" />
