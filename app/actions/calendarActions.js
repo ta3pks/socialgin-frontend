@@ -9,3 +9,10 @@ export function previousMonth(){
         type : "PREVIOUS_MONTH"
     }
 }
+
+export function setCalendarType(type){
+    return {
+        type : "SET_CALENDAR_TYPE",
+        payload : type
+    }
+}
