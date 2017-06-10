@@ -30,18 +30,18 @@ export default class Sidebar extends React.Component {
     }
     componentWillMount(){
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data") || "";
-        if(!user_data) return window.location.href = "/";
-        const ajax = new XHR(user_data, config.api_url + config.getAccounts, "");
-        ajax.getRequest(function (res) {
-            if(res === null) return notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
-            if(res.error) return notifier.show('Error !' , res.error, 'error', '', 0);
-            const allAccounts = res;
-            that.props.dispatch({
-                type : "FETCH_ACCOUNT",
-                payload : allAccounts
-            })
-        })
+        // const user_data = localStorage.getItem("socialgin_user_data") || "";
+        // if(!user_data) return window.location.href = "/";
+        // const ajax = new XHR(user_data, config.api_url + config.getAccounts, "");
+        // ajax.getRequest(function (res) {
+        //     if(res === null) return notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
+        //     if(res.error) return notifier.show('Error !' , res.error, 'error', '', 0);
+        //     const allAccounts = res;
+        //     that.props.dispatch({
+        //         type : "FETCH_ACCOUNT",
+        //         payload : allAccounts
+        //     })
+        // })
     }
     render() {
         const that = this;
