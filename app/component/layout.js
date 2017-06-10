@@ -41,7 +41,14 @@ export default class Layout extends React.Component{
         })
     }
     componentWillMount(){
-        
+        window.keyGenerator = function(){
+            let code = ""
+            const hex = "qwertyuiopasdfghjklzxcvbnm1234567890";
+            while(code.length < 10){
+                code = code + hex[Math.floor(Math.random() * 36)];
+            }
+            return code
+        }
         const that = this;
         that.props.dispatch({
             type: "USER_NAME",
