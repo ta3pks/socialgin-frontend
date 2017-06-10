@@ -1,2 +1,2 @@
 require("./../app/client.js");
-require("./../bower_components/sweetalert/dist/sweetalert.min.js");
+require("sweetalert/dist/sweetalert.min.js");
