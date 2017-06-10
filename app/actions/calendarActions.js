@@ -16,3 +16,25 @@ export function setCalendarType(type){
         payload : type
     }
 }
+
+export function nextWeek(){
+    return {
+        type : "NEXT_WEEK"
+    }
+}
+export function previousWeek(){
+    return {
+        type : "PREVIOUS_WEEK"
+    }
+}
+
+export function nextDay(){
+    return {
+        type : "NEXT_DAY"
+    }
+}
+export function previousDay(){
+    return {
+        type : "PREVIOUS_DAY"
+    }
+}
