@@ -103,3 +103,15 @@ export default class XHR {
         ajax.send(`authenticationtoken=${encodeURIComponent(that.user_data)}`)
     }
 }
+
+/**
+ * [
+ *{
+     start string,
+     end string,
+     task struct {
+         name string
+     }
+ } 
+ * ]
+ */
