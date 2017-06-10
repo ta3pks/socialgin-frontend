@@ -11,7 +11,7 @@ import Language from "./../../../../language/index";
     }
 })
 
-export default class CalendarMonth extends React.Component {
+export default class CalendarDay extends React.Component {
     constructor(){
         super();
     }
