@@ -25,7 +25,7 @@ export default class Layout extends React.Component{
         this.state = {
             mobilSidebar : false,
             mobilMenu : false,
-            page_load : false
+            page_load : true
         }
     }
     mobil_sidebar(){
@@ -41,27 +41,37 @@ export default class Layout extends React.Component{
         })
     }
     componentWillMount(){
+        
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data") || "";
-        if(!user_data) return window.location.href = "/";
-        const ajax = new XHR(user_data, Config.api_url + Config.getUserData, "");
-        ajax.getRequest(function (data) {
-            if (data.error) {
-                window.location.href = "/"
-                return swal("Error !", data.error, "error");
-            }
-            that.props.dispatch({
-                type: "USER_NAME",
-                payload: data.name + " " + data.surname
-            })
-            that.props.dispatch({
-                type: "AVATAR",
-                payload: data.profile_picture
-            })
-            that.setState({
-                page_load: true
-            })
+        that.props.dispatch({
+            type: "USER_NAME",
+            payload: "Muhammed Furkan AYDIN"
         })
+        that.props.dispatch({
+            type: "AVATAR",
+            payload: "https://fb-s-b-a.akamaihd.net/h-ak-fbx/v/t1.0-9/17952921_1821201181536646_1731148108127961338_n.jpg?oh=515a518e63b6ddc9adbc973e4b42e265&oe=599F9ED0&__gda__=1507418171_51cb9f6b18d6574781eb469ce80022b8"
+        })
+        
+        // const user_data = localStorage.getItem("socialgin_user_data") || "";
+        // if(!user_data) return window.location.href = "/";
+        // const ajax = new XHR(user_data, Config.api_url + Config.getUserData, "");
+        // ajax.getRequest(function (data) {
+        //     if (data.error) {
+        //         window.location.href = "/"
+        //         return swal("Error !", data.error, "error");
+        //     }
+        //     that.props.dispatch({
+        //         type: "USER_NAME",
+        //         payload: data.name + " " + data.surname
+        //     })
+        //     that.props.dispatch({
+        //         type: "AVATAR",
+        //         payload: data.profile_picture
+        //     })
+        //     that.setState({
+        //         page_load: true
+        //     })
+        // })
     }
     render(){
         return (
