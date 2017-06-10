@@ -61,8 +61,8 @@ export default class Management extends React.Component {
         return (
             <div className="management-page animated fadeIn">
                 <div className="panel">
-                    <textarea value={that.props.text} onChange={that.textHandler.bind(that)} className="material-input big" placeholder="Status update"></textarea>
-                    <div className="controller">
+                    <textarea value={that.props.text} onChange={that.textHandler.bind(that)} className={that.props.text.length > 0 ? "material-input big full" : "material-input big"} placeholder="Status update"></textarea>
+                    <div className="controller"> 
                         <div className="left-bar">
                             <button onClick={(_=>{that.setState({schedule : !that.state.schedule})}).bind(that)} className={that.state.schedule ? "btn small active" : "btn small"}>
                                 <svg viewBox="0 0 24 24">
