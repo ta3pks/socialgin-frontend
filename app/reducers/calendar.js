@@ -1,6 +1,7 @@
 export default function reducer(state={
     date : new Date(),
-    events : []
+    events : [],
+    type : "month"
 }, action){
     switch(action.type){
         case "NEXT_MONTH":{
@@ -11,6 +12,10 @@ export default function reducer(state={
         case "PREVIOUS_MONTH":{
             const previousMonth = new Date(state.date.getFullYear(), state.date.getMonth() - 1);
             state = {...state, date : previousMonth}
+            break;
+        }
+        case "SET_CALENDAR_TYPE":{
+            state = {...state, type : action.payload}
             break;
         }
     }
