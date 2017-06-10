@@ -7,14 +7,21 @@
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     outline: none;
     position: relative;
-    transition: all 0.4s;
     padding-top: 5px;
     padding-bottom: 5px;
+    transition: all 0.3s;
     &:focus{
         border-bottom: 2px solid @maincolor;
     }
     &.big{
         font-size: 1em;
+        min-height: 50px;
+        transition: all 0.3s;
+        &:focus{
+            min-height: 120px;
+        }
+    }
+    &.full{
         min-height: 120px;
     }
 }
