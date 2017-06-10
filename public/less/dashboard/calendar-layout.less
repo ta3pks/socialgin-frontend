@@ -2,12 +2,108 @@
 .calendar-page {
     width: 100%;
     display: block;
+    padding: 15px;
+    .event {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: .75em;
+        padding: 0 .75em;
+        line-height: 2em;
+        color: rgba(0, 0, 0, 1);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 2px;
+        margin: 5px 0;
+        cursor: pointer;
+        user-select: none;
+        border: 1px solid #eee;
+        position: relative;
+        .close {
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            fill: rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+            &:hover {
+                fill: rgba(0, 0, 0, 1);
+            }
+        }
+        .event-explanation {
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+            .social-balon {
+                border-radius: 50%;
+                &.facebook {
+                    padding: 5px;
+                    background-color: @facebook;
+                    svg {
+                        width: 15px;
+                        height: 15px;
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+        .event-accounts {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            margin: 10px 0;
+            .social-balon {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                margin-right: 7px;
+                &.facebook {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: @facebook;
+                    svg {
+                        width: 15px;
+                        height: 15px;
+                        fill: #fff;
+                    }
+                }
+                &.twitter {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: @twitter;
+                    svg {
+                        width: 15px;
+                        height: 15px;
+                        fill: #fff;
+                    }
+                }
+                &.linkedin {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: @linkedin;
+                    svg {
+                        width: 15px;
+                        height: 15px;
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+    }
     .calendar-controller {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin-bottom: 15px;
         user-select: none;
         svg {
             width: 50px;
@@ -23,6 +119,22 @@
             font-weight: 500;
             font-size: 2em;
             color: rgba(0, 0, 0, 1);
+        }
+    }
+    .calendar-options {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0;
+        span {
+            margin: 0 5px;
+            cursor: pointer;
+            user-select: none;
+            &.active {
+                border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+            }
         }
     }
     .calendar-month {
@@ -61,9 +173,9 @@
             min-height: 8em;
             transition: all 0.3s;
             padding: 5px;
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
             &:hover {
-                box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 12px 17px 2px rgba(0,0,0,.14), 0 5px 22px 4px rgba(0,0,0,.12);
+                box-shadow: 0 7px 8px -4px rgba(0, 0, 0, .2), 0 12px 17px 2px rgba(0, 0, 0, .14), 0 5px 22px 4px rgba(0, 0, 0, .12);
             }
             &.outside .date {
                 color: rgba(0, 0, 0, 0.4);
@@ -74,33 +186,107 @@
             .date {
                 transition: all 0.3s;
             }
-            .event {
-                background: #6EB590;
-                font-size: .75em;
-                padding: 0 .75em;
-                line-height: 2em;
-                color: white;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                border-radius: 1em;
-                margin: 5px 0;
-                cursor: pointer;
-                user-select: none;
-                &.span-2 {
-                    width: 200%;
+        }
+    }
+    .calendar-week {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        ol {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li {
+                float: left;
+                min-width: 14.28571%;
+                max-width: 14.28571%;
+            }
+        }
+        .day-names {
+            flex-wrap: nowrap;
+            border: 1px solid #eee;
+            li {
+                display: flex;
+                flex-direction: column;
+                text-transform: uppercase;
+                margin: .5em 0;
+                text-align: center;
+                border-right: 1px solid #eee;
+            }
+        }
+        .event-list {
+            flex-wrap: nowrap;
+            border: 1px solid #eee;
+            li {
+                display: flex;
+                flex-direction: column;
+                border-right: 1px solid #eee;
+                min-height: 400px;
+                padding: 5px;
+                transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+                &:hover {
+                    box-shadow: 0 7px 8px -4px rgba(0, 0, 0, .2), 0 12px 17px 2px rgba(0, 0, 0, .14), 0 5px 22px 4px rgba(0, 0, 0, .12);
                 }
-                &.begin {
-                    border-radius: 1em 0 0 1em;
+            }
+        }
+    }
+    .calendar-day {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        ol {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            &.day-names {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: nowrap;
+                border: 1px solid #eee;
+                text-align: center;
+                li {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    text-transform: uppercase;
+                    margin: .5em 0;
+                    text-align: center;
+                    border-right: 1px solid #eee;
                 }
-                &.end {
-                    border-radius: 0 1em 1em 0;
+            }
+            &.event-list {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                flex-wrap: wrap;
+                border: 1px solid #eee;
+                .event {
+                    max-width: 150px;
                 }
-                &.all-day {
-                    background: #9987B5;
-                }
-                &.clear {
-                    background: none;
+                li {
+                    border-bottom: 1px solid #eee;
+                    flex-wrap: nowrap;
+                    &.hour {
+                        min-width: 10%;
+                        max-width: 10%;
+                        border-right: 1px solid #eee;
+                        padding: 5px;
+                        text-align: center;
+                    }
+                    &.events {
+                        min-width: 90%;
+                        min-width: 90%;
+                        padding: 5px;
+                        transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+                        &:hover {
+                            box-shadow: 0 7px 8px -4px rgba(0, 0, 0, .2), 0 12px 17px 2px rgba(0, 0, 0, .14), 0 5px 22px 4px rgba(0, 0, 0, .12);
+                        }
+                    }
                 }
             }
         }
