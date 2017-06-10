@@ -1,8 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import swal from "./../../../../../bower_components/sweetalert/dist/sweetalert.min.js";
-
-import "./../../../../../bower_components/sweetalert/dist/sweetalert.css";
 
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
 import {addAccount, removeAccount} from "./../../../../actions/accountActions";
