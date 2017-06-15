@@ -16,6 +16,8 @@ import config from "./../../config";
         images : store.Share.images,
         link : store.Share.link,
         date : store.Share.date,
+        hour : store.Share.hour,
+        minute : store.Share.minute
     }
 })
 
@@ -48,7 +50,8 @@ export default class Management extends React.Component {
         if(that.props.link && that.state.share_link){
             form.append("link", that.props.link)
         }
-        form.append("date", that.props.date.toString())
+        const shareDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth(), that.props.date.getDate(), parseInt(that.props.hour), parseInt(that.props.minute)).getTime() / 1000)
+        form.append("date", shareDate)
         const user_data = window.localStorage.getItem("socialgin_user_data");
         if(!user_data) return window.location.href = "/";
         const ajax = new XHR(user_data, config.api_url + config.share, form);
