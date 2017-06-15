@@ -22,6 +22,20 @@ export function setDate(date) {
     }
 }
 
+export function setHour(value) {
+    return {
+        type: "SET_HOUR",
+        payload: value
+    }
+}
+
+export function setMinute(value) {
+    return {
+        type: "SET_MINUTE",
+        payload: value
+    }
+}
+
 export function addImage(image) {
     return {
         type: "ADD_IMAGE",
