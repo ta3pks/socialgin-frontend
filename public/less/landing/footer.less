@@ -1,49 +1,59 @@
 //main:./main.less
+
 .footer {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    margin-top: 25px;
     background-color: @maincolor;
-    position: relative;
-    &:after{
-        content: "";
-        display: block;
-        width: 100%;
-        min-height: 900px;
-        background-image: url(/public/img/footer.svg);
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-    }
-    .company-info{
-        width: 100%;
-        color: #fff;
+    padding: 15px;
+    .footer-content {
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
+        width: 100%;
         max-width: @boxWidth;
-        margin-top: 15px;
-        padding: 15px;
-        margin-bottom: 50px;
-        h3{
-            font-weight: 600;
-            font-size: 1.4em;
-            margin-top: 25px;
-            margin-bottom: 25px;
+        display: block;
+        padding: 25px 0;
+        h1 {
             width: 100%;
+            text-align: left;
+            margin: 25px 0;
+            font-weight: 700;
+            font-size: 2em;
+            color: #FFF;
         }
         p{
+            color : #fff;
+        }
+        a{
+            color: #fff;
+            font-weight: 600;
+        }
+        .follow-us{
             width: 100%;
-            margin: 6px 0;
-            a{
-                color: #fff;
+            .follow-social-media-area{
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                .follow{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    text-decoration: none;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background-color: #fff;
+                    cursor: pointer;
+                    margin-right: 25px;
+                    svg{
+                        width: 34px;
+                        height: 34px;
+                        fill: @maincolor;
+                    }
+                }
             }
         }
     }
