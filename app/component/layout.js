@@ -85,16 +85,20 @@ export default class Layout extends React.Component{
             <div class="wrapper">
                 {(_=>{
                     if(this.state.page_load){
-                        return (<div><Topbar mobil_menu={this.mobil_menu.bind(this)} mobilSidebar={this.state.mobilSidebar} mobil_sidebar={this.mobil_sidebar.bind(this)} />
-                <div className="contents">
-                    <div className="container">
-                        <Sidebar mobilSidebar={this.state.mobilSidebar} />
-                        <div className="page-contents">
-                            <Menu mobilMenu={this.state.mobilMenu} />
-                            <Pages />
-                        </div>
-                    </div>
-                </div></div>)
+                        return (
+                            <div>
+                                <Topbar mobil_menu={this.mobil_menu.bind(this)} mobilSidebar={this.state.mobilSidebar} mobil_sidebar={this.mobil_sidebar.bind(this)} />
+                                <div className="contents">
+                                    <div className="container">
+                                        <div className="page-contents">
+                                            <Menu mobilMenu={this.state.mobilMenu} />
+                                            <Pages />
+                                        </div>
+                                        <Sidebar mobilSidebar={this.state.mobilSidebar} />
+                                    </div>
+                                </div>
+                            </div>
+                        )
                     }
                 })()}
                 {(_=>{
