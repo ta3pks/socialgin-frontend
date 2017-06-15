@@ -11,10 +11,6 @@ export default function reducer(state = {
         "Reports": {
             url: "/reports",
             active: false
-        },
-        "Logs": {
-            url: "/logs",
-            active: false
         }
     }
 }, action) {
