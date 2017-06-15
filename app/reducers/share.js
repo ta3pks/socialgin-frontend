@@ -1,8 +1,12 @@
+const today = new Date();
+
 export default function reducer(state={
     text : "",
     images : [],
     link : "",
-    date : new Date()
+    date : today,
+    hour : today.getHours(),
+    minute : today.getMinutes()
 }, action){
     switch(action.type){
         case "SET_TEXT":{
@@ -15,6 +19,14 @@ export default function reducer(state={
         }
         case "SET_DATE":{
             state = {...state, date : action.payload}
+            break;
+        }
+        case "SET_HOUR":{
+            state = {...state, hour : action.payload}
+            break;
+        }
+        case "SET_MINUTE":{
+            state = {...state, minute : action.payload}
             break;
         }
         case "ADD_IMAGE":{
