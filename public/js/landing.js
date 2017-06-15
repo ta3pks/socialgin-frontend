@@ -2,7 +2,7 @@ import Vue from "vue/dist/vue.min.js";
 import swal from "sweetalert";
 import config from "./../../app/config";
 
-import "./../../bower_components/sweetalert/dist/sweetalert.css";
+import "sweetalert/dist/sweetalert.css";
 
 
 
