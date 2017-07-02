@@ -6,7 +6,8 @@
     background-color: @maincolor;
     z-index: 100;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
-    position: relative;
+    position: fixed;
+    top: 0;
     transition: all 0.5s;
     height: 50px;
     position: fixed;
@@ -62,21 +63,18 @@
                 fill: #fff;
                 cursor: pointer;
             }
-            .nutification-area{
+            .nutification-area {
                 position: absolute;
                 width: 400px;
-                top: -600px;
-                opacity: 0;
+                top: 100%;
+                opacity: 1;
                 border-radius: 2px;
                 background-color: #fff;
                 right: 0;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
                 transition: opacity 0.3s;
-                &.active{
-                    top: 100%;
-                    opacity: 1;
-                }
-                .top-notifications{
+                z-index: 999;
+                .top-notifications {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
@@ -86,12 +84,12 @@
                     float: right;
                     color: #000;
                     border-bottom: 1px solid rgba(0, 0, 0, .12);
-                    span{
+                    span {
                         width: 100%;
                         text-align: center;
                         margin: 5px 0;
                     }
-                    svg{
+                    svg {
                         position: absolute;
                         right: 0;
                         width: 14px;
@@ -100,38 +98,38 @@
                         margin-right: 5px;
                     }
                 }
-                .notifications-content{
+                .notifications-content {
                     width: 100%;
                     min-height: 250px;
                     max-height: 350px;
                     overflow: auto;
                     display: block;
-                    .notify{
+                    .notify {
                         padding: 5px;
                         color: rgba(0, 0, 0, 0.5);
                         width: 100%;
                         display: block;
                         transition: all 0.3s;
                         cursor: pointer;
-                        &:hover{
+                        &:hover {
                             color: #000;
                             background-color: @maincolorsmoot;
                         }
-                        .not{
+                        .not {
                             width: 100%;
                             display: block;
                         }
-                        .date{
+                        .date {
                             width: 100%;
                             color: @buttonRedColor;
                             font-size: 0.8em;
                         }
                     }
                 }
-                .notifications-footer{
+                .notifications-footer {
                     width: 100%;
                     padding: 5px;
-                    button{
+                    button {
                         width: 100%;
                     }
                 }
@@ -142,6 +140,8 @@
             height: 30px;
             border-radius: 50%;
             margin-right: 6px;
+            cursor: pointer;
+            user-select: none;
         }
         .user-info {
             display: flex;
@@ -149,14 +149,19 @@
             align-items: center;
             text-decoration: none;
             color: #fff;
-            cursor: pointer;
             user-select: none;
             position: relative;
             padding: 10px 0;
+            span{
+                cursor: pointer;
+                user-select: none;
+            }
             .icon-dropdown {
                 width: 24px;
                 height: 24px;
                 fill: #fff;
+                cursor: pointer;
+                user-select: none;
             }
         }
     }
@@ -164,20 +169,15 @@
 
 .user-info-menu {
     position: absolute;
-    top: -600px;
-    opacity: 0;
-    left: 0;
     width: 100%;
+    top: 100%;
+    opacity: 1;
     border-radius: 2px;
     background-color: #fff;
-    color: #000;
-    padding: 12px 0;
+    right: 0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
     transition: opacity 0.3s;
-    &.active {
-        top: 100% !important;
-            opacity: 1 !important;
-    }
+    z-index: 999;
     ul {
         li {
             display: flex;
@@ -239,4 +239,16 @@
             display: none;
         }
     }
+}
+
+.closer {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50 !important;
 }
