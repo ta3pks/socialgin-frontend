@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                 }
                 if (query.oauth_token && query.oauth_verifier) {
                     var ajax = new XMLHttpRequest()
-                    ajax.open("GET", config.api_url + config.twitter.access_token + `?oauth_token=${query.oauth_token}&oauth_verifier=${query.oauth_verifier}`, true);
+                    ajax.open("GET",config.twitter.access_token + `?oauth_token=${query.oauth_token}&oauth_verifier=${query.oauth_verifier}`, true);
                     ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     ajax.onload = function () {
                         let data = JSON.parse(ajax.response);
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", _ => {
             },
             facebookAuthenticate: function (access_token, id) {
                 var ajax = new XMLHttpRequest()
-                ajax.open("POST", config.api_url + config.facebook.authenticate, true);
+                ajax.open("POST", config.facebook.authenticate, true);
                 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 ajax.onload = function () {
                     let data = JSON.parse(ajax.response);
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", _ => {
             },
             twitterAuthenticate: function (access_token) {
                 var ajax = new XMLHttpRequest()
-                ajax.open("POST", config.api_url + config.twitter.authenticate, true);
+                ajax.open("POST", config.twitter.authenticate, true);
                 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 ajax.onload = function () {
                     let data = JSON.parse(ajax.response);
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                             var face_id = res.id;
                             that.loader(".social-button.facebook", true, "Facebook")
                             var ajax = new XMLHttpRequest()
-                            ajax.open("POST", config.api_url + config.facebook.register, true);
+                            ajax.open("POST", config.facebook.register, true);
                             ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                             ajax.onload = function () {
                                 let data = JSON.parse(ajax.response);
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                         clearInterval(windowCloser);
                         const access_token = localStorage.getItem("twitter_access_token");
                         var ajax = new XMLHttpRequest()
-                        ajax.open("POST", config.api_url + config.twitter.register, true);
+                        ajax.open("POST", config.twitter.register, true);
                         ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                         ajax.onload = function () {
                             let data = JSON.parse(ajax.response);
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                     }
                 }, 300)
                 that.loader(".social-button.twitter", true, "Twitter")
-                ajax.open("GET", config.api_url + config.twitter.request_token, true);
+                ajax.open("GET", config.twitter.request_token, true);
                 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 ajax.onload = function () {
                     let data = JSON.parse(ajax.response);
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                 }
                 const that = this;
                 var ajax = new XMLHttpRequest()
-                ajax.open("POST", config.api_url + config.email.register, true);
+                ajax.open("POST", config.email.register, true);
                 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 const button = e.currentTarget;
                 button.innerHTML = "Loading..."
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                 }
                 const that = this;
                 var ajax = new XMLHttpRequest()
-                ajax.open("POST", config.api_url + config.email.authenticate, true);
+                ajax.open("POST", config.email.authenticate, true);
                 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 const button = e.currentTarget;
                 button.innerHTML = "Loading..."
