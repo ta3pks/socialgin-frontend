@@ -30,7 +30,6 @@ export default function reducer(state={
         }
         case "REMOVE_ACCOUNT":{
             var accounts = Object.assign({}, state.list);
-            console.log(action.payload)
             delete accounts[action.payload];
             state = {...state, list : accounts}
         }
