@@ -1,27 +1,27 @@
+const api_url = "http://localhost:8000/"
 module.exports = {
-  api_url : "http://socialgin.com:8080/",
-  facebook : {
-    register : "register/fb",
-    authenticate : "authenticate/fb",
-    addAccount : "accounts/add/fb",
-    addPage : "accounts/add/fb/page",
-    addGroup : "accounts/add/fb/group",
+  dashboard_uri: "/dashboard.html",
+  facebook: {
+    register: api_url + "register/fb",
+    authenticate: api_url + "authenticate/fb",
+    addAccount: api_url + "accounts/add/fb",
+    addPage: api_url + "accounts/add/fb/page",
+    addGroup: api_url + "accounts/add/fb/group",
   },
-  twitter : {
-    register : "register/tw",
-    request_token : "twitter/requesttoken",
-    authenticate : "authenticate/tw",
-    addAccount : "accounts/add/tw",
-    access_token : "twitter/accesstoken"
+  twitter: {
+    register: api_url + "register/tw",
+    request_token: api_url + "twitter/requesttoken",
+    authenticate: api_url + "authenticate/tw",
+    addAccount: api_url + "accounts/add/tw",
+    access_token: api_url + "twitter/accesstoken"
   },
-  email : {
-    register : "register",
-    authenticate : "authenticate"
+  email: {
+    register: api_url + "register",
+    authenticate: api_url + "authenticate"
   },
-  removeAccount : "accounts/remove",
-  share:"accounts/share/upload",
-  authorize : "authorize",
-  dashboard_uri : "dashboard.html",
-  getUserData : "user/get",
-  getAccounts : "user/getaccounts"
+  removeAccount: api_url + "accounts/remove",
+  share: api_url + "accounts/share/upload",
+  authorize: api_url + "authorize",
+  getUserData: api_url + "user/get",
+  getAccounts: api_url + "user/getaccounts",
 };
