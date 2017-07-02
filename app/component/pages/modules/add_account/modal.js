@@ -6,8 +6,6 @@ import {addAccount, removeAccount} from "./../../../../actions/accountActions";
 
 import Config from "./../../../../config";
 
-import XHR from "./../../../modules/ajax";
-
 @connect(store=>{
     return {
         open : store.Modal.open,
