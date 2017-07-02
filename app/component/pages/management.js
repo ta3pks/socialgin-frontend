@@ -7,7 +7,6 @@ import Link from "./modules/share/link";
 
 import {setText} from "./../../actions/shareActions";
 
-import XHR from "./../modules/ajax";
 import config from "./../../config";
 
 @connect(store=>{
