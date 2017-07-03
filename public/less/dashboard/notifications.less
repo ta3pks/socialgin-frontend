@@ -1,0 +1,94 @@
+//main:./main.less
+
+.notificationsPage{
+    width: 100%;
+    display: block;
+    padding: 15px;
+    .header{
+        width: 100%;
+        font-weight: 300;
+        font-size: 2em;
+    }
+    .container{
+        width: 100%;
+        padding : 15px 0;
+        display: flex;
+        flex-direction: column;
+        .notification-item{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            margin: 5px 0;
+            padding: 15px 0;
+            border-bottom: 1px solid @maincolor;
+            &:last-child{
+                border: none;
+            }
+            .time{
+                width: 15%;
+                text-align: center;
+                span{
+                    display: block;
+                    &:first-child{
+                        font-weight: 700;
+                    }
+                }
+            }
+            .content{
+                width: 70%;
+                display: block;
+                .message{
+                    display: block;
+                }
+                .text{
+                    display: block;
+                    padding: 15px 0;
+                }
+                .images{
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    flex-wrap: wrap;
+                    img{
+                        width: 150px;
+                        height: 150px;
+                        margin-top: 5px;
+                        margin-right: 5px;
+                        border-radius: 2px;
+                    }
+                }
+            }
+            .approve{
+                width: 15%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 0 7px;
+                .select{
+                   border-radius: 2px;
+                   padding: 6px 12px;
+                   width: 100%;
+                   text-align: center;
+                   margin-top: 15px;
+                   display: flex;
+                   flex-direction: column;
+                   justify-content: center;
+                   align-items: center;
+                   cursor: pointer;
+                   .icon{
+                       width: 24px;
+                       height: 24px;
+                       fill: #fff;
+                   }
+                   &.success{
+                       background-color: #2ecc71;
+                   }
+                   &.error{
+                       background-color: #e74c3c;
+                   }
+                }
+            }
+        }
+    }
+}
