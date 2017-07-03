@@ -2,15 +2,38 @@ export default function reducer(state = {
     page: {
         "Management": {
             url: "/management",
-            active: true
+            active: true,
+            main: true
         },
         "Calendar": {
             url: "/calendar",
-            active: false
+            active: false,
+            main: true
         },
         "Reports": {
             url: "/reports",
-            active: false
+            active: false,
+            main: true
+        },
+        "Profile": {
+            url: "/profile",
+            active: false,
+            main: false
+        },
+        "Groups": {
+            url: "/groups",
+            active: false,
+            main: false
+        },
+        "Notifications": {
+            url: "/notifications",
+            active: false,
+            main: false
+        },
+        "Plans": {
+            url: "/plans",
+            active: false,
+            main: false
         }
     }
 }, action) {
