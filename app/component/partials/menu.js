@@ -27,6 +27,7 @@ export default class Menu extends React.Component {
                         var data = [];
                         for (let key in list) {
                             if (list.hasOwnProperty(key)) {
+                                if(list[key].main === false) continue;
                                 var menu = list[key];
                                 var active = menu.active ? "active" : "";
                                 data.push(<li onClick={(_=>{that.props.dispatch(Route(key))}).bind(that)} key={key} className={active}>{key}</li>)
