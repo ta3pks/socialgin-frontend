@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import ManagementPage from "./management";
 import CalendarPage from "./calendar";
 import ReportsPage from "./reports";
-import LogsPage from "./logs";
+import NotificationsPage from "./notifications.jsx";
 
 import AddAccountModal from "./modules/add_account/modal";
 
@@ -30,8 +30,14 @@ export default class Pages extends React.Component {
                        return <CalendarPage />
                    }else if(list["Reports"].active == true){
                        return <ReportsPage />
-                   }else if(list["Logs"].active == true){
-                       return <LogsPage />
+                   }else if(list["Profile"].active == true){
+                       return <ReportsPage />
+                   }else if(list["Groups"].active == true){
+                       return <ReportsPage />
+                   }else if(list["Notifications"].active == true){
+                       return <NotificationsPage />
+                   }else if(list["Plans"].active == true){
+                       return <ReportsPage />
                    }
                 })()}
                 <AddAccountModal />
