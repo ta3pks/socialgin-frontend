@@ -32,17 +32,17 @@ module.exports = {
             data : [
                 {
                     id : "123",
-                    name : "Jone Doe",
+                    name : "Jone Facebookkafali",
                     surname : "",
                     profile_picture : "/public/img/default_profile.png",
                     type : "facebook"
                 },
                 {
                     id : "1234",
-                    name : "Jone Doe",
+                    name : "Jone Twittermanyagi",
                     surname : "",
                     profile_picture : "/public/img/default_profile.png",
-                    type : "facebook"
+                    type : "twitter"
                 },
                 {
                     id : "12345",
