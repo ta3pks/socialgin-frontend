@@ -7,50 +7,62 @@
     overflow: hidden;
     padding: 6px 15px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     border-radius: 2px;
     font-size: 1em;
     font-weight: 300;
     z-index: 10;
+    &.loading {
+        min-width: 100px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        filter: grayscale(70%);
+        border-color: #95a5a6 !important;
+        background-color: #95a5a6 !important;
+        &:hover {
+            box-shadow: none !important;
+        }
+    }
     &:active {
         -moz-transform: scale(0.99);
         -ms-transform: scale(0.99);
         -webkit-transform: scale(0.99);
         transform: scale(0.99);
     }
-    &:hover{
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    &:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
-    &.red{
+    &.red {
         border-color: @buttonRedColor;
         background-color: @buttonRedColor;
         color: #fff;
     }
-    &.small{
+    &.small {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 0;
         padding: 6px;
         margin-right: 7px;
-        svg{
+        svg {
             width: 24px;
             height: 24px;
-            fill:rgba(0, 0, 0, 0.3);
+            fill: rgba(0, 0, 0, 0.3);
         }
     }
-    &.active{
+    &.active {
         background-color: @maincolor;
         border-color: @maincolor;
-        svg{
+        svg {
             width: 24px;
             height: 24px;
-            fill:rgba(255, 255, 255, 1) !important;
+            fill: rgba(255, 255, 255, 1) !important;
         }
     }
 }
 
-.circle-button{
+.circle-button {
     border: 1px solid #ddd;
     color: #000;
     background-image: none;
@@ -59,46 +71,45 @@
     width: 70px;
     height: 70px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     border-radius: 2px;
     font-size: 1em;
     font-weight: 300;
     z-index: 10;
     border-radius: 50%;
     margin: 0 6px;
-    
     &:active {
         -moz-transform: scale(0.99);
         -ms-transform: scale(0.99);
         -webkit-transform: scale(0.99);
         transform: scale(0.99);
     }
-    svg{
+    svg {
         width: 45px;
         height: 45px;
         fill: #000;
     }
-    &.facebook{
+    &.facebook {
         background-color: @facebook;
         border: 1px solid @facebook;
         color: #fff;
-        svg{
+        svg {
             fill: #fff;
         }
     }
-    &.twitter{
+    &.twitter {
         background-color: @twitter;
         border: 1px solid @twitter;
         color: #fff;
-        svg{
+        svg {
             fill: #fff;
         }
     }
-    &.linkedin{
+    &.linkedin {
         background-color: @linkedin;
         border: 1px solid @linkedin;
         color: #fff;
-        svg{
+        svg {
             fill: #fff;
         }
     }
@@ -194,4 +205,14 @@
             fill: #34495e;
         }
     }
+}
+
+.button-loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 19px;
+    height: 19px;
+    animation: spin 2s linear infinite;
+    z-index: 99;
 }
