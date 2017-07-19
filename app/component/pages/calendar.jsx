@@ -9,7 +9,7 @@ import Day from "./modules/calendar/day";
 import Language from "./../../language/index";
 import Config from "./../../config";
 
-import {nextMonth, previousMonth, setCalendarType, nextWeek, previousWeek, nextDay, previousDay} from "./../../actions/calendarActions";
+import {nextMonth, previousMonth, setCalendarType, nextWeek, previousWeek, nextDay, previousDay, setEvents} from "./../../actions/calendarActions";
 
 @connect(store=>{
     return {
@@ -44,23 +44,6 @@ export default class Calendar extends React.Component {
   setCalendarType(e) {
     const actionType = e.currentTarget.dataset.id;
     this.props.dispatch(setCalendarType(actionType))
-  }
-  componentWillMount(){
-    const user_data = window.localStorage.getItem("socialgin_user_data");
-    if(!user_data) return window.location.href = "/";
-    const startDate = Math.round(new Date(2017, 1, 15, 15, 6).getTime() / 1000);
-    const endTime = Math.round(new Date(2017, 9, 15, 15, 6).getTime() / 1000);
-    axios.get(Config.calendar, {
-      params: {
-        start : startDate,
-        end : endTime,
-        token : user_data
-      }
-    }).then(data=>{
-      console.log(data)
-    }).catch(err=>{
-      console.log(err)
-    })
   }
   render() {
     const that = this;
