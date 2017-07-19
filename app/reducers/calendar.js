@@ -1,31 +1,6 @@
 export default function reducer(state={
     date : new Date(),
-    events : [
-        {
-            date : new Date(2017, 6, 11),
-            title : "6. ayin 11 inde paylas"
-        },
-        {
-            date : new Date(2017, 6, 11, 22),
-            title : "6. ayin 11 inde paylas"
-        },
-        {
-            date : new Date(2017, 6, 11, 18),
-            title : "6. ayin 11 inde paylas"
-        },
-        {
-            date : new Date(2017, 6, 15),
-            title : "6. ayin 15 inde paylas"
-        },
-        {
-            date : new Date(2017, 6, 22),
-            title : "6. ayin 22 inde paylas"
-        },
-        {
-            date : new Date(2017, 7, 3),
-            title : "7. ayin 3 inde paylas"
-        }
-    ],
+    events : {},
     type : "month",
     weekDate : new Date(),
     dayDate : new Date()
@@ -67,6 +42,10 @@ export default function reducer(state={
             var firstDay = new Date(state.dayDate);
             var previousDay = new Date(firstDay.getTime() - 1 * 24 * 60 * 60 * 1000);
             state = {...state, dayDate : previousDay}
+            break;
+        }
+        case "SET_EVENTS":{
+            state = {...state, events : action.payload}
             break;
         }
     }
