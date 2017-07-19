@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import notifier from "notifier/js/notifier.js";
 
 import Schedule from "./modules/share/schedule";
 import UploadImage from "./modules/share/upload_image";
-import Link from "./modules/share/link";
 
-import {setText} from "./../../actions/shareActions";
+import {setText, cleanForm} from "./../../actions/shareActions";
 
 import config from "./../../config";
 
@@ -21,20 +21,21 @@ import config from "./../../config";
         accounts : store.User.list
     }
 })
-
 export default class Management extends React.Component {
     constructor(){
         super();
         this.state = {
             schedule : false,
             upload_image : false,
-            share_link : false
+            share_link : false,
+            share_loading : false
         }
     }
     textHandler(e){
         this.props.dispatch(setText(e.currentTarget.value))
     }
     startShare(){
+        if(this.state.share_loading) return;
         const user_data = window.localStorage.getItem("socialgin_user_data");
         if(!user_data) return window.location.href = "/";
         const that = this;
@@ -54,6 +55,7 @@ export default class Management extends React.Component {
             form.append("link", that.props.link)
         }
         const shareDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth(), that.props.date.getDate(), parseInt(that.props.hour), parseInt(that.props.minute)).getTime() / 1000)
+        console.log(shareDate)
         form.append("time", shareDate)
         var list = that.props.accounts;
         for (let key in list) {
@@ -67,8 +69,24 @@ export default class Management extends React.Component {
             }
         }
         form.append("token", user_data)
+        that.setState({
+            share_loading : true
+        })
         axios.post(config.share, form).then(data=>{
-            console.log(data)
+            console.log("Beta : ", data.data)
+            that.setState({
+                share_loading : false
+            })
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            notifier.show('Success !' , 'Sharing was successfuly.', 'success', '', 0);
+            that.props.dispatch(cleanForm())
+        }).catch(err=>{
+            console.log("Beta : ", err),
+            swal("Error !", "Somethings wrong. Please try again later.", "error");
+            that.setState({
+                share_loading : false
+            })
         })
     }
     render() {
@@ -89,15 +107,16 @@ export default class Management extends React.Component {
                                     <path d="M5,14L8.5,9.5L11,12.5L14.5,8L19,14M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4C22,2.89 21.1,2 20,2Z" />
                                 </svg>
                             </button>
-                             <button onClick={(_=>{if(that.state.upload_image){that.setState({upload_image : false})};that.setState({share_link : !that.state.share_link})}).bind(that)} className={that.state.share_link ? "btn small active" : "btn small"}>
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M10.59,13.41C11,13.8 11,14.44 10.59,14.83C10.2,15.22 9.56,15.22 9.17,14.83C7.22,12.88 7.22,9.71 9.17,7.76V7.76L12.71,4.22C14.66,2.27 17.83,2.27 19.78,4.22C21.73,6.17 21.73,9.34 19.78,11.29L18.29,12.78C18.3,11.96 18.17,11.14 17.89,10.36L18.36,9.88C19.54,8.71 19.54,6.81 18.36,5.64C17.19,4.46 15.29,4.46 14.12,5.64L10.59,9.17C9.41,10.34 9.41,12.24 10.59,13.41M13.41,9.17C13.8,8.78 14.44,8.78 14.83,9.17C16.78,11.12 16.78,14.29 14.83,16.24V16.24L11.29,19.78C9.34,21.73 6.17,21.73 4.22,19.78C2.27,17.83 2.27,14.66 4.22,12.71L5.71,11.22C5.7,12.04 5.83,12.86 6.11,13.65L5.64,14.12C4.46,15.29 4.46,17.19 5.64,18.36C6.81,19.54 8.71,19.54 9.88,18.36L13.41,14.83C14.59,13.66 14.59,11.76 13.41,10.59C13,10.2 13,9.56 13.41,9.17Z" />
-                                </svg>
-                            </button>
                         </div>
                         <div className="right-bar">
-                            <button className="btn red" onClick={that.startShare.bind(that)}>
-                                Send
+                            <button className={that.state.share_loading ? "btn red loading animated" : "btn red animated"} onClick={that.startShare.bind(that)}>
+                                {(_=>{
+                                    if(that.state.share_loading){
+                                        return <div class="button-loader"></div>
+                                    }else{
+                                        return "Send"
+                                    }
+                                })()}
                             </button>
                         </div>
                     </div>
@@ -110,8 +129,6 @@ export default class Management extends React.Component {
                         {(_=>{
                             if(that.state.upload_image){
                                 return <UploadImage />
-                            }else if(that.state.share_link){
-                                 return <Link />
                             }
                         })()}
                     </div>
