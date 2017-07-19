@@ -1,5 +1,5 @@
-const api_url = "http://localhost:8000/"
-module.exports = {
+const api_url = "http://192.168.43.35:8080/"
+const api = {
   dashboard_uri: "/dashboard.html",
   facebook: {
     register: api_url + "register/fb",
@@ -20,8 +20,12 @@ module.exports = {
     authenticate: api_url + "authenticate"
   },
   removeAccount: api_url + "accounts/remove",
-  share: api_url + "accounts/share/upload",
-  authorize: api_url + "authorize",
+  share: api_url + "accounts/share",
   getUserData: api_url + "user/get",
   getAccounts: api_url + "user/getaccounts",
+  setSettings: api_url + "user/settings/set",
+  getNotifications : api_url + "user/notifications/get",
+  calendar : api_url + "calendar"
 };
+
+module.exports = api;
