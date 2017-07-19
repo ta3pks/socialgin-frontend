@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import notifier from "notifier/js/notifier.js";
+import axios from "axios";
+
 import config from "./../config";
 
 import Topbar from "./partials/topbar";
@@ -12,9 +15,6 @@ import Loading from "./pages/loading.jsx";
 
 import {fetchAccounts, userName, avatar} from "./../actions/accountActions";
 import {loadedSidebar, loadedTopbar} from "./../actions/settingsAcrions";
-import notifier from "notifier/js/notifier.js";
-import axios from "axios";
-
 window.keyGenerator = function(){
     let code = ""
     const hex = "qwertyuiopasdfghjklzxcvbnm1234567890";
