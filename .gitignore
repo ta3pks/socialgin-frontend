@@ -4,3 +4,4 @@ public/dependencies
 public/js/client-styles.min.js
 public/js/client.min.js
 public/js/landing.min.js
+package-lock.json
