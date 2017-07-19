@@ -6,50 +6,7 @@ export default class NotificationsPage extends React.Component {
     constructor(){
         super();
         this.state = {
-            notifications : [
-                {
-                    date : new Date(2017, 10, 22, 10, 2),
-                    from : "Muhammed Furkan AYDIN",
-                    to : {
-                        name : "Socialgin",
-                        surname : "",
-                        type : "facebok"
-                    },
-                    content : {
-                        text : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-                        images : [
-                            "http://placehold.it/300/09f.png/fff",
-                            "http://placehold.it/300/09f.png/fff",
-                            "http://placehold.it/300/09f.png/fff"
-                        ]
-                    }
-                },
-                {
-                    date : new Date(2017, 10, 22, 14, 22),
-                    from : "Muhammed Furkan AYDIN",
-                    to : {
-                        name : "Socialgin",
-                        surname : "",
-                        type : "facebok"
-                    },
-                    content : {
-                        text : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                    }
-                },
-                {
-                    date : new Date(2017, 10, 22, 14, 22),
-                    from : "Muhammed Furkan AYDIN",
-                    to : {
-                        name : "Socialgin",
-                        surname : "",
-                        type : "facebok"
-                    },
-                    content : {
-                        text : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                    },
-                    needApprove : true
-                }
-            ]
+            notifications : []
         }
     }
     render() {
