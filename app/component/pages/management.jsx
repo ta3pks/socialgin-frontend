@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import Schedule from "./modules/share/schedule";
 import UploadImage from "./modules/share/upload_image";
@@ -16,7 +17,8 @@ import config from "./../../config";
         link : store.Share.link,
         date : store.Share.date,
         hour : store.Share.hour,
-        minute : store.Share.minute
+        minute : store.Share.minute,
+        accounts : store.User.list
     }
 })
 
@@ -33,6 +35,8 @@ export default class Management extends React.Component {
         this.props.dispatch(setText(e.currentTarget.value))
     }
     startShare(){
+        const user_data = window.localStorage.getItem("socialgin_user_data");
+        if(!user_data) return window.location.href = "/";
         const that = this;
         if(!that.props.text && !that.props.images.length && !that.props.link){
             return swal("Error !", "Your content is empty.", "warning");
@@ -50,11 +54,20 @@ export default class Management extends React.Component {
             form.append("link", that.props.link)
         }
         const shareDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth(), that.props.date.getDate(), parseInt(that.props.hour), parseInt(that.props.minute)).getTime() / 1000)
-        form.append("date", shareDate)
-        const user_data = window.localStorage.getItem("socialgin_user_data");
-        if(!user_data) return window.location.href = "/";
-        const ajax = new XHR(user_data, config.api_url + config.share, form);
-        ajax.formRequest(data=>{
+        form.append("time", shareDate)
+        var list = that.props.accounts;
+        for (let key in list) {
+            if (list.hasOwnProperty(key)) {
+                var account = list[key];
+                if(account.selected === true){
+                    form.append("accounts", JSON.stringify({
+                        id :  account.id
+                    }))
+                }
+            }
+        }
+        form.append("token", user_data)
+        axios.post(config.share, form).then(data=>{
             console.log(data)
         })
     }

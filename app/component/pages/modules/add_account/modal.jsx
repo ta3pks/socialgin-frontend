@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
+
 import {addAccount, removeAccount} from "./../../../../actions/accountActions";
 
 import Config from "./../../../../config";
@@ -12,7 +14,6 @@ import Config from "./../../../../config";
         addedAccounts : store.User.list
     }
 })
-
 export default class Modal extends React.Component {
     constructor(){
         super();
@@ -34,44 +35,36 @@ export default class Modal extends React.Component {
         }else{
             that.props.dispatch(addAccount(account))            
         }
-        const ajax = new XMLHttpRequest()
-        ajax.open("POST", Config.api_url + Config.authorize, true);
-        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        ajax.onload = function () {
-            const data = JSON.parse(ajax.response);
-            if(data.error) return window.location.href = "/";
-            if(added == "true"){
-                const xhr = new XMLHttpRequest()
-                xhr.open("POST", Config.api_url + Config.removeAccount, true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onload = function () {
-                    console.log(ajax.response)
-                    let res = JSON.parse(xhr.response);
-                    if(res.error){
-                        swal("Error !", res.error, "error");
-                        return that.props.dispatch(addAccount(account))
-                    }
+        if(added == "true"){
+            const xhr = new XMLHttpRequest()
+            xhr.open("POST", Config.removeAccount, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function () {
+                let res = JSON.parse(xhr.response);
+                if(res.error){
+                    swal("Error !", res.error, "error");
+                    return that.props.dispatch(addAccount(account))
                 }
-                xhr.send(`token=${encodeURIComponent(data.data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`)
-            }else{
-                let addType = "";
-                if(account.profile_type == "account") addType = Config.facebook.addAccount;
-                if(account.profile_type == "page") addType = Config.facebook.addPage;
-                if(account.profile_type == "group") addType = Config.facebook.addGroup;
-                const xhr = new XMLHttpRequest()
-                xhr.open("POST", Config.api_url + addType, true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onload = function () {
-                    let res = JSON.parse(xhr.response);
-                    if(res.error){
-                        swal("Error !", res.error, "error");
-                        return that.props.dispatch(removeAccount(account.id))
-                    }
-                }
-                xhr.send(`token=${encodeURIComponent(data.data)}&id=${encodeURIComponent(account.id)}&access_token=${encodeURIComponent(account.access_token)}`)
             }
+            xhr.send(`token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`)
+        }else{
+            let addType = "";
+            if(account.profile_type == "account") addType = Config.facebook.addAccount;
+            if(account.profile_type == "page") addType = Config.facebook.addPage;
+            if(account.profile_type == "group") addType = Config.facebook.addGroup;
+            const xhr = new XMLHttpRequest()
+            xhr.open("POST", addType, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function () {
+                let res = JSON.parse(xhr.response);
+                console.log(res)
+                if(res.error){
+                    swal("Error !", res.error, "error");
+                    return that.props.dispatch(removeAccount(account.id))
+                }
+            }
+            xhr.send(`token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&access_token=${encodeURIComponent(account.access_token)}`)
         }
-        ajax.send(`authenticationtoken=${encodeURIComponent(user_data)}`)
     }
     facebookAddAccount(){
         const that = this;
@@ -97,7 +90,7 @@ export default class Modal extends React.Component {
                                 fullname: res.accounts.data[i].name,
                                 picture: iamge,
                                 type: "facebook",
-                                access_token: res.accounts.data[i].access_token,
+                                access_token: access_token,
                                 profile_type : "page"
                             })
                         }
@@ -143,13 +136,14 @@ export default class Modal extends React.Component {
                     if(!access_token) return swal("Error !", "Somethings wrong ! Please try again later.", "error");                    
                     const user_data = localStorage.getItem("socialgin_user_data");
                     if(!user_data) return swal("Error !", "Please login first !", "error");
-                    const xhr = new XHR(user_data, Config.api_url + Config.twitter.addAccount, `access_token=${access_token}`)
-                    xhr.postRequest(function(data){
+                    console.log("access_token", access_token)
+                    console.log(user_data)
+                    axios.post(Config.twitter.addAccount, `token=${encodeURIComponent(user_data)}&access_token=${encodeURIComponent(access_token)}`).then(data=>{
                         console.log(data)
                     })
                 }
             }, 300)
-            ajax.open("GET", Config.api_url + Config.twitter.request_token, true);
+            ajax.open("GET", Config.twitter.request_token, true);
             ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             ajax.onload = function () {
                 let data = JSON.parse(ajax.response);
@@ -233,7 +227,6 @@ export default class Modal extends React.Component {
                                                                 var data = [];
                                                                 accounts.forEach(function(account){
                                                                     let added = false
-                                                                    console.log(account.id, addedAccounts[account.id])
                                                                     if(addedAccounts[account.id]){
                                                                         added = true
                                                                     }
