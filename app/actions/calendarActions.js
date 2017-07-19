@@ -38,3 +38,11 @@ export function previousDay(){
         type : "PREVIOUS_DAY"
     }
 }
+
+export function setEvents(events){
+    return {
+        type : "SET_EVENTS",
+        payload : events
+    }
+}
+
