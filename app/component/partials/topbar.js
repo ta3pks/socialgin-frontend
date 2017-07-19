@@ -5,7 +5,7 @@ import axios from "axios";
 import Config from "./../../config";
 
 import Notifications from "./../pages/modules/topbar/notifications.jsx";
-import ProfileMenu from "./../pages/modules/topbar/profile.jsx";
+import ProfileMenu from "./../pages/modules/topbar/profile_dropdown.jsx";
 
 import {loadedTopbar} from "./../../actions/settingsAcrions";
 
@@ -66,7 +66,7 @@ export default class Topbar extends React.Component {
                                             const array = []
                                                 if(that.state.notification_dropdown){
                                                     array.push(<div key="3" className="closer" onClick={that.dropdownNotification.bind(that)}></div>)
-                                                    array.push(<Notifications key="4" />)
+                                                    array.push(<Notifications dropdownNotification={that.dropdownNotification.bind(that)} key="4" />)
                                                     return array
                                                 }
                                         })()}
