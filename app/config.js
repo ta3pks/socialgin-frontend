@@ -1,4 +1,4 @@
-const api_url = "http://192.168.43.35:8080/"
+const api_url = "http://socialgin.com/"
 const api = {
   dashboard_uri: "/dashboard.html",
   facebook: {
