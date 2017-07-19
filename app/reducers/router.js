@@ -29,11 +29,6 @@ export default function reducer(state = {
             url: "/notifications",
             active: false,
             main: false
-        },
-        "Plans": {
-            url: "/plans",
-            active: false,
-            main: false
         }
     }
 }, action) {
