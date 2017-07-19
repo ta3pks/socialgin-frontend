@@ -20,9 +20,6 @@ import {setDate, setHour, setMinute} from "./../../../../actions/shareActions";
 export default class Schedule extends React.Component {
     constructor(){
         super();
-        this.state = {
-            time_zone : "AM"
-        }
     }
     select_day(day){
         this.props.dispatch(setDate(day))
