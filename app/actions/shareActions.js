@@ -49,3 +49,9 @@ export function removeImage(i) {
         payload: i
     }
 }
+
+export function cleanForm() {
+    return {
+        type: "CLEAN_FORM"
+    }
+}
