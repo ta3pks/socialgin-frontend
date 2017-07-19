@@ -4,7 +4,7 @@ import config from "./../../app/config";
 
 import "sweetalert/dist/sweetalert.css";
 
-
+import axios from "axios";
 
 document.addEventListener("DOMContentLoaded", _ => {
     window.app = new Vue({
