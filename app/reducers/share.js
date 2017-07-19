@@ -1,4 +1,4 @@
-const today = new Date();
+let today = new Date();
 
 export default function reducer(state={
     text : "",
@@ -39,6 +39,16 @@ export default function reducer(state={
             const images = state.images.slice();
             images.splice(action.payload, 1);
             state = {...state, images : images}
+            break;
+        }
+        case "CLEAN_FORM":{
+            today = new Date();
+            state = {...state, text : ""}
+            state = {...state, images : []}
+            state = {...state, link : ""}
+            state = {...state, date : today}
+            state = {...state, hour : today.getHours()}
+            state = {...state,minute : today.getMinutes()}
             break;
         }
     }
