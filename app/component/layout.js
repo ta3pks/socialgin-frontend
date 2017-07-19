@@ -7,8 +7,8 @@ import Topbar from "./partials/topbar";
 import Sidebar from "./partials/sidebar";
 import Menu from "./partials/menu";
 
-import Pages from "./pages/index";
-import Loading from "./pages/loading";
+import Pages from "./pages/index.jsx";
+import Loading from "./pages/loading.jsx";
 
 import {fetchAccounts, userName, avatar} from "./../actions/accountActions";
 import {loadedSidebar, loadedTopbar} from "./../actions/settingsAcrions";
@@ -56,35 +56,21 @@ export default class Layout extends React.Component{
         const that = this;
         const user_data = localStorage.getItem("socialgin_user_data") || "";
         if(!user_data) return window.location.href = "/";
-        axios.post(config.authorize, {
-            data : {
-                authenticationtoken : user_data
+        axios.get(config.getAccounts, {
+            params : {
+                token : user_data
             }
-        }).then(authenticate=>{
-            const authenticateResponse = authenticate.data
-            if(authenticateResponse.error) return swal("Error !", authenticateResponse.error, "error");
-            axios.get(config.getAccounts, {
-                params : {
-                    token : authenticateResponse.data
-                }
-            }).then(response=>{
-                const res = response.data;
-                if(res === null) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
-                if(res.error || !res.data) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
-                const allAccounts = res.data
-                that.props.dispatch({
-                    type : "FETCH_ACCOUNT",
-                    payload : allAccounts
-                })
-                that.props.dispatch(loadedSidebar())
-            }).catch(function (error) {
-                swal("Authenticate error !", error, "error")
-                setTimeout(_=>{
-                    window.location.href = "/"
-                }, 3000)
-            });
+        }).then(response=>{
+            const res = response.data;
+            if(res.length === 0) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
+            if(res.error) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
+            that.props.dispatch({
+                type : "FETCH_ACCOUNT",
+                payload : res
+            })
+            that.props.dispatch(loadedSidebar())
         }).catch(function (error) {
-            swal("Authorize error !", "Error type : " + error, "error")
+            swal("Authenticate error !", error, "error")
             setTimeout(_=>{
                 window.location.href = "/"
             }, 3000)
@@ -94,40 +80,26 @@ export default class Layout extends React.Component{
         const that = this;
         const user_data = localStorage.getItem("socialgin_user_data") || "";
         if(!user_data) return window.location.href = "/";
-        axios.post(config.authorize, {
-            data : {
-                authenticationtoken : user_data
+        axios.get(config.getUserData, {
+            params : {
+                token : user_data
             }
-        }).then(authenticate=>{
-            const authenticateResponse = authenticate.data
-            if(authenticateResponse.error) return swal("Error !", authenticateResponse.error, "error");
-            axios.get(config.getUserData, {
-                params : {
-                    token : authenticateResponse.data
-                }
-            }).then(userData=>{
-                const userInfo = userData.data
-                if(userInfo.error) return swal("Error !", userInfo.error, "error")
-                
-                that.props.dispatch({
-                    type: "USER_NAME",
-                    payload: userInfo.data.name + " " + userInfo.data.surname
-                })
-                that.props.dispatch({
-                    type: "AVATAR",
-                    payload: userInfo.data.profile_picture
-                })
-                that.props.dispatch(loadedTopbar())
-            }).catch(function (error) {
-                swal("Authenticate error !", error, "error")
-                setTimeout(_=>{
-                    window.location.href = "/"
-                }, 3000)
-            });
+        }).then(userData=>{
+            const userInfo = userData.data
+            if(userInfo.error) return swal("Error !", userInfo.error, "error")
+            that.props.dispatch({
+                type: "USER_NAME",
+                payload: userInfo.name + " " + userInfo.surname
+            })
+            that.props.dispatch({
+                type: "AVATAR",
+                payload: userInfo.profile_picture
+            })
+            that.props.dispatch(loadedTopbar())
         }).catch(function (error) {
-            swal("Authorize error !", "Error type : " + error, "error")
+            swal("Authenticate error !", error, "error")
             setTimeout(_=>{
-                window.location.href = "/"
+                 window.location.href = "/"
             }, 3000)
         });
     }
