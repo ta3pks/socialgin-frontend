@@ -84,7 +84,7 @@ export default class Modal extends React.Component {
                     })
                     if (res.accounts) {
                         for (var i = 0; i < res.accounts.data.length; i++) {
-                            var iamge = res.accounts.data[i].photos ? res.accounts.data[i].photos.data[0].picture : "/public/img/icons/default-user.jpg"
+                            var iamge = res.accounts.data[i].photos ? res.accounts.data[i].photos.data[0].picture : "/public/img/default_profile.png"
                             accounts.push({
                                 id: res.accounts.data[i].id,
                                 fullname: res.accounts.data[i].name,
@@ -97,7 +97,7 @@ export default class Modal extends React.Component {
                     }
                     if (res.groups) {
                         for (var i = 0; i < res.groups.data.length; i++) {
-                            var iamge = res.groups.data[i].picture ? res.groups.data[i].picture.data.url : "/public/img/icons/default-user.jpg"
+                            var iamge = res.groups.data[i].picture ? res.groups.data[i].picture.data.url : "/public/img/default_profile.png"
                             accounts.push({
                                 id: res.groups.data[i].id,
                                 fullname: res.groups.data[i].name,
