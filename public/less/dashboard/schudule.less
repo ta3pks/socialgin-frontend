@@ -14,12 +14,14 @@
         .time-selecter{
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
             .time-select-area{
                 display: flex;
                 flex-direction: row;
                 width: 100%;
+                max-width: 250px;
+                margin-bottom: 15px;
                 .sapirate{
                     display: flex;
                     justify-content: center;
@@ -58,7 +60,6 @@
             outline: none;
         }
         .DayPicker {
-            width: 100%;
             .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
                 color: #FFF;
                 background-color: @maincolor;
