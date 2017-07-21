@@ -1,46 +1,64 @@
 //main:./main.less
-
-.management-page{
+.management-page {
     width: 100%;
     display: flex;
     flex-direction: column;
     height: auto;
     padding: 15px;
-    .panel{
-        display: block;
-        flex-direction: column;
+    .panel {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
         background-color: #fff;
         padding: 15px;
         border-radius: 6px;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        &:hover{
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        &:hover {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         }
-        .controller{
-            display: block;
-            padding: 12px 0;
-            width: 100%;
-            .left-bar{
+        .share-panel {
+            width: 60%;
+            .controller {
                 display: block;
-                float: left;
-                width: 50%;
-                button{
+                padding: 12px 0;
+                width: 100%;
+                .left-bar {
+                    display: block;
                     float: left;
+                    width: 50%;
+                    button {
+                        float: left;
+                    }
                 }
-            }
-            .right-bar{
-                display: block;
-                float: right;
-                width: 50%;
-                button{
+                .right-bar {
+                    display: block;
                     float: right;
+                    width: 50%;
+                    button {
+                        float: right;
+                    }
                 }
             }
         }
-        .share-settings{
+        .share-settings {
+            width: 40%;
+            display: block;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 728px) {
+    .management-page {
+    .panel {
+        .share-panel {
+            width: 100%;
+        }
+        .share-settings {
             width: 100%;
             display: block;
         }
     }
+}
 }
