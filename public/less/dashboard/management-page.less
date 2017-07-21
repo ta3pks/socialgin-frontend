@@ -14,27 +14,28 @@
         padding: 15px;
         border-radius: 6px;
         transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-        &:hover {
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-        }
         .share-panel {
             width: 60%;
             .controller {
-                display: block;
-                padding: 12px 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
                 width: 100%;
+                margin: 15px 0;
                 .left-bar {
-                    display: block;
-                    float: left;
-                    width: 50%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
                     button {
                         float: left;
                     }
                 }
                 .right-bar {
-                    display: block;
-                    float: right;
-                    width: 50%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
                     button {
                         float: right;
                     }
@@ -48,17 +49,37 @@
     }
 }
 
+.first-show {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    min-height: 100px;
+    border-radius: 2px;
+    .show-header {
+        background-color: rgba(0, 0, 0, 0.12);
+        padding: 6px 12px;
+        font-size: 1em;
+    }
+    .content {
+        padding: 6px 12px;
+        font-size: 1em;
+    }
+    .upload_image{
+        padding: 6px 12px;
+    }
+}
 
 @media only screen and (max-width: 728px) {
     .management-page {
-    .panel {
-        .share-panel {
-            width: 100%;
-        }
-        .share-settings {
-            width: 100%;
-            display: block;
+        .panel {
+            .share-panel {
+                width: 100%;
+            }
+            .share-settings {
+                width: 100%;
+                display: block;
+            }
         }
     }
-}
 }
