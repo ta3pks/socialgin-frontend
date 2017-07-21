@@ -34,6 +34,9 @@ export default class Schedule extends React.Component {
         const that = this;
         return (
             <div className="schedule animated fadeIn">
+                <div className="calendar-area">
+                    <DayPicker selectedDays={that.props.date} onDayClick={day => that.select_day(day)} />
+                </div>
                 <div className="timer">
                     <div className="time-selecter">
                         <div className="time-select-area">
@@ -61,9 +64,6 @@ export default class Schedule extends React.Component {
                         </div>
                     </div>
                     <label><input type="checkbox" name="checkbox" value="value" />Email me when message is sent</label>
-                </div>
-                <div className="calendar-area">
-                    <DayPicker selectedDays={that.props.date} onDayClick={day => that.select_day(day)} />
                 </div>
             </div>
         );
