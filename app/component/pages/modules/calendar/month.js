@@ -43,12 +43,12 @@ export default class CalendarMonth extends React.Component {
             }
             that.props.dispatch(setEvents(eventList))
         }).catch(err=>{
-            console.log(err)
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
         })
     }
     render() {
         const that = this;
-        console.log(that.props.events)
         return (
             <div className="calendar-month animated fadeIn">
                 <ol class="day-names">
