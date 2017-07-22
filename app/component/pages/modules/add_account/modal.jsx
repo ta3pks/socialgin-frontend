@@ -128,7 +128,7 @@ export default class Modal extends React.Component {
             x = w.innerWidth || e.clientWidth || g.clientWidth,
             y = w.innerHeight || e.clientHeight || g.clientHeight;
             window.twitter_app = window.open("", "_blank", "width=700,height=500,top=" + ((y / 2) - 250) + ",left=" + ((x / 2) - 350));
-            window.twitter_app.document.write("<p>Please wait...</p>");
+            window.twitter_app.document.write('<style>.loading-wrapper{position:fixed;width:100%;min-height:100vh;background-color:#fff;top:0;display:flex;flex-direction:column;justify-content:center;align-items:center}.loading-wrapper img{min-width:200px;height:auto;animation:loadingEffect 1s linear .5s infinite alternate}@keyframes loadingEffect{from{transform:scale(1)}to{transform:scale(.8)}}</style><div class="loading-wrapper"><img src="/public/img/logo_icon_maincolor.svg" alt="Logo"/></div>');
             const windowCloser = setInterval(_ => {
                 if (window.twitter_app.closed) {
                     clearInterval(windowCloser);
