@@ -28,12 +28,20 @@ export default class Management extends React.Component {
             upload_image : false,
             share_link : false,
             share_loading : false,
-            closeUrl : false
+            closeUrl : false,
+            urlIframe : null
         }
     }
     textHandler(e){
         this.props.dispatch(setText(e.currentTarget.value))
         this.urlify(this.props.text)
+        if(e.currentTarget.value.length === 0){
+            this.setState({
+                closeUrl : false,
+                urlIframe : null
+            })
+            this.props.dispatch(setLink(""))
+        }
     }
     startShare(){
         if(this.state.share_loading) return;
@@ -52,11 +60,10 @@ export default class Management extends React.Component {
                 form.append("images", image)
             })
         }
-        if(that.props.link && that.state.share_link){
+        if(that.props.link && that.props.images.length === 0 && !that.state.closeUrl){
             form.append("link", that.props.link)
         }
         const shareDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth(), that.props.date.getDate(), parseInt(that.props.hour), parseInt(that.props.minute)).getTime() / 1000)
-        console.log(shareDate)
         form.append("time", shareDate)
         var list = that.props.accounts;
         for (let key in list) {
@@ -94,6 +101,7 @@ export default class Management extends React.Component {
         const that = this;
         const files = e.target.files;
         if (!files.length) return;
+        if(files.length > 4 || that.props.images.length > 3) return swal("Error !", "You can add up to 4 images.", "error");
         for(let i = 0; i<files.length; i++){
             const reader = new FileReader();
             reader.onload = e=>{
@@ -112,18 +120,21 @@ export default class Management extends React.Component {
     }
     urlify(text) {
         const that = this;
-        var urlRegex = /(https?:\/\/[^\s]+)/g;
+        var urlRegex = /(https?:\/\/[^\s]+\s)/g;
         return text.replace(urlRegex, function(url) {
+            if(url == that.props.link || that.state.closeUrl) return;
             that.props.dispatch(setLink(url))
-            axios.get("http://iframe.ly/api/iframely?url=" + url + "&api_key=3a42e524be039ac6afaf5e").then(data=>{
+            axios.get("http://iframe.ly/api/iframely?url=" + url.trim() + "&api_key=3a42e524be039ac6afaf5e").then(data=>{
                 that.setState({
-                    urlIframe : data.data.html ? data.data.html : ""
+                    urlIframe : data.data
                 })
             })
         })
     }
+    componentDidMount(){}
     render() {
         const that = this;
+        console.log("link : ", that.props.link)
         return (
             <div className="management-page animated fadeIn">
                 <div className="panel">
@@ -160,16 +171,60 @@ export default class Management extends React.Component {
                                             if(that.props.text){
                                                 return(
                                                     <div className="content">
-                                                        <div dangerouslySetInnerHTML={{__html: that.props.text.replace(/\r\n|\r|\n/g, " <br>")}}>
+                                                        <div dangerouslySetInnerHTML={{__html: that.props.text.replace(/\r\n|\r|\n/gm, " <br>")}}>
                                                         </div>
                                                     </div>
                                                 )
                                             }
                                         })()}
                                         {(_=>{
-                                            if(that.props.images.length === 0 && that.props.link && !that.state.closeUrl){
+                                            if(that.props.images.length === 0 && that.props.link && !that.state.closeUrl && that.state.urlIframe){
                                                 return (
                                                     <div className="link-preview">
+                                                        {(_=>{
+                                                            if(that.state.urlIframe.links && that.state.urlIframe.links.thumbnail){
+                                                                var style = {
+                                                                    color: 'white',
+                                                                    backgroundImage: "url("+that.state.urlIframe.links.thumbnail[0].href+")",
+                                                                    backgroundRepeat: "no-repeat",
+                                                                    backgroundSize: "cover",
+                                                                    backgroundPosition: "center top",
+                                                                    boxSizing: "border-box",
+                                                                    position: "relative"
+                                                                };
+                                                                return (
+                                                                    <div className="link-thumbnail" style={style}>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        })()}
+                                                        {(_=>{
+                                                            if(that.state.urlIframe.meta){
+                                                                return(
+                                                                    <div className="link-info">
+                                                                        <div className="title">
+                                                                            {(_=>{
+                                                                                if(that.state.urlIframe.meta.title){
+                                                                                    return that.state.urlIframe.meta.title
+                                                                                }
+                                                                            })()}
+                                                                        </div>
+                                                                        <div className="description">
+                                                                            {(_=>{
+                                                                                if(that.state.urlIframe.meta.description){
+                                                                                    return that.state.urlIframe.meta.description
+                                                                                }
+                                                                            })()}
+                                                                        </div>
+                                                                        <div className="close-url">
+                                                                            <svg viewBox="0 0 24 24" onClick={(_=>{ that.setState({closeUrl : true})}).bind(that)}>
+                                                                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        })()}
                                                     </div>
                                                 )
                                             }

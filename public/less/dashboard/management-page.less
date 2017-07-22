@@ -65,12 +65,63 @@
         padding: 6px 12px;
         font-size: 1em;
     }
-    .upload_image{
+    .upload_image {
         padding: 6px 12px;
+    }
+    .link-preview {
+        padding: 6px 12px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: nowrap;
+        background-color: #eee;
+        .link-thumbnail {
+            flex-grow: 1;
+            width: 30%;
+            img {
+                width: 100%;
+            }
+        }
+        .link-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 4;
+            padding: 15px;
+            position: relative;
+            width: 70%;
+            .title {
+                display: block;
+                font-size: 1.2em;
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+            .description {
+                font-weight: 300;
+                font-size: 1em;
+                margin-bottom: 15px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+            .close-url {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 24px;
+                height: 24px;
+                svg {
+                    width: 24px;
+                    height: 24px;
+                    fill: #000;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }
 
-@media only screen and (max-width: 728px) {
+@media only screen and (max-width: 1080px) {
     .management-page {
         .panel {
             .share-panel {
