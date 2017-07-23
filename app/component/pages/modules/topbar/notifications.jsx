@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import cookier from "../../../../../public/js/cookier";
 
 import Config from "./../../../../config";
 import {Route} from "./../../../../actions/routerActioıns";
@@ -24,7 +25,7 @@ export default class Notifications extends React.Component {
   }
   componentWillMount(){
     const that = this;
-    const user_data = window.localStorage.getItem("socialgin_user_data");
+    const user_data = cookier.parse("token");
     if(!user_data) return window.location.href = "/";
     // skip, start, end kosullari da var !
     axios.get(Config.getNotifications, {
@@ -35,15 +36,15 @@ export default class Notifications extends React.Component {
         token : user_data
       }
     }).then(data=>{
+      console.log("Beta : ", data.data)
       const notificationData = data.data;
       if(notificationData.error) return swal("Error !", notificationData.error || "", "error");
       that.setState({
         loaded : true,
         notifications : notificationData
       })
-      console.log(data)
     }).catch(err=>{
-      console.log(err)
+      console.log("Beta : ", err)
     })
   }
   render() {
@@ -72,15 +73,15 @@ export default class Notifications extends React.Component {
                   return (
                     <div className="notify" key={window.keyGenerator()}>
                       <p className="not">
-                        {notification.message} {"by "}
+                        {notification.message}
                         {(_=>{
-                          if(notification.additional && notification.additional.accounts.length > 0){
+                          if(notification.additional && notification.additional.accounts && notification.additional.accounts.length > 0){
                             const accounts = [];
                             for(var i=0; i<notification.additional.accounts.length; i++){
                               if(i === notification.additional.accounts.length - 1){
-                                console.log("ustte : ", that.props.accounts[notification.additional.accounts[i].id])
                                 accounts.push(
                                   <strong key={window.keyGenerator()}>
+                                    {" by "}
                                     {(_=>{
                                       if(that.props.accounts[notification.additional.accounts[i].id]){
                                         return that.props.accounts[notification.additional.accounts[i].id].name + " " + that.props.accounts[notification.additional.accounts[i].id].surname + "."
@@ -93,6 +94,7 @@ export default class Notifications extends React.Component {
                               }else{
                                 accounts.push(
                                   <strong key={window.keyGenerator()}>
+                                     {" by "}
                                     {(_=>{
                                       if(that.props.accounts[notification.additional.accounts[i].id]){
                                         return that.props.accounts[notification.additional.accounts[i].id].name + " " + that.props.accounts[notification.additional.accounts[i].id].surname + ", "
@@ -105,6 +107,19 @@ export default class Notifications extends React.Component {
                               }
                             }
                             return accounts
+                          }else if(notification.additional && notification.additional.account_id){
+                            return (
+                                  <strong key={window.keyGenerator()}>
+                                     {". "}
+                                    {(_=>{
+                                      if(that.props.accounts[notification.additional.account_id]){
+                                        return that.props.accounts[notification.additional.account_id].name + " " + that.props.accounts[notification.additional.account_id].surname
+                                      }else{
+                                        return "Deleted Account" + "."
+                                      }
+                                    })()}
+                                  </strong>
+                            )
                           }
                         })()}
                       </p>
