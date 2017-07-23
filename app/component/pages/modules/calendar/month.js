@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios"
+import cookier from "../../../../../public/js/cookier";
 
 import Config from "../../../../config"
 import Language from "./../../../../language/index";
@@ -10,7 +11,8 @@ import {setEvents} from "../../../../actions/calendarActions";
 @connect(store=>{
     return {
         date : store.Calendar.date,
-        events : store.Calendar.events
+        events : store.Calendar.events,
+        accounts : store.User.list
     }
 })
 
@@ -20,18 +22,18 @@ export default class CalendarMonth extends React.Component {
     }
     componentWillMount(){
         const that = this;
-        const user_data = window.localStorage.getItem("socialgin_user_data");
-        if(!user_data) return window.location.href = "/";
         const startDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth()).getTime() / 1000);
         const endTime = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth() + 2).getTime() / 1000);
+        that.props.setLoader()
         axios.get(Config.calendar, {
             params: {
                 start : startDate,
                 end : endTime,
-                token : user_data
+                token : cookier.parse("token")
             }
         }).then(data=>{
             console.log("Beta : ", data.data);
+            that.props.setLoader()
             const res = data.data;
             if(res.error) return swal("Error !", res.error, "error");
             const eventList = {}
@@ -39,7 +41,12 @@ export default class CalendarMonth extends React.Component {
                 var event = res[i];
                 var timeSegment = new Date(Math.round(event.time * 1000));
                 var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate();
-                eventList[timeHandler] = event;
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
             }
             that.props.dispatch(setEvents(eventList))
         }).catch(err=>{
@@ -49,7 +56,14 @@ export default class CalendarMonth extends React.Component {
     }
     render() {
         const that = this;
-        return (
+            if(that.props.loading){
+                return (
+                    <div className="content-loader">
+                        <div className="loader"></div>
+                    </div>
+                )
+            }else{
+                return (
             <div className="calendar-month animated fadeIn">
                 <ol class="day-names">
                     {Language.eng.dayNamesShort.map(name=>{
@@ -76,14 +90,39 @@ export default class CalendarMonth extends React.Component {
                                 <li key={window.keyGenerator()} className={iter < 1 || +currDate > +controlDate ? "outside" : ""}>
                                     <div className="date">{currDate.getDate()}</div>
                                     {(_=>{
-                                       if(eventList[currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" + currDate.getDate()]){
-                                           return (
-                                               <div key={window.keyGenerator()} className="event">
-                                                   <div className="event-explanation">
-                                                      BURADA
+                                        let event = eventList[currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" + currDate.getDate()];
+                                       if(event){
+                                           return event.map(currentDateEvent=>{
+                                               return (
+                                                   <div key={window.keyGenerator()} className="event">
+                                                        <div className="event-explanation">
+                                                            {(_=>{
+                                                                return (
+                                                                    <span>
+                                                                        {(_=>{
+                                                                            if(currentDateEvent.text){
+                                                                                return currentDateEvent.text
+                                                                            }else if(currentDateEvent.image_links.length){
+                                                                                return currentDateEvent.image_links.length + " images"
+                                                                            }else if(currentDateEvent.link){
+                                                                                return currentDateEvent.link
+                                                                            }
+                                                                        })()}
+                                                                        {", will be shared on "}
+                                                                        {(_=>{
+                                                                            if(that.props.accounts[currentDateEvent.account_id]){
+                                                                                return that.props.accounts[currentDateEvent.account_id].name + " " + that.props.accounts[currentDateEvent.account_id].surname + "."
+                                                                            }else{
+                                                                                return "An account"
+                                                                            }
+                                                                        })()}
+                                                                    </span>
+                                                                )
+                                                            })()}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                           )
+                                                )
+                                           })
                                        }
                                     })()}
                                 </li>
@@ -97,5 +136,6 @@ export default class CalendarMonth extends React.Component {
                 </ol>
             </div>
         );
+            }
     }
 }
