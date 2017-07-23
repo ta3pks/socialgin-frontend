@@ -45,3 +45,10 @@ export function avatar(avatar){
         payload : avatar
     }
 }
+
+export function setMail(email){
+    return {
+        type : "SET_MAIL",
+        payload : email
+    }
+}
