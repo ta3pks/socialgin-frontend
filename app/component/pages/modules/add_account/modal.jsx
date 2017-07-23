@@ -116,7 +116,7 @@ export default class Modal extends React.Component {
                 })
             }
         }, {
-            scope: 'public_profile, email, user_birthday, user_events, user_managed_groups, user_photos, user_posts, user_videos, user_website, read_page_mailboxes, manage_pages, publish_pages, publish_actions, pages_show_list, pages_manage_cta, pages_manage_instant_articles, pages_messaging'
+            scope: 'public_profile, email, user_birthday, user_events, user_managed_groups, user_photos, user_posts, user_videos, user_website, read_page_mailboxes, manage_pages, publish_pages, publish_actions, pages_show_list, pages_manage_cta, pages_manage_instant_articles, pages_messaging, read_insights'
         });
     }
     twitterAddAccount(){
