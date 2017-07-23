@@ -11,7 +11,8 @@ import {loadedTopbar} from "./../../actions/settingsAcrions";
 
 @connect(store=>{
     return {
-        user_name : store.User.user_name,
+        name : store.User.name,
+        surname : store.User.surname,
         avatar : store.User.avatar,
         loaded : store.Settings.page_load
     }
@@ -73,7 +74,7 @@ export default class Topbar extends React.Component {
                                     </div>
                                     <div className="user-info">
                                         <img onClick={that.dropdownMenu.bind(that)} className="profile-image" src={that.props.avatar} alt=""/>
-                                        <span onClick={that.dropdownMenu.bind(that)}>{that.props.user_name}</span>
+                                        <span onClick={that.dropdownMenu.bind(that)}>{that.props.name + " " + that.props.surname}</span>
                                         <svg onClick={that.dropdownMenu.bind(that)} className="icon-dropdown" viewBox="0 0 24 24">
                                             <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                                         </svg>
