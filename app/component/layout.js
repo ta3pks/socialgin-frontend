@@ -65,7 +65,6 @@ export default class Layout extends React.Component{
             const res = response.data;
             if(res.length === 0) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
             if(res.error) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
-            console.log(res)
             that.props.dispatch({
                 type : "FETCH_ACCOUNT",
                 payload : res
