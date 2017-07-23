@@ -1,6 +1,7 @@
 import Vue from "vue/dist/vue.min.js";
 import swal from "sweetalert";
 import config from "./../../app/config";
+import cookier from "./cookier"
 
 import "sweetalert/dist/sweetalert.css";
 
@@ -77,7 +78,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                 ajax.onload = function () {
                     let data = JSON.parse(ajax.response);
                     if (data.error) return swal("Error !", data.error, "error")
-                    localStorage.setItem("socialgin_user_data", data.data);
+                    cookier.make("token", data.data, 99, "/" );
                     window.location.href = config.dashboard_uri
                 }
                 ajax.send(`access_token=${access_token}&id=${id}`)
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                 ajax.onload = function () {
                     let data = JSON.parse(ajax.response);
                     if (data.error) return swal("Error !", data.error, "error")
-                    localStorage.setItem("socialgin_user_data", data.data);
+                    cookier.make("token", data.data, 99, "/" );
                     window.location.href = config.dashboard_uri
                 }
                 ajax.send(`access_token=${access_token}`)
@@ -237,7 +238,7 @@ document.addEventListener("DOMContentLoaded", _ => {
                         return swal("Error !", data.error, "error");
                     }
                     swal("Success !", "Please wait.", "success");
-                    localStorage.setItem("socialgin_user_data", data.data);
+                    cookier.make("token", data.data, 99, "/" );
                     window.location.href = config.dashboard_uri
                 }
                 ajax.send(`email=${that.loginInfo.email}&password=${that.loginInfo.password}`)
