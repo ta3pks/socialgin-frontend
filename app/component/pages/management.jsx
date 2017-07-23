@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import notifier from "notifier/js/notifier.js";
+import cookier from "../../../public/js/cookier";
 
 import Schedule from "./modules/share/schedule";
 
@@ -45,7 +46,7 @@ export default class Management extends React.Component {
     }
     startShare(){
         if(this.state.share_loading) return;
-        const user_data = window.localStorage.getItem("socialgin_user_data");
+        const user_data = cookier.parse("token");
         if(!user_data) return window.location.href = "/";
         const that = this;
         if(!that.props.text && !that.props.images.length && !that.props.link){
