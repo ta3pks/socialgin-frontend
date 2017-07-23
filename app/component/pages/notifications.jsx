@@ -1,16 +1,56 @@
 import React from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import cookier from "../../../public/js/cookier"
+import Config from "../../config";
 
 import Language from "./../../language/index";
-
+@connect(store=>{
+    return {
+        accounts : store.User.list
+    }
+})
 export default class NotificationsPage extends React.Component {
     constructor(){
         super();
         this.state = {
+            loaded : false,
             notifications : []
         }
     }
+    componentWillMount(){
+        const that = this;
+        const user_data = cookier.parse("token");
+        if(!user_data) return window.location.href = "/";
+        // skip, start, end kosullari da var !
+        axios.get(Config.getNotifications, {
+            params: {
+                n : 30,
+                skip : 0,
+                unreadonly : false,
+                token : user_data
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data)
+            const notificationData = data.data;
+            if(notificationData.error) return swal("Error !", notificationData.error || "", "error");
+            that.setState({
+                loaded : true,
+                notifications : notificationData
+            })
+        }).catch(err=>{
+            console.log("Beta : ", err)
+        })
+  }
     render() {
         const that = this;
+        if(!that.state.loaded){
+            return (
+                <div className="content-loader">
+                        <div className="loader"></div>
+                    </div>
+            )
+        }
         return (
             <div className="notificationsPage animated fadeIn">
                 <div className="header">
@@ -18,56 +58,68 @@ export default class NotificationsPage extends React.Component {
                 </div>
                 <div className="container">
                     {that.state.notifications.map(noti=>{
+                        let notification = noti;
+                        let notificationDate = new Date(Math.floor(noti.date * 1000));
                         return (
                             <div className="notification-item">
                                 <div className="time">
-                                    <span>{Language.eng.monthListShort[new Date(noti.date).getMonth()] + " " + new Date(noti.date).getDate()}</span>
-                                    <span>{new Date(noti.date).getHours() + ":" + new Date(noti.date).getMinutes()}</span>
+                                    <span>{Language.eng.monthListShort[notificationDate.getMonth()] + " " + notificationDate.getDate()}</span>
+                                    <span>{notificationDate.getHours() + ":" + notificationDate.getMinutes()}</span>
                                 </div>
                                 <div className="content">
-                            <div className="message">
-                                "{noti.from} tarafindan {noti.to.name + " " + noti.to.surname} hesabina {new Date(noti.date).getDate() + " " + Language.eng.monthList[new Date(noti.date).getMonth()] + " " + new Date(noti.date).getFullYear()} tarahine paylasim atandi."
-                            </div>
-                            {(_=>{
-                                if(noti.content.text){
-                                    return (
-                                        <div className="text">
-                                            {noti.content.text}
-                                        </div>
-                                    )
-                                }
-                            })()}
-                            {(_=>{
-                                if(noti.content.images && noti.content.images.length > 0){
-                                    return(
-                                        <div className="images">
-                                            {noti.content.images.map(image=>{
-                                                return <img src={image} key={(Math.floor(Math.random() * 1000)).toString()} alt=""/>
-                                            })}
-                                        </div>
-                                    )
-                                }
-                            })()}
-                        </div>
-                        {(_=>{
-                            if(noti.needApprove){
-                                return (
-                                    <div className="approve">
-                                        <div className="select success">
-                                            <svg className="icon" viewBox="0 0 24 24">
-                                                <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-                                            </svg>
-                                        </div>
-                                        <div className="select error">
-                                            <svg className="icon" viewBox="0 0 24 24">
-                                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-                                            </svg>
-                                        </div>
+                                    <div className="message">
+                                        {notification.message}
+                                        {(_=>{
+                                            if(notification.additional && notification.additional.accounts && notification.additional.accounts.length > 0){
+                                                const accounts = [];
+                                                for(var i=0; i<notification.additional.accounts.length; i++){
+                                                if(i === notification.additional.accounts.length - 1){
+                                                    accounts.push(
+                                                        <strong key={window.keyGenerator()}>
+                                                            {" by "}
+                                                            {(_=>{
+                                                                if(that.props.accounts[notification.additional.accounts[i].id]){
+                                                                    return that.props.accounts[notification.additional.accounts[i].id].name + " " + that.props.accounts[notification.additional.accounts[i].id].surname + "."
+                                                                }else{
+                                                                    return "Deleted Account" + "."
+                                                                }
+                                                            })()}
+                                                        </strong>
+                                                    )
+                                                }else{
+                                                    accounts.push(
+                                                    <strong key={window.keyGenerator()}>
+                                                    {" by "}
+                                                    {(_=>{
+                                                        if(that.props.accounts[notification.additional.accounts[i].id]){
+                                                            return that.props.accounts[notification.additional.accounts[i].id].name + " " + that.props.accounts[notification.additional.accounts[i].id].surname + ", "
+                                                        }else{
+                                                            return "Deleted Account" + ", "
+                                                        }
+                                                    })()}
+                                                    </strong>
+                                                    )
+                                                }
+                                            }
+                                            return accounts
+                                            }else if(notification.additional && notification.additional.account_id){
+                                                return (
+                                                    <strong key={window.keyGenerator()}>
+                                                        {". "}
+                                                        {(_=>{
+                                                            if(that.props.accounts[notification.additional.account_id]){
+                                                                return that.props.accounts[notification.additional.account_id].name + " " + that.props.accounts[notification.additional.account_id].surname
+                                                            }else{
+                                                                return "Deleted Account" + "."
+                                                            }
+                                                        })()}
+                                                    </strong>
+                                                )
+                                            }
+                                        })()}
                                     </div>
-                                )
-                            }
-                        })()}
-                    </div>
+                                </div>
+                            </div>
                         )
                     })}
                 </div>
