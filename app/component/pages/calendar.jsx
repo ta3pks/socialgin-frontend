@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import cookier from "../../../public/js/cookier";
 
 import Month from "./modules/calendar/month";
 import Week from "./modules/calendar/week";
@@ -22,24 +23,224 @@ import {nextMonth, previousMonth, setCalendarType, nextWeek, previousWeek, nextD
 export default class Calendar extends React.Component {
   constructor() {
     super();
+    this.state = {
+      loading : false
+    }
+  }
+  setLoader(){
+    this.setState({
+      loading : !this.state.loading
+    })
   }
   nextMonth() {
     this.props.dispatch(nextMonth())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth()).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth() + 2).getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate();
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   previousMonth() {
     this.props.dispatch(previousMonth())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth() - 1).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.date.getFullYear(), that.props.date.getMonth() + 2).getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate();
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   nextWeek() {
     this.props.dispatch(nextWeek())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.weekDate.getFullYear(), that.props.weekDate.getMonth(),  that.props.weekDate.getDate() - 7).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.weekDate.getFullYear(), that.props.weekDate.getMonth(), that.props.weekDate.getDate() + 14) .getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate();
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   previousWeek() {
     this.props.dispatch(previousWeek())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.weekDate.getFullYear(), that.props.weekDate.getMonth(),  that.props.weekDate.getDate() - 7).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.weekDate.getFullYear(), that.props.weekDate.getMonth(), that.props.weekDate.getDate() + 14) .getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate();
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   nextDay() {
     this.props.dispatch(nextDay())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(),  that.props.dayDate.getDate(), 0, 0, 0).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(), that.props.dayDate.getDate() + 1, 23, 59, 59) .getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate() + "-" + (timeSegment.getHours() < 10 ? "0" + timeSegment.getHours() : timeSegment.getHours());
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   previousDay() {
     this.props.dispatch(previousDay())
+    const that = this;
+        const startDate = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(),  that.props.dayDate.getDate() - 3, 0, 0, 0).getTime() / 1000);
+        const endTime = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(), that.props.dayDate.getDate() + 3, 23, 59, 59) .getTime() / 1000);
+        that.setLoader()
+        axios.get(Config.calendar, {
+            params: {
+                start : startDate,
+                end : endTime,
+                token : cookier.parse("token")
+            }
+        }).then(data=>{
+            console.log("Beta : ", data.data);
+            that.setLoader()
+            const res = data.data;
+            if(res.error) return swal("Error !", res.error, "error");
+            const eventList = {}
+            for(var i=0; i<res.length; i++){
+                var event = res[i];
+                var timeSegment = new Date(Math.round(event.time * 1000));
+                var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate() + "-" + (timeSegment.getHours() < 10 ? "0" + timeSegment.getHours() : timeSegment.getHours());
+                if(eventList[timeHandler]){
+                    eventList[timeHandler].push(event)
+                }else{
+                    eventList[timeHandler] = [];
+                    eventList[timeHandler].push(event)
+                }
+            }
+            that.props.dispatch(setEvents(eventList))
+        }).catch(err=>{
+            console.log("Beta : ", err);
+            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        })
   }
   setCalendarType(e) {
     const actionType = e.currentTarget.dataset.id;
@@ -104,17 +305,17 @@ export default class Calendar extends React.Component {
         </div>
         {(_=>{
           if(that.props.type === "month"){
-            return <Month />
+            return <Month loading={that.state.loading} setLoader={that.setLoader.bind(that)} />
           }
         })()}
         {(_=>{
           if(that.props.type === "week"){
-            return <Week />
+            return <Week loading={that.state.loading} setLoader={that.setLoader.bind(that)} />
           }
         })()}
         {(_=>{
           if(that.props.type === "day"){
-            return <Day />
+            return <Day loading={that.state.loading} setLoader={that.setLoader.bind(that)} />
           }
         })()}
       </div>
