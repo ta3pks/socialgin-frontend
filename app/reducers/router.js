@@ -20,11 +20,6 @@ export default function reducer(state = {
             active: false,
             main: false
         },
-        "Groups": {
-            url: "/groups",
-            active: false,
-            main: false
-        },
         "Notifications": {
             url: "/notifications",
             active: false,
