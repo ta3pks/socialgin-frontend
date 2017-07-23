@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import cookier from "../../public/js/cookier";
 
 import notifier from "notifier/js/notifier.js";
 import axios from "axios";
@@ -54,7 +55,7 @@ export default class Layout extends React.Component{
     }
     getSidebarContent(){
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data") || "";
+        const user_data = cookier.parse("token") || "";
         if(!user_data) return window.location.href = "/";
         axios.get(config.getAccounts, {
             params : {
@@ -64,6 +65,7 @@ export default class Layout extends React.Component{
             const res = response.data;
             if(res.length === 0) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
             if(res.error) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
+            console.log(res)
             that.props.dispatch({
                 type : "FETCH_ACCOUNT",
                 payload : res
@@ -73,12 +75,12 @@ export default class Layout extends React.Component{
             swal("Authenticate error !", error, "error")
             setTimeout(_=>{
                 window.location.href = "/"
-            }, 3000)
+            }, 1000)
         });
     }
     getTopbarContent(){
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data") || "";
+        const user_data = cookier.parse("token") || "";
         if(!user_data) return window.location.href = "/";
         axios.get(config.getUserData, {
             params : {
@@ -86,6 +88,7 @@ export default class Layout extends React.Component{
             }
         }).then(userData=>{
             const userInfo = userData.data
+            console.log("Beta : ", userInfo)
             if(userInfo.error) return swal("Error !", userInfo.error, "error")
             that.props.dispatch({
                 type: "USER_NAME",
@@ -100,7 +103,7 @@ export default class Layout extends React.Component{
             swal("Authenticate error !", error, "error")
             setTimeout(_=>{
                  window.location.href = "/"
-            }, 3000)
+            }, 1000)
         });
     }
     componentDidMount(){
