@@ -14,7 +14,7 @@ import Menu from "./partials/menu";
 import Pages from "./pages/index.jsx";
 import Loading from "./pages/loading.jsx";
 
-import {fetchAccounts, userName, avatar} from "./../actions/accountActions";
+import {fetchAccounts, userName, avatar, setMail} from "./../actions/accountActions";
 import {loadedSidebar, loadedTopbar} from "./../actions/settingsAcrions";
 window.keyGenerator = function(){
     let code = ""
@@ -63,6 +63,7 @@ export default class Layout extends React.Component{
             }
         }).then(response=>{
             const res = response.data;
+            console.log("Beta : ", res)
             if(res.length === 0) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
             if(res.error) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
             that.props.dispatch({
@@ -96,6 +97,14 @@ export default class Layout extends React.Component{
             that.props.dispatch({
                 type: "AVATAR",
                 payload: userInfo.profile_picture
+            })
+            that.props.dispatch(setMail(userInfo.email || ""))
+            that.props.dispatch({
+                type : "SET_NAME_SURNAME",
+                payload : {
+                    name : userInfo.name,
+                    surname : userInfo.surname
+                }
             })
             that.props.dispatch(loadedTopbar())
         }).catch(function (error) {
