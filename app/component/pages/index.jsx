@@ -33,13 +33,6 @@ export default class Pages extends React.Component {
                        return <ReportsPage />
                    }else if(list["Profile"].active == true){
                        return <ProfilePage />
-                   }else if(list["Groups"].active == true){
-                       return (
-                           <div className="coming_soon">
-                               <h1>Coming Soon</h1>
-                               <span>This page is under construction. Please come back later.</span>
-                            </div>
-                       )
                    }else if(list["Notifications"].active == true){
                        return <NotificationsPage />
                    }
