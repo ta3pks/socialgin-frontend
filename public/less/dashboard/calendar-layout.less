@@ -3,87 +3,26 @@
     width: 100%;
     display: block;
     padding: 15px;
+    min-height: 70vh;
     .event {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-size: .75em;
-        padding: 0 .75em;
-        line-height: 2em;
-        color: rgba(0, 0, 0, 1);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border-radius: 2px;
-        margin: 5px 0;
-        cursor: pointer;
-        user-select: none;
-        border: 1px solid #eee;
-        position: relative;
+        border-radius: 12px;
+        background-color: @maincolor;
+        margin: 10px 0;
+        width: 100%;
         .event-explanation {
             width: 100%;
             text-align: center;
-            .social-balon {
-                border-radius: 50%;
-                &.facebook {
-                    padding: 5px;
-                    background-color: @facebook;
-                    svg {
-                        width: 15px;
-                        height: 15px;
-                        fill: #fff;
-                    }
-                }
-            }
-        }
-        .event-accounts {
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: flex;
             flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            margin: 10px 0;
-            .social-balon {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                margin-right: 7px;
-                &.facebook {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: @facebook;
-                    svg {
-                        width: 15px;
-                        height: 15px;
-                        fill: #fff;
-                    }
-                }
-                &.twitter {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: @twitter;
-                    svg {
-                        width: 15px;
-                        height: 15px;
-                        fill: #fff;
-                    }
-                }
-                &.linkedin {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: @linkedin;
-                    svg {
-                        width: 15px;
-                        height: 15px;
-                        fill: #fff;
-                    }
-                }
-            }
+            -webkit-line-clamp: 1;
+            height: 21px;
+            font-size: 1em;
+            padding-left: 7px;
+            cursor: pointer;
+            -webkit-box-orient: vertical;
         }
     }
     .calendar-controller {
@@ -252,9 +191,6 @@
                 width: 100%;
                 flex-wrap: wrap;
                 border: 1px solid #eee;
-                .event {
-                    max-width: 150px;
-                }
                 li {
                     border-bottom: 1px solid #eee;
                     flex-wrap: nowrap;
