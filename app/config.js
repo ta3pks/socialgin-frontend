@@ -25,7 +25,11 @@ const api = {
   getAccounts: api_url + "user/getaccounts",
   setSettings: api_url + "user/settings/set",
   getNotifications : api_url + "user/notifications/get",
-  calendar : api_url + "calendar"
+  calendar : api_url + "calendar",
+  accountTypes : {
+    0 : "facebook",
+    1 : "twitter"
+  }
 };
 
 module.exports = api;
