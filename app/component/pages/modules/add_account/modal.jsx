@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import cookier from "../../../../../public/js/cookier";
 
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
 
@@ -28,7 +29,7 @@ export default class Modal extends React.Component {
         const added = e.currentTarget.dataset.added;
         const account = JSON.parse(e.currentTarget.dataset.account);
         const that = this;
-        const user_data = localStorage.getItem("socialgin_user_data");
+        const user_data = cookier.parse("token");
         if(!user_data) return window.location.href = "/";
         if(added == "true"){
             that.props.dispatch(removeAccount(account.id))
@@ -134,7 +135,7 @@ export default class Modal extends React.Component {
                     clearInterval(windowCloser);
                     const access_token = localStorage.getItem("twitter_access_token");
                     if(!access_token) return swal("Error !", "Somethings wrong ! Please try again later.", "error");                    
-                    const user_data = localStorage.getItem("socialgin_user_data");
+                    const user_data = cookier.parse("token")
                     if(!user_data) return swal("Error !", "Please login first !", "error");
                     console.log("access_token", access_token)
                     console.log(user_data)
