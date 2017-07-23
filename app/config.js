@@ -26,6 +26,13 @@ const api = {
   setSettings: api_url + "user/settings/set",
   getNotifications : api_url + "user/notifications/get",
   calendar : api_url + "calendar",
+  graph : {
+    facebook : {
+      fans : api_url + "graph/facebook/page/fans",
+      gender_age : api_url + "/graph/facebook/page/fans/gender_age",
+      country : api_url + "/graph/facebook/page/fans/country"
+    }
+  },
   accountTypes : {
     0 : "facebook",
     1 : "twitter"
