@@ -6,6 +6,7 @@ import Modal from "./modal";
 import Share from "./share";
 import Calendar from "./calendar";
 import Settings from "./settings";
+import Report from "./raports";
 
 export default combineReducers({
     User,
@@ -13,5 +14,6 @@ export default combineReducers({
     Modal,
     Share,
     Calendar,
-    Settings
+    Settings,
+    Report
 })
