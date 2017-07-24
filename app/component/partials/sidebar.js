@@ -73,7 +73,29 @@ export default class Sidebar extends React.Component {
         }).then(data => {
             const res = data.data;
             console.log("Beta : ", res);
-            if (res.error) return swal("Error !", res.error || "Somethings went wrong. Please try again later.", "error");
+            if(res.error){
+                if(res.err_id != "-1"){
+                    swal({
+                        title: "Beta error occured \n Code : " + res.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = res.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }else{
+                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
+                }
+            }
             const labels = []
             const datasetData = []
             res.map(numbers => {
@@ -131,7 +153,29 @@ export default class Sidebar extends React.Component {
         }).then(data => {
             const res = data.data;
             console.log("Beta : ", res);
-            if (res.error) return swal("Error !", res.error || "Somethings went wrong. Please try again later.", "error");
+            if(res.error){
+                if(res.err_id != "-1"){
+                    swal({
+                        title: "Beta error occured \n Code : " + res.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = res.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }else{
+                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
+                }
+            }
             const labels = []
             const manData = [];
             const womenData = [];
@@ -227,7 +271,29 @@ export default class Sidebar extends React.Component {
         }).then(data => {
             const res = data.data;
             console.log("Beta : ", res);
-            if (res.error) return swal("Error !", res.error || "Somethings went wrong. Please try again later.", "error");
+            if(res.error){
+                if(res.err_id != "-1"){
+                    swal({
+                        title: "Beta error occured \n Code : " + res.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = res.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }else{
+                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
+                }
+            }
             const social_accounts = that.props.accounts[targetData];
             const visualData = [
                 ['Country', 'Popularity']

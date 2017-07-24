@@ -65,7 +65,28 @@ export default class Layout extends React.Component{
             const res = response.data;
             console.log("Beta : ", res)
             if(res.length === 0) notifier.show('Warning!' , 'You dont have any account !', 'warning', '', 0);
-            if(res.error) swal("Somethings wrong with your accounts.", res.error || "Please contact with us.", "error");
+            if(res.error){
+                if(res.err_id != "-1"){
+                    return swal({
+                        title: "Beta error occured \n Code : " + res.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = res.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }
+                swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
+            }
             that.props.dispatch({
                 type : "FETCH_ACCOUNT",
                 payload : res
@@ -89,7 +110,29 @@ export default class Layout extends React.Component{
         }).then(userData=>{
             const userInfo = userData.data
             console.log("Beta : ", userInfo)
-            if(userInfo.error) return swal("Error !", userInfo.error, "error")
+            if(userInfo.error){
+                if(userInfo.err_id != "-1"){
+                    return swal({
+                        title: "Beta error occured \n Code : " + userInfo.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = userInfo.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }
+                swal("Error !", userInfo.error, "error")
+            }
+                
             that.props.dispatch({
                 type: "USER_NAME",
                 payload: userInfo.name + " " + userInfo.surname

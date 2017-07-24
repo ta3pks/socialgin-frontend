@@ -33,6 +33,7 @@ export default class NotificationsPage extends React.Component {
         }).then(data=>{
             console.log("Beta : ", data.data)
             const notificationData = data.data;
+            
             if(notificationData.error) return swal("Error !", notificationData.error || "", "error");
             that.setState({
                 loaded : true,

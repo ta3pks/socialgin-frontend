@@ -37,11 +37,33 @@ export default class Notifications extends React.Component {
       }
     }).then(data=>{
       console.log("Beta : ", data.data)
-      const notificationData = data.data;
-      if(notificationData.error) return swal("Error !", notificationData.error || "", "error");
+      const res = data.data;
+      if(res.error){
+                if(res.err_id != "-1"){
+                    swal({
+                        title: "Beta error occured \n Code : " + res.err_id,
+                        text: "Please copy this code and contact us.",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
+                        confirmButtonText: "Copy",
+                        closeOnConfirm: false
+                    },function(){
+                        var textField = document.createElement('textarea')
+                        textField.innerText = res.err_id;
+                        document.body.appendChild(textField)
+                        textField.select()
+                        document.execCommand('copy')
+                        textField.remove()
+                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
+                    });
+                }else{
+                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
+                }
+            }
       that.setState({
         loaded : true,
-        notifications : notificationData
+        notifications : res
       })
     }).catch(err=>{
       console.log("Beta : ", err)
