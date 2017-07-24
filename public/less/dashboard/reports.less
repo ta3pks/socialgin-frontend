@@ -6,4 +6,23 @@
     flex-direction: column;
     height: auto;
     padding: 15px;
+    .chart{
+        width: 100%;
+        .chart-title{
+            width: 100%;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-bottom: 1px solid @buttonRedColor;
+            color : @buttonRedColor;
+            padding: 6px 0;
+        }
+        .chart-area{
+            max-width: 600px;
+            height: 350px;
+            iframe, canvas, #GeoChart{
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+        }
+    }
 }
