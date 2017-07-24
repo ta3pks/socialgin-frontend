@@ -4,8 +4,11 @@ export default function reducer(state = {
             labels: [],
             datasets: []
         },
-        "HorizontalBar": {
+        "Bar": {
             labels: [],
+            datasets: []
+        },
+        "Country" : {
             datasets: []
         }
     }
@@ -37,6 +40,57 @@ export default function reducer(state = {
                         statistics_list["Line"].datasets.splice(i, 1)
                     }
                 }
+                state = { ...state,
+                    statistics_list: statistics_list
+                }
+                break;
+            }
+        case "SET_BAR_LABELS":
+            {
+                var statistics_list = Object.assign({}, state.statistics_list);
+                statistics_list["Bar"].labels = action.payload
+                state = { ...state,
+                    statistics_list: statistics_list
+                }
+                break;
+            }
+        case "SET_BAR_DATASET":
+            {
+                var statistics_list = Object.assign({}, state.statistics_list);
+                statistics_list["Bar"].datasets.push(action.payload)
+                state = { ...state,
+                    statistics_list: statistics_list
+                }
+                break;
+            }
+        case "REMOVE_BAR_DATASET":
+            {
+                var statistics_list = Object.assign({}, state.statistics_list);
+                var datasets= statistics_list["Bar"].datasets.filter(dataset=>{
+                    return dataset.user_id != action.payload
+                })
+                statistics_list["Bar"].datasets = datasets;
+                state = { ...state,
+                    statistics_list: statistics_list
+                }
+                break;
+            }
+        case "SET_COUNTRY_DATASET":
+            {
+                var statistics_list = Object.assign({}, state.statistics_list);
+                statistics_list["Country"].datasets.push(action.payload)
+                state = { ...state,
+                    statistics_list: statistics_list
+                }
+                break;
+            }
+        case "REMOVE_COUNTRY_DATASET":
+            {
+                var statistics_list = Object.assign({}, state.statistics_list);
+                var datasets= statistics_list["Country"].datasets.filter(dataset=>{
+                    return dataset.user_id != action.payload
+                })
+                statistics_list["Country"].datasets = datasets;
                 state = { ...state,
                     statistics_list: statistics_list
                 }
