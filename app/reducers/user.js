@@ -1,7 +1,10 @@
 export default function reducer(state={
     user_name : "",
+    name : "",
+    surname : "",
     avatar : "",
-    list : {}
+    list : {},
+    email : ""
 }, action){
     switch(action.type){
         case "FETCH_ACCOUNT":{
@@ -17,6 +20,16 @@ export default function reducer(state={
         case "SELECT_ACCOUNT": {
             var accounts = Object.assign({}, state.list);
             accounts[action.payload].selected = !accounts[action.payload].selected;
+            state = {...state, list : accounts}
+            break;
+        }
+        case "UNSELECT_ALL": {
+            var accounts = Object.assign({}, state.list);
+            for (var key in accounts) {
+                if (accounts.hasOwnProperty(key)) {
+                    accounts[key].selected = false;
+                } 
+            }
             state = {...state, list : accounts}
             break;
         }
@@ -38,6 +51,12 @@ export default function reducer(state={
         }
         case "AVATAR":{
             state = {...state, avatar : action.payload}
+        }
+        case "SET_MAIL":{
+            state = {...state, email : action.payload}
+        }
+        case "SET_NAME_SURNAME":{
+            state = {...state, name : action.payload.name, surname: action.payload.surname}
         }
     }
     return state;
