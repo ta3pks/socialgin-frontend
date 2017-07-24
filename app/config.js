@@ -29,8 +29,8 @@ const api = {
   graph : {
     facebook : {
       fans : api_url + "graph/facebook/page/fans",
-      gender_age : api_url + "/graph/facebook/page/fans/gender_age",
-      country : api_url + "/graph/facebook/page/fans/country"
+      gender_age : api_url + "graph/facebook/page/fans/gender_age",
+      country : api_url + "graph/facebook/page/fans/country"
     }
   },
   accountTypes : {
