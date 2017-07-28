@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import cookier from "../../../public/js/cookier";
 
 import Config from "./../../config";
 
@@ -34,7 +35,7 @@ export default class Topbar extends React.Component {
         that.setState({ profile_dropdown: !that.state.profile_dropdown });
     }
     logout(){
-        window.localStorage.setItem("socialgin_user_data", "");
+        cookier.make("token", "");
         window.location.href = "/"
     }
     render() {
@@ -82,7 +83,7 @@ export default class Topbar extends React.Component {
                                             const array = []
                                             if(that.state.profile_dropdown){
                                                 array.push(<div key="1" className="closer" onClick={that.dropdownMenu.bind(that)}></div>)
-                                                array.push(<ProfileMenu key="2" />)
+                                                array.push(<ProfileMenu logout={that.logout.bind(that)} key="2" />)
                                                 return array
                                             }
                                         })()}
