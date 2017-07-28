@@ -1,0 +1,1 @@
+require("./../public/css/landing.min.css");
