@@ -12,7 +12,8 @@ import {setEvents} from "../../../../actions/calendarActions";
     return {
         date : store.Calendar.date,
         events : store.Calendar.events,
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 
