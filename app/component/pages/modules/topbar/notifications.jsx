@@ -7,7 +7,8 @@ import Config from "./../../../../config";
 import {Route} from "./../../../../actions/routerActioıns";
 @connect(store=>{
     return {
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 export default class Notifications extends React.Component {
