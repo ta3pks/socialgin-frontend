@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 
 import config from "../../config";
@@ -12,6 +11,7 @@ import {Chart} from 'react-google-charts';
     return {
         accounts : store.User.list,
         reports: store.Report.statistics_list,
+        language : store.User.language,
     }
 })
 export default class Reports extends React.Component {

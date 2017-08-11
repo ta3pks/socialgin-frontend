@@ -17,7 +17,8 @@ import {nextMonth, previousMonth, setCalendarType, nextWeek, previousWeek, nextD
         date : store.Calendar.date,
         type : store.Calendar.type,
         weekDate : store.Calendar.weekDate,
-        dayDate : store.Calendar.dayDate
+        dayDate : store.Calendar.dayDate,
+        language : store.User.language,
     }
 })
 export default class Calendar extends React.Component {

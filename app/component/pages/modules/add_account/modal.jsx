@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import cookier from "../../../../../public/js/cookier";
 
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
@@ -8,11 +7,13 @@ import {modalOpen, modalClose} from "./../../../../actions/modalActions";
 import {addAccount, removeAccount} from "./../../../../actions/accountActions";
 
 import Config from "./../../../../config";
+import ajax from "../../../../functions/ajax/ajax";
 
 @connect(store=>{
     return {
         open : store.Modal.open,
-        addedAccounts : store.User.list
+        addedAccounts : store.User.list,
+        language : store.User.language,
     }
 })
 export default class Modal extends React.Component {
@@ -22,7 +23,8 @@ export default class Modal extends React.Component {
             facebook : false,
             twitter : false,
             linkedin : false,
-            facebookAccounts : []
+            facebookAccounts : [],
+            twitterAccount : {}
         }
     }
     selectAccount(e){
@@ -37,34 +39,60 @@ export default class Modal extends React.Component {
             that.props.dispatch(addAccount(account))            
         }
         if(added == "true"){
-            const xhr = new XMLHttpRequest()
-            xhr.open("POST", Config.removeAccount, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                let res = JSON.parse(xhr.response);
-                if(res.error){
-                    swal("Error !", res.error, "error");
-                    return that.props.dispatch(addAccount(account))
-                }
-            }
-            xhr.send(`token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`)
+            ajax("post", Config.removeAccount, `token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`, true, 1).then(result=>{
+            }).catch(errHandler=>{
+                swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+                that.props.dispatch(addAccount(account))
+            })
         }else{
             let addType = "";
             if(account.profile_type == "account") addType = Config.facebook.addAccount;
             if(account.profile_type == "page") addType = Config.facebook.addPage;
             if(account.profile_type == "group") addType = Config.facebook.addGroup;
-            const xhr = new XMLHttpRequest()
-            xhr.open("POST", addType, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                let res = JSON.parse(xhr.response);
-                console.log(res)
-                if(res.error){
-                    swal("Error !", res.error, "error");
-                    return that.props.dispatch(removeAccount(account.id))
-                }
-            }
-            xhr.send(`token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&access_token=${encodeURIComponent(account.access_token)}`)
+            ajax("post", addType, `token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&access_token=${encodeURIComponent(account.access_token)}`, true, 1).then(result=>{
+            }).catch(errHandler=>{
+                swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+                that.props.dispatch(removeAccount(account.id))
+            })
+        }
+    }
+    twitterSelectAccount(e){
+        const added = e.currentTarget.dataset.added;
+        const account = JSON.parse(e.currentTarget.dataset.account);
+        const that = this;
+        const user_data = cookier.parse("token");
+        const access_token = localStorage.getItem("twitter_access_token");
+        if(!user_data) return window.location.href = "/";
+        if(added == "true"){
+            that.props.dispatch(removeAccount(account.id))
+        }else{
+            that.props.dispatch(addAccount(account))            
+        }
+        if(!access_token) return swal("Error !", "Somethings wrong ! Please try again later.", "error");        
+        if(added == "true"){
+            that.props.dispatch(modalClose())
+            swal({
+                title: "Do you want remove this account ?",
+                text: "<div class='account center'>" +
+                         "<img class='profile-image' src='"+account.profile_picture+"' alt='"+account.name+"'/>" +
+                         "<span>"+account.name+" "+account.surname+"</span>" +
+                       "</div>",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                html: true,
+                confirmButtonColor: "#DD6B55"
+             }, function(){
+                ajax("post", Config.removeAccount, `token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`, true, 1).then(result=>{
+                    swal("Success!", "Account deleted was successfly", "success");
+                }).catch(errHandler=>{
+                    swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+                    that.props.dispatch(addAccount(account))
+                })
+             });
+        }else{
+            
         }
     }
     facebookAddAccount(){
@@ -77,10 +105,11 @@ export default class Modal extends React.Component {
                     var access_token = FB.getAuthResponse()['accessToken'];
                     accounts.push({
                         id: res.id,
-                        fullname: res.name,
-                        picture: res.picture.data.url,
+                        name: res.name,
+                        surname : "",
+                        profile_picture: res.picture.data.url,
                         access_token: access_token,
-                        type: "facebook",
+                        type: 0,
                         profile_type : "account"
                     })
                     if (res.accounts) {
@@ -88,9 +117,10 @@ export default class Modal extends React.Component {
                             var iamge = res.accounts.data[i].photos ? res.accounts.data[i].photos.data[0].picture : "/public/img/default_profile.png"
                             accounts.push({
                                 id: res.accounts.data[i].id,
-                                fullname: res.accounts.data[i].name,
-                                picture: iamge,
-                                type: "facebook",
+                                name: res.accounts.data[i].name,
+                                surname : "",
+                                profile_picture: iamge,
+                                type: 0,
                                 access_token: access_token,
                                 profile_type : "page"
                             })
@@ -101,9 +131,10 @@ export default class Modal extends React.Component {
                             var iamge = res.groups.data[i].picture ? res.groups.data[i].picture.data.url : "/public/img/default_profile.png"
                             accounts.push({
                                 id: res.groups.data[i].id,
-                                fullname: res.groups.data[i].name,
-                                picture: iamge,
-                                type: "facebook",
+                                name: res.groups.data[i].name,
+                                surname : "",
+                                profile_picture: iamge,
+                                type: 0,
                                 access_token: access_token,
                                 profile_type : "group"
                             })
@@ -116,12 +147,11 @@ export default class Modal extends React.Component {
                 })
             }
         }, {
-            scope: 'public_profile, email, user_birthday, user_events, user_managed_groups, user_photos, user_posts, user_videos, user_website, read_page_mailboxes, manage_pages, publish_pages, publish_actions, pages_show_list, pages_manage_cta, pages_manage_instant_articles, pages_messaging, read_insights'
+            scope: 'public_profile, email, manage_pages, user_managed_groups, publish_actions, publish_pages, read_insights, user_photos'
         });
     }
     twitterAddAccount(){
         const that = this;
-        const ajax = new XMLHttpRequest()
         var w = window,
             d = document,
             e = d.documentElement,
@@ -137,21 +167,46 @@ export default class Modal extends React.Component {
                     if(!access_token) return swal("Error !", "Somethings wrong ! Please try again later.", "error");                    
                     const user_data = cookier.parse("token")
                     if(!user_data) return swal("Error !", "Please login first !", "error");
-                    console.log("access_token", access_token)
-                    console.log(user_data)
-                    axios.post(Config.twitter.addAccount, `token=${encodeURIComponent(user_data)}&access_token=${encodeURIComponent(access_token)}`).then(data=>{
-                        console.log(data)
+                    ajax("post", Config.twitter.addAccount, `token=${encodeURIComponent(user_data)}&access_token=${encodeURIComponent(access_token)}`, true, 1).then(result=>{
+                        that.props.dispatch(modalClose())
+                        that.props.dispatch(addAccount(result))
+                        swal("Success!", "Account was added successfly.", "success");
+                    }).catch(errHandler=>{
+                        that.props.dispatch(modalClose())
+                        if(errHandler.code == 5) {
+                            const account = errHandler.data
+                            swal({
+                                title: "Do you want remove this account ?",
+                                text: "<div class='account center'>" +
+                                         "<img class='profile-image' src='"+account.profile_picture+"' alt='"+account.name+"'/>" +
+                                         "<span>"+account.name+" "+account.surname+"</span>" +
+                                       "</div>",
+                                type: "warning",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                showLoaderOnConfirm: true,
+                                html: true,
+                                confirmButtonColor: "#DD6B55"
+                             }, function(){
+                                ajax("post", Config.removeAccount, `token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`, true, 1).then(result=>{
+                                    that.props.dispatch(removeAccount(account.id))
+                                    swal("Success!", "Account deleted was successfly", "success");
+                                }).catch(errHandler=>{
+                                    swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+                                    that.props.dispatch(addAccount(account))
+                                })
+                             });
+                             return;
+                        }
+                        swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
                     })
                 }
             }, 300)
-            ajax.open("GET", Config.twitter.request_token, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.onload = function () {
-                let data = JSON.parse(ajax.response);
-                if (data.error) return swal("Error !", data.error, "error");
-                window.twitter_app.location.href = data.data
-            }
-            ajax.send()
+            ajax("get", Config.twitter.request_token, "", true, 1).then(result=>{
+                window.twitter_app.location.href = result.data
+            }).catch(errHandler=>{                
+                swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+            })
     }
     closeModal(e){
         if(e.target.classList.contains("modal")){
@@ -228,9 +283,9 @@ export default class Modal extends React.Component {
                                                                     }
                                                                     let addedClass =  added ? " active" : ""
                                                                     data.push(
-                                                                        <div data-added={added ? "true" : "false"} data-account={JSON.stringify(account)} key={account.id} className={"account " + account.type + addedClass} onClick={that.selectAccount.bind(that)}>
-                                                                            <img className="profile-image" src={account.picture} alt={account.fullname}/>
-                                                                            <span>{account.fullname}</span>
+                                                                        <div data-added={added ? "true" : "false"} data-account={JSON.stringify(account)} key={account.id} className={"account " + Config.accountTypes[account.type] + addedClass} onClick={that.selectAccount.bind(that)}>
+                                                                            <img className="profile-image" src={account.profile_picture} alt={account.name + " " + account.surname}/>
+                                                                            <span>{account.name + " " + account.surname}</span>
                                                                         </div>
                                                                     )
                                                                 })

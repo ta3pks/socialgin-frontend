@@ -15,14 +15,7 @@ export function fetchAccounts(account_info){
 export function addAccount(account){
     return {
         type : "ADD_ACCOUNT",
-        payload : {
-            id : account.id,
-            name : account.name || account.fullname,
-            surname : account.surname || "",
-            type : account.type,
-            profile_picture : account.picture,
-            selected : false
-        }
+        payload : account
     }
 }
 export function removeAccount(id){

@@ -6,7 +6,7 @@ import {
 } from "react-redux";
 
 import {
-    selectAccount
+    selectAccount, removeAccount
 } from "./../../actions/accountActions";
 import {
     modalOpen,
@@ -16,10 +16,8 @@ import {
     loadedSidebar
 } from "./../../actions/settingsAcrions"
 import config from "./../../config";
-import cookier from "../../../public/js/cookier";
-
-import "notifier/css/notifier.css";
-
+import cookier from "../../../public/js/cookier";;
+import ajax from "../../functions/ajax/ajax";
 const colors = {
     0: "rgba(75,192,192,0.4)",
     1: "rgba(230,126,34,0.4)",
@@ -31,6 +29,7 @@ const colors = {
 @connect(store => {
     return {
         accounts: store.User.list,
+        language: store.User.language,
         open: store.Modal.open,
         reports: store.Report.statistics_list,
         page: store.Router.page
@@ -64,7 +63,7 @@ export default class Sidebar extends React.Component {
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.graph.facebook.fans, {
+        axios.get(config.baseURL + config.graph.facebook.fans, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
@@ -73,29 +72,7 @@ export default class Sidebar extends React.Component {
         }).then(data => {
             const res = data.data;
             console.log("Beta : ", res);
-            if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
+  
             const labels = []
             const datasetData = []
             res.map(numbers => {
@@ -144,7 +121,7 @@ export default class Sidebar extends React.Component {
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.graph.facebook.gender_age, {
+        axios.get(config.baseURL + config.graph.facebook.gender_age, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
@@ -195,7 +172,7 @@ export default class Sidebar extends React.Component {
                     }
                 }
             }
-            console.log(manData)
+
             that.props.dispatch({
                 type: "SET_BAR_LABELS",
                 payload: labels
@@ -262,7 +239,7 @@ export default class Sidebar extends React.Component {
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.graph.facebook.country, {
+        axios.get(config.baseURL + config.graph.facebook.country, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
@@ -316,6 +293,7 @@ export default class Sidebar extends React.Component {
     }
     selectAccount(e) {
         const that = this;
+        if(e.target.classList.contains("remove-account") || e.target.nodeName == "svg" || e.target.nodeName == "path") return;
         const targetData = e.currentTarget.dataset.key;
         if (!targetData) return;
         if (that.props.page["Reports"].active && that.props.accounts[targetData].selected === false) {
@@ -337,6 +315,34 @@ export default class Sidebar extends React.Component {
             })
         }
         that.props.dispatch(selectAccount(targetData))
+    }
+    removeAccount(e){
+        const that = this;
+        const user_data = cookier.parse("token");
+        if(!user_data) window.location.href = "/"
+        const account = JSON.parse(e.currentTarget.dataset.account || "") 
+        if(!account) return;
+        swal({
+            title: "Do you want remove this account ?",
+            text: "<div class='account center'>" +
+                     "<img class='profile-image' src='"+account.profile_picture+"' alt='"+account.name+"'/>" +
+                     "<span>"+account.name+" "+account.surname+"</span>" +
+                   "</div>",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+            html: true,
+            confirmButtonColor: "#DD6B55"
+         }, function(){
+            ajax("post", config.removeAccount, `token=${encodeURIComponent(user_data)}&id=${encodeURIComponent(account.id)}&type=${account.type}`, true, 1).then(result=>{
+                that.props.dispatch(removeAccount(account.id))
+                swal("Success!", "Account deleted was successfly", "success");
+            }).catch(errHandler=>{
+                swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
+                that.props.dispatch(addAccount(account))
+            })
+         });
     }
     render() {
         const that = this;
@@ -366,6 +372,11 @@ export default class Sidebar extends React.Component {
                                         <div key={key} data-key={key} onClick={that.selectAccount.bind(that)} className={"account " + config.accountTypes[account.type] + " " + active}>
                                             <img className="profile-image" src={account.profile_picture} alt={account.name}/>
                                             <span>{account.name} {account.surname}</span>
+                                             <div className="remove-account" onClick={that.removeAccount.bind(that)} data-account={JSON.stringify(account)}>
+                                                 <svg viewBox="0 0 24 24">
+                                                    <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                                                </svg>
+                                             </div>
                                         </div>
                                     )                      
                                 }

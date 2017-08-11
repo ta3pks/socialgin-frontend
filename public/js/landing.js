@@ -3,9 +3,8 @@ import swal from "sweetalert";
 import config from "./../../app/config";
 import cookier from "./cookier"
 
-import "sweetalert/dist/sweetalert.css";
-
-import axios from "axios";
+import ajax from "../../app/functions/ajax/ajax";
+import Language from "../../app/language/index";
 
 window.app = new Vue({
     el: "#app",
@@ -25,10 +24,13 @@ window.app = new Vue({
                 name: null,
                 surname: null
             },
-            loading: false
+            loading: false,
+            language : Language[cookier.parse("lang") || "eng"],
+            buttonLoader : false
         }
     },
     created: function () {
+        const that = this;
         if (window.location.search) {
             this.loading = true;
             var queryString = window.location.search.substr(1);
@@ -39,17 +41,13 @@ window.app = new Vue({
                 query[query_part[0]] = query_part[1]
             }
             if (query.oauth_token && query.oauth_verifier) {
-                var ajax = new XMLHttpRequest()
-                ajax.open("GET", config.twitter.access_token + `?oauth_token=${query.oauth_token}&oauth_verifier=${query.oauth_verifier}`, true);
-                ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                ajax.onload = function () {
-                    let data = JSON.parse(ajax.response);
+                ajax("get", config.twitter.access_token + "?oauth_token="+encodeURIComponent(query.oauth_token)+"&oauth_verifier="+encodeURIComponent(query.oauth_verifier), "", true, 1).then(result=>{
                     this.loading = false;
-                    if (data.error) return swal("Error !", data.error, "error")
-                    localStorage.setItem("twitter_access_token", data.data)
+                    localStorage.setItem("twitter_access_token", result.data)
                     window.close()
-                }
-                ajax.send()
+                }).catch(errHandler=>{
+                    swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");
+                })
             } else {
                 this.loading = false;
             }
@@ -71,28 +69,22 @@ window.app = new Vue({
             }
         },
         facebookAuthenticate: function (access_token, id) {
-            var ajax = new XMLHttpRequest()
-            ajax.open("POST", config.facebook.authenticate, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.onload = function () {
-                let data = JSON.parse(ajax.response);
-                if (data.error) return swal("Error !", data.error, "error")
-                cookier.make("token", data.data, 99, "/");
+            const that = this;
+            ajax("post", config.facebook.authenticate, `access_token=${access_token}&id=${id}`, true, 1).then(result=>{
+                cookier.make("token", result.data, 99, "/");
                 window.location.href = config.dashboard_uri
-            }
-            ajax.send(`access_token=${access_token}&id=${id}`)
+            }).catch(errHandler=>{
+                swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error")
+            })
         },
         twitterAuthenticate: function (access_token) {
-            var ajax = new XMLHttpRequest()
-            ajax.open("POST", config.twitter.authenticate, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.onload = function () {
-                let data = JSON.parse(ajax.response);
-                if (data.error) return swal("Error !", data.error, "error")
-                cookier.make("token", data.data, 99, "/");
+            const that = this;
+            ajax("post",  config.twitter.authenticate, `access_token=${access_token}`, true, 1).then(result=>{
+                cookier.make("token", result.data, 99, "/");
                 window.location.href = config.dashboard_uri
-            }
-            ajax.send(`access_token=${access_token}`)
+            }).catch(errHandler=>{
+                swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error")
+            })
         },
         facebookRegister: function () {
             const that = this;
@@ -104,22 +96,14 @@ window.app = new Vue({
                         var access_token = FB.getAuthResponse()['accessToken'];
                         var face_id = res.id;
                         that.loader(".social-button.facebook", true, "Facebook")
-                        var ajax = new XMLHttpRequest()
-                        ajax.open("POST", config.facebook.register, true);
-                        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        ajax.onload = function () {
-                            let data = JSON.parse(ajax.response);
-                            if (data.code && data.code != 0) {
-                                if (data.code == 1) {
-                                    return that.facebookAuthenticate(access_token, face_id)
-                                } else if (data.code == -1) {
-                                    that.loader(".social-button.facebook", false, "Facebook")
-                                    swal("Error !", data.error, "error");
-                                }
-                            }
-                            if (data.data == "Success") return that.facebookAuthenticate(access_token, face_id)
-                        }
-                        ajax.send(`access_token=${access_token}&id=${face_id}`)
+                        ajax("post", config.facebook.register, `access_token=${access_token}&id=${face_id}`, true, 1).then(results=>{
+                            that.facebookAuthenticate(access_token, face_id)
+                            that.loader(".social-button.facebook", false, "Facebook")
+                        }).catch(errHandler=>{
+                            if(errHandler.code != 1) return swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");
+                            that.facebookAuthenticate(access_token, face_id)
+                            that.loader(".social-button.facebook", false, "Facebook")
+                        })
                     })
                 }
             }, {
@@ -128,7 +112,6 @@ window.app = new Vue({
         },
         twitterRegister: function () {
             const that = this;
-            var ajax = new XMLHttpRequest()
             var w = window,
                 d = document,
                 e = d.documentElement,
@@ -141,34 +124,23 @@ window.app = new Vue({
                 if (window.twitter_app.closed) {
                     clearInterval(windowCloser);
                     const access_token = localStorage.getItem("twitter_access_token");
-                    var ajax = new XMLHttpRequest()
-                    ajax.open("POST", config.twitter.register, true);
-                    ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    ajax.onload = function () {
-                        let data = JSON.parse(ajax.response);
-                        if (data.code && data.code != 0) {
-                            if (data.code == 1) {
-                                return that.twitterAuthenticate(access_token)
-                            } else if (data.code == -1) {
-                                that.loader(".social-button.twitter", false, "Twitter")
-                                swal("Error !", data.error, "error");
-                            }
-                        }
-                        if (data.data == "Success") return that.twitterAuthenticate(access_token)
-                    }
-                    console.log(localStorage.getItem("twitter_access_token"))
-                    ajax.send(`access_token=${localStorage.getItem("twitter_access_token")}`)
+                    ajax("post", config.twitter.register, `access_token=${localStorage.getItem("twitter_access_token")}`, true, 1).then(result=>{
+                         that.twitterAuthenticate(access_token)
+                         that.loader(".social-button.twitter", false, "Twitter")
+                    }).catch(errHandler=>{
+                        if(errHandler.code != 1) return swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");
+                         that.twitterAuthenticate(access_token)
+                         that.loader(".social-button.twitter", false, "Twitter")
+                    })
                 }
             }, 300)
             that.loader(".social-button.twitter", true, "Twitter")
-            ajax.open("GET", config.twitter.request_token, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.onload = function () {
-                let data = JSON.parse(ajax.response);
-                if (data.error) return swal("Error !", data.error, "error");
-                window.twitter_app.location.href = data.data
-            }
-            ajax.send()
+            ajax("get", config.twitter.request_token, "", true, 1).then(result=>{
+                window.twitter_app.location.href = result.data
+            }).catch(errHandler=>{
+                that.loader(".social-button.twitter", false, "Twitter")
+                swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");
+            })
         },
         registerEmail: function () {
             this.openEmail = !this.openEmail
@@ -187,30 +159,15 @@ window.app = new Vue({
                 return swal("Error !", "Password must be more than 4 characters.", "error");
             }
             const that = this;
-            var ajax = new XMLHttpRequest()
-            ajax.open("POST", config.email.register, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            const button = e.currentTarget;
-            button.innerHTML = "Loading..."
-            button.disabled = true;
-            ajax.onload = function () {
-                button.innerHTML = "Register"
-                button.disabled = false;
-                let data = JSON.parse(ajax.response);
-                if (data.code && data.code != 0) {
-                    if (data.code == 1) {
-                        return swal("Error !", data.error, "error");
-                    } else if (data.code == -1) {
-                        return swal("Error !", data.error, "error");
-                    }
-                }
-                if (data.data == "Success") {
-                    that.loginEmail = true;
-                    that.loginInfo.email = that.registerInfo.email;
-                    return swal("Success !", "Please login.", "success");
-                }
-            }
-            ajax.send(`name=${that.registerInfo.name}&surname=${that.registerInfo.surname}&email=${that.registerInfo.email}&password=${that.registerInfo.password}`)
+            that.buttonLoader = true
+            ajax("post", config.email.register, `name=${that.registerInfo.name}&surname=${that.registerInfo.surname}&email=${that.registerInfo.email}&password=${that.registerInfo.password}`, true, 1).then(result=>{
+                that.buttonLoader = false
+                that.loginEmail = true;
+                that.loginInfo.email = that.registerInfo.email;
+            }).catch(errHandler=>{
+                that.buttonLoader = false
+                swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");                
+            })
         },
         emailLoginHandler: function (e) {
             if (!this.loginInfo.email || !this.loginInfo.password) {
@@ -223,24 +180,14 @@ window.app = new Vue({
                 return swal("Error !", "Password must be more than 4 characters.", "error");
             }
             const that = this;
-            var ajax = new XMLHttpRequest()
-            ajax.open("POST", config.email.authenticate, true);
-            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            const button = e.currentTarget;
-            button.innerHTML = "Loading..."
-            button.disabled = true;
-            ajax.onload = function () {
-                button.innerHTML = "Login"
-                button.disabled = false;
-                let data = JSON.parse(ajax.response);
-                if (data.code && data.code != 0) {
-                    return swal("Error !", data.error, "error");
-                }
-                swal("Success !", "Please wait.", "success");
-                cookier.make("token", data.data, 99, "/");
+            that.buttonLoader = true
+            ajax("post", config.email.authenticate, `email=${that.loginInfo.email}&password=${that.loginInfo.password}`, true, 1).then(result=>{
+                cookier.make("token", result.data, 99, "/");
                 window.location.href = config.dashboard_uri
-            }
-            ajax.send(`email=${that.loginInfo.email}&password=${that.loginInfo.password}`)
+            }).catch(errHandler=>{
+                that.buttonLoader = false
+                swal(that.language["error"], errHandler.error || that.language["somethingWrong"], "error");
+            })
         }
     }
 })
