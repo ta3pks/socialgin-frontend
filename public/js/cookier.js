@@ -10,12 +10,13 @@ module.exports = {
 		}
 		return (nm) ? c[nm] : c;
 	},
-	make: function (name, value, expiresInX_days, path) {
+	make: function (name, value, expiresInX_days, path, domain) {
 		var a = new Date;
 		var expires = expiresInX_days || 1;
 		a.setTime(Date.now() + (1000 * 60 * 60 * 24 * expires));
 		var pt = path ? " ; path=" + path + ";" : ";";
-		return (document.cookie = name + "=" + value + ";" + "expires=" + a.toUTCString() + pt) ? !0 : !1;
+		var uri = domain ? " ; domain=" + domain + ";" : ";";
+		return (document.cookie = name + "=" + value + ";" + "expires=" + a.toUTCString() + pt + uri) ? !0 : !1;
 	},
 	rm: function (cookieName) {
 		var a = new Date;
