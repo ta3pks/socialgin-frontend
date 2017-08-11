@@ -11,7 +11,8 @@ import AddAccountModal from "./modules/add_account/modal.jsx";
 
 @connect(store=>{
     return {
-        page : store.Router.page
+        page : store.Router.page,
+        language : store.User.language,
     }
 })
 
