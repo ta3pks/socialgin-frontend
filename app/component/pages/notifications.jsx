@@ -1,13 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
+
 import cookier from "../../../public/js/cookier"
 import Config from "../../config";
+import ajax from "../../functions/ajax/ajax";
 
-import Language from "./../../language/index";
 @connect(store=>{
     return {
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 export default class NotificationsPage extends React.Component {
@@ -15,7 +16,7 @@ export default class NotificationsPage extends React.Component {
         super();
         this.state = {
             loaded : false,
-            notifications : []
+            notifications : [],
         }
     }
     componentWillMount(){
@@ -23,24 +24,20 @@ export default class NotificationsPage extends React.Component {
         const user_data = cookier.parse("token");
         if(!user_data) return window.location.href = "/";
         // skip, start, end kosullari da var !
-        axios.get(Config.getNotifications, {
+        ajax("get", Config.getNotifications, {
             params: {
                 n : 30,
                 skip : 0,
                 unreadonly : false,
                 token : user_data
             }
-        }).then(data=>{
-            console.log("Beta : ", data.data)
-            const notificationData = data.data;
-            
-            if(notificationData.error) return swal("Error !", notificationData.error || "", "error");
+        }, true, 1).then(result=>{
             that.setState({
                 loaded : true,
-                notifications : notificationData
+                notifications : result
             })
-        }).catch(err=>{
-            console.log("Beta : ", err)
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");                
         })
   }
     render() {
