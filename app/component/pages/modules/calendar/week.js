@@ -12,7 +12,8 @@ import cookier from "../../../../../public/js/cookier";
         date : store.Calendar.date,
         events : store.Calendar.events,
         weekDate : store.Calendar.weekDate,
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 
