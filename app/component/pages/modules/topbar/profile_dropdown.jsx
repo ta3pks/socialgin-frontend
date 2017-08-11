@@ -5,7 +5,8 @@ import {Route} from "./../../../../actions/routerActioıns";
 
 @connect(store=>{
     return {
-        page : store.Router.page
+        page : store.Router.page,
+        language : store.User.language,
     }
 })
 export default class Profile extends React.Component {
