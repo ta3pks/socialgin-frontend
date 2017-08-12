@@ -1,5 +1,9 @@
+let baseUrl = "http://api.socialgin.com/";
+
+if(window.location.hostname == "localhost") baseUrl = "http://localhost:8888/";
+
 const api = {
-  baseURL : "http://localhost:8888/",
+  baseURL : baseUrl,
   timeout : 10000,
   dashboard_uri: "/dashboard.html",
   facebook: {
