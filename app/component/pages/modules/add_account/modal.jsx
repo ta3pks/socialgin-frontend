@@ -1,11 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+
+
 import cookier from "../../../../../public/js/cookier";
-
 import {modalOpen, modalClose} from "./../../../../actions/modalActions";
-
 import {addAccount, removeAccount} from "./../../../../actions/accountActions";
-
 import Config from "./../../../../config";
 import ajax from "../../../../functions/ajax/ajax";
 
