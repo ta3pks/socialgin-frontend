@@ -122,10 +122,12 @@ export default class Management extends React.Component {
         return text.replace(urlRegex, function(url) {
             if(url == that.props.link || that.state.closeUrl) return;
             that.props.dispatch(setLink(url))
-            axios.get("http://iframe.ly/api/iframely?url=" + url.trim() + "&api_key=3a42e524be039ac6afaf5e").then(data=>{
+            ajax("get", "http://iframe.ly/api/iframely", {params: {url : url.trim(), api_key : "3a42e524be039ac6afaf5e"}}, true, 1).then(result=>{
                 that.setState({
-                    urlIframe : data.data
+                    urlIframe : result
                 })
+            }).catch(errHandler=>{
+                //swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
             })
         })
     }
