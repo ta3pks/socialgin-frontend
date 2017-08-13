@@ -71,7 +71,8 @@ export default class Sidebar extends React.Component {
             const labels = []
             const datasetData = []
             res.map(numbers => {
-                let date = new Date(numbers.end_time);
+                let dateParse = numbers.end_time.split("+");
+                let date = new Date(dateParse[0]);
                 labels.push(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear())
                 let value = numbers.value ? numbers.value : null
                 datasetData.push(value)
