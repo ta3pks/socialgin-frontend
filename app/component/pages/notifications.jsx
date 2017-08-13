@@ -8,7 +8,7 @@ import ajax from "../../functions/ajax/ajax";
 @connect(store=>{
     return {
         accounts : store.User.list,
-        language : store.User.language,
+        language : store.User.language
     }
 })
 export default class NotificationsPage extends React.Component {
@@ -59,9 +59,9 @@ export default class NotificationsPage extends React.Component {
                         let notification = noti;
                         let notificationDate = new Date(Math.floor(noti.date * 1000));
                         return (
-                            <div className="notification-item">
+                            <div className="notification-item" key={window.keyGenerator() + Date.now()}>
                                 <div className="time">
-                                    <span>{Language.eng.monthListShort[notificationDate.getMonth()] + " " + notificationDate.getDate()}</span>
+                                    <span>{that.props.language.monthListShort[notificationDate.getMonth()] + " " + notificationDate.getDate()}</span>
                                     <span>{notificationDate.getHours() + ":" + notificationDate.getMinutes()}</span>
                                 </div>
                                 <div className="content">
@@ -73,7 +73,7 @@ export default class NotificationsPage extends React.Component {
                                                 for(var i=0; i<notification.additional.accounts.length; i++){
                                                 if(i === notification.additional.accounts.length - 1){
                                                     accounts.push(
-                                                        <strong key={window.keyGenerator()}>
+                                                        <strong key={window.keyGenerator() + Date.now()}>
                                                             {" by "}
                                                             {(_=>{
                                                                 if(that.props.accounts[notification.additional.accounts[i].id]){
@@ -86,7 +86,7 @@ export default class NotificationsPage extends React.Component {
                                                     )
                                                 }else{
                                                     accounts.push(
-                                                    <strong key={window.keyGenerator()}>
+                                                    <strong key={window.keyGenerator() + Date.now()}>
                                                     {" by "}
                                                     {(_=>{
                                                         if(that.props.accounts[notification.additional.accounts[i].id]){
@@ -102,7 +102,7 @@ export default class NotificationsPage extends React.Component {
                                             return accounts
                                             }else if(notification.additional && notification.additional.account_id){
                                                 return (
-                                                    <strong key={window.keyGenerator()}>
+                                                    <strong key={window.keyGenerator() + Date.now()}>
                                                         {". "}
                                                         {(_=>{
                                                             if(that.props.accounts[notification.additional.account_id]){
