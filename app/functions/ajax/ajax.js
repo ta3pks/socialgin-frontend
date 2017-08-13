@@ -66,7 +66,7 @@ module.exports = function (method, endpoint, data, middleware, contentType) {
                     baseURL: config.baseURL,
                     endpoint: endpoint,
                     sendedData: data,
-                    results: results,
+                    results: results.data,
                     method: method,
                     contentType: headers[contentType] || headers[1]
                 })
