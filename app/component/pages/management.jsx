@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import notifier from "notifier/js/notifier.js";
+
 import cookier from "../../../public/js/cookier";
+import config from "./../../config";
+import ajax from "../../functions/ajax/ajax";
 
 import Schedule from "./modules/share/schedule";
 
 import {setText, cleanForm, addImage, removeImage, setLink} from "./../../actions/shareActions";
 
-import config from "./../../config";
 
 @connect(store=>{
     return {
@@ -18,7 +19,8 @@ import config from "./../../config";
         date : store.Share.date,
         hour : store.Share.hour,
         minute : store.Share.minute,
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 export default class Management extends React.Component {
@@ -81,18 +83,13 @@ export default class Management extends React.Component {
         that.setState({
             share_loading : true
         })
-        axios.post(config.share, form).then(data=>{
-            console.log("Beta : ", data.data)
+        ajax("post", config.share, form, true, 0).then(result=>{
             that.setState({
                 share_loading : false
             })
-            const res = data.data;
-            if(res.error) return swal("Error !", res.error, "error");
             notifier.show('Success !' , 'Sharing was successfuly.', 'success', '', 0);
             that.props.dispatch(cleanForm())
-        }).catch(err=>{
-            console.log("Beta : ", err),
-            swal("Error !", "Somethings wrong. Please try again later.", "error");
+        }).catch(errHandler=>{
             that.setState({
                 share_loading : false
             })
@@ -125,17 +122,18 @@ export default class Management extends React.Component {
         return text.replace(urlRegex, function(url) {
             if(url == that.props.link || that.state.closeUrl) return;
             that.props.dispatch(setLink(url))
-            axios.get("http://iframe.ly/api/iframely?url=" + url.trim() + "&api_key=3a42e524be039ac6afaf5e").then(data=>{
+            ajax("get", "http://iframe.ly/api/iframely", {params: {url : url.trim(), api_key : "3a42e524be039ac6afaf5e"}}, true, 1).then(result=>{
                 that.setState({
-                    urlIframe : data.data
+                    urlIframe : result
                 })
+            }).catch(errHandler=>{
+                //swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
             })
         })
     }
     componentDidMount(){}
     render() {
         const that = this;
-        console.log("link : ", that.props.link)
         return (
             <div className="management-page animated fadeIn">
                 <div className="panel">

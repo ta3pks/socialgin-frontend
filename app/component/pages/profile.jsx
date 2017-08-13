@@ -1,16 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import cookier from "../../../public/js/cookier";
 
+import cookier from "../../../public/js/cookier";
 import Config from "./../../config";
+import ajax from "../../functions/ajax/ajax";
 
 @connect(store=>{
     return {
         name : store.User.name,
         surname : store.User.surname,
         avatar : store.User.avatar,
-        email : store.User.email
+        email : store.User.email,
+        language : store.User.language,
     }
 })
 export default class ProfilePage extends React.Component {
@@ -26,33 +27,7 @@ export default class ProfilePage extends React.Component {
         const that = this;
         const user_data = cookier.parse("token");
         if(!user_data) return window.location.href = "/";
-        axios.post(Config.setSettings, "token=" + encodeURIComponent(user_data) + "&email=" + encodeURIComponent(that.state.email) + "&name=" + encodeURIComponent(that.state.name) + "&surname=" + encodeURIComponent(that.state.surname)).then(data=>{
-            const res = data.data;
-            console.log("Beta : ", res)
-            if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
-            swal("Success !", "", "success");
+        ajax("post", Config.setSettings, "token=" + encodeURIComponent(user_data) + "&email=" + encodeURIComponent(that.state.email) + "&name=" + encodeURIComponent(that.state.name) + "&surname=" + encodeURIComponent(that.state.surname), true, 1).then(result=>{
             that.props.dispatch({
                 type : "SET_NAME_SURNAME",
                 payload : {
@@ -66,8 +41,9 @@ export default class ProfilePage extends React.Component {
                     email : that.state.email
                 }
             })
-        }).catch(err=>{
-            swal("Error !", err || "Somethings wrong. Please try again later.", "error");
+            swal("Success !", "", "success");
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");      
         })
     }
     componentDidMount(){

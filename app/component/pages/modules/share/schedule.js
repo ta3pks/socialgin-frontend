@@ -12,7 +12,8 @@ import {setDate, setHour, setMinute} from "./../../../../actions/shareActions";
     return {
         date : store.Share.date,
         hour : store.Share.hour,
-        minute : store.Share.minute
+        minute : store.Share.minute,
+        language : store.User.language,
     }
 })
 

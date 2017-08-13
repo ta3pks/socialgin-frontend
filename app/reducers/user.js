@@ -1,10 +1,14 @@
+import Language from "../language/index";
+import cookier from "../../public/js/cookier";
+
 export default function reducer(state={
     user_name : "",
     name : "",
     surname : "",
     avatar : "",
     list : {},
-    email : ""
+    email : "",
+    language : Language[cookier.parse("lang") || "eng"]
 }, action){
     switch(action.type){
         case "FETCH_ACCOUNT":{
@@ -45,18 +49,23 @@ export default function reducer(state={
             var accounts = Object.assign({}, state.list);
             delete accounts[action.payload];
             state = {...state, list : accounts}
+            break;
         }
         case "USER_NAME":{
             state = {...state, user_name : action.payload}
+            break;
         }
         case "AVATAR":{
             state = {...state, avatar : action.payload}
+            break;
         }
         case "SET_MAIL":{
             state = {...state, email : action.payload}
+            break;
         }
         case "SET_NAME_SURNAME":{
             state = {...state, name : action.payload.name, surname: action.payload.surname}
+            break;
         }
     }
     return state;

@@ -1,17 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios"
-import cookier from "../../../../../public/js/cookier";
 
+import cookier from "../../../../../public/js/cookier";
 import Config from "../../../../config"
-import Language from "./../../../../language/index";
 import {setEvents} from "../../../../actions/calendarActions";
+import ajax from "../../../../functions/ajax/ajax";
 
 @connect(store=>{
     return {
         dayDate : store.Calendar.dayDate,
         events : store.Calendar.events,
-        accounts : store.User.list
+        accounts : store.User.list,
+        language : store.User.language,
     }
 })
 
@@ -24,42 +24,17 @@ export default class CalendarDay extends React.Component {
         const startDate = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(),  that.props.dayDate.getDate(), 0, 0, 0).getTime() / 1000);
         const endTime = Math.round(new Date(that.props.dayDate.getFullYear(), that.props.dayDate.getMonth(), that.props.dayDate.getDate() + 1, 23, 59, 59) .getTime() / 1000);
         that.props.setLoader()
-        axios.get(Config.calendar, {
+        ajax("get", Config.calendar, {
             params: {
                 start : startDate,
                 end : endTime,
                 token : cookier.parse("token")
             }
-        }).then(data=>{
-            console.log("Beta : ", data.data);
+        }, true, 1).then(result=>{
             that.props.setLoader()
-            const res = data.data;
-            if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
             const eventList = {}
-            for(var i=0; i<res.length; i++){
-                var event = res[i];
+            for(var i=0; i<result.length; i++){
+                var event = result[i];
                 var timeSegment = new Date(Math.round(event.time * 1000));
                 var timeHandler = timeSegment.getFullYear() + "-" + (timeSegment.getMonth() + 1) + "-" + timeSegment.getDate() + "-" + (timeSegment.getHours() < 10 ? "0" + timeSegment.getHours() : timeSegment.getHours());
                 if(eventList[timeHandler]){
@@ -70,9 +45,8 @@ export default class CalendarDay extends React.Component {
                 }
             }
             that.props.dispatch(setEvents(eventList))
-        }).catch(err=>{
-            console.log("Beta : ", err);
-            swal("Error !", "Somethings went wrong. Please reload this page and try again.", "error")
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");            
         })
     }
     render() {
@@ -87,7 +61,7 @@ export default class CalendarDay extends React.Component {
                 return (
             <div className="calendar-day animated fadeIn">
                 <ol className="day-names">
-                    <li>{Language.eng.dayNamesShort[that.props.dayDate.getDay()]}</li>
+                    <li>{that.props.language.dayNamesShort[that.props.dayDate.getDay()]}</li>
                 </ol>
                 <ol className="event-list">
                     {(_=>{
