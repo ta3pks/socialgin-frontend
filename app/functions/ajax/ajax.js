@@ -38,7 +38,7 @@ module.exports = function (method, endpoint, data, middleware, contentType) {
         })
 
         //Content Type control
-        if (!contentType || typeof contentType != "number") return reject({
+        if (typeof contentType != "number") return reject({
             error: language["wrongContentType"],
             reason: contentType ||  "Content Type " + language["notfound"]
         })
