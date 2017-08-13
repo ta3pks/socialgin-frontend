@@ -1,9 +1,6 @@
 import React from "react";
 import notifier from "notifier/js/notifier.js";
-import axios from "axios";
-import {
-    connect
-} from "react-redux";
+import {connect} from "react-redux";
 
 import {
     selectAccount, removeAccount
@@ -18,6 +15,7 @@ import {
 import config from "./../../config";
 import cookier from "../../../public/js/cookier";;
 import ajax from "../../functions/ajax/ajax";
+
 const colors = {
     0: "rgba(75,192,192,0.4)",
     1: "rgba(230,126,34,0.4)",
@@ -63,16 +61,13 @@ export default class Sidebar extends React.Component {
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.baseURL + config.graph.facebook.fans, {
+        ajax("get", config.graph.facebook.fans, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
                 id: targetData
             }
-        }).then(data => {
-            const res = data.data;
-            console.log("Beta : ", res);
-  
+        }, true, 1).then(res=>{
             const labels = []
             const datasetData = []
             res.map(numbers => {
@@ -112,47 +107,22 @@ export default class Sidebar extends React.Component {
                     data: datasetData
                 }
             })
-        }).catch(err => {
-            console.log("Beta : ", err);
-            swal("Error !", err || "Somethings went wrong. Please try again later.", "error");
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");            
         })
     }
     getBarChart(targetData) {
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.baseURL + config.graph.facebook.gender_age, {
+        ajax("get", config.graph.facebook.gender_age, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
                 id: targetData
             }
-        }).then(data => {
-            const res = data.data;
-            console.log("Beta : ", res);
-            if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
+        }, true, 1).then(res=>{
+
             const labels = []
             const manData = [];
             const womenData = [];
@@ -230,47 +200,21 @@ export default class Sidebar extends React.Component {
                     data: womenData,
                 }
             })
-        }).catch(err => {
-            console.log("Beta : ", err);
-            swal("Error !", err || "Somethings went wrong. Please try again later.", "error");
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");                        
         })
     }
     getCountryInfo(targetData){
         const that = this;
         var dt = new Date()
         dt.setMonth(dt.getMonth() - 1)
-        axios.get(config.baseURL + config.graph.facebook.country, {
+        ajax("get", config.graph.facebook.country, {
             params: {
                 start: Math.round(dt.getTime() / 1000),
                 token: cookier.parse("token"),
                 id: targetData
             }
-        }).then(data => {
-            const res = data.data;
-            console.log("Beta : ", res);
-            if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
+        }, true, 1).then(res=>{
             const social_accounts = that.props.accounts[targetData];
             const visualData = [
                 ['Country', 'Popularity']
@@ -286,9 +230,8 @@ export default class Sidebar extends React.Component {
                     data: visualData,
                 }
             })
-        }).catch(err => {
-            console.log("Beta : ", err);
-            swal("Error !", err || "Somethings went wrong. Please try again later.", "error");
+        }).catch(errHandler=>{
+            swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");                        
         })
     }
     selectAccount(e) {

@@ -1,10 +1,11 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import cookier from "../../../../../public/js/cookier";
 
+import cookier from "../../../../../public/js/cookier";
 import Config from "./../../../../config";
 import {Route} from "./../../../../actions/routerActioıns";
+import ajax from "../../../../functions/ajax/ajax";
+
 @connect(store=>{
     return {
         accounts : store.User.list,
@@ -29,45 +30,20 @@ export default class Notifications extends React.Component {
     const user_data = cookier.parse("token");
     if(!user_data) return window.location.href = "/";
     // skip, start, end kosullari da var !
-    axios.get(Config.getNotifications, {
+    ajax("get", Config.getNotifications, {
       params: {
         n : 10,
         skip : 0,
         unreadonly : false,
         token : user_data
       }
-    }).then(data=>{
-      console.log("Beta : ", data.data)
-      const res = data.data;
-      if(res.error){
-                if(res.err_id != "-1"){
-                    swal({
-                        title: "Beta error occured \n Code : " + res.err_id,
-                        text: "Please copy this code and contact us.",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "rgba(52, 152, 219,1.0)",
-                        confirmButtonText: "Copy",
-                        closeOnConfirm: false
-                    },function(){
-                        var textField = document.createElement('textarea')
-                        textField.innerText = res.err_id;
-                        document.body.appendChild(textField)
-                        textField.select()
-                        document.execCommand('copy')
-                        textField.remove()
-                        swal("Copied!", "Please contact us using this email : beta@socialgin.com", "success");
-                    });
-                }else{
-                    swal("Somethings wrong with your accounts.", res.error || "Please contact us.", "error");
-                }
-            }
+    }, true, 1).then(result=>{
       that.setState({
         loaded : true,
-        notifications : res
+        notifications : result
       })
-    }).catch(err=>{
-      console.log("Beta : ", err)
+    }).catch(errHandler=>{
+      swal(that.props.language["error"], errHandler.error || that.props.language["somethingWrong"], "error");
     })
   }
   render() {
