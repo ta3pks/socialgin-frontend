@@ -37,7 +37,7 @@
                 <a class="logo-wrap" href="/">
                     <img class="logo" src="/public/img/logo.svg" alt="">
                 </a>
-                <div class="menu">
+                <!-- <div class="menu">
                     <ul>
                         <li>
                             <a href="#whatwedo">WHAT WE DO</a>
@@ -52,7 +52,7 @@
                     <svg viewBox="0 0 24 24" v-on:click="menu()">
                         <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
                     </svg>
-                </div>
+                </div> -->
             </div>
             <div class="header-content">
                 <div class="cover">
@@ -106,8 +106,9 @@
                             <input v-model="loginInfo.password" type="password" class="material-input" placeholder="Password">
                             <div class="login-mail">
                                 <a href="#" v-on:click.prevent="loginEmail = false">You dont have an account?</a>
-                                <button class="btn red" v-on:click="emailLoginHandler">
-                                    Login
+                                <button class="btn red" id="loginButton" v-on:click="emailLoginHandler">
+                                    <span v-if="buttonLoader">Loading...</span>
+                                    <span v-else="buttonLoader">Login</span>
                                 </button>
                             </div>
                         </div>
@@ -126,8 +127,9 @@
                             </div>
                             <div class="login-mail">
                                 <a href="#" v-on:click.prevent="loginEmail = true">Do you have an account?</a>
-                                <button class="btn red" v-on:click="emailRegisterer">
-                                    Register
+                                <button class="btn red" id="registerButtonEmail" v-on:click="emailRegisterer">
+                                    <span v-if="buttonLoader">Loading...</span>
+                                    <span v-else="buttonLoader">Register</span>
                                 </button>
                             </div>
                         </div>
@@ -144,7 +146,7 @@
                     </div>
                     <div class="can-do-info">
                         <h2>ADD YOUR ACCOUNTS</h2>
-                        <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <p>You can add your all Facebook and Twitter accounts to Socialgin.</p>
                     </div>
                 </div>
                 <div class="can-do right">
@@ -153,7 +155,7 @@
                     </div>
                     <div class="can-do-info">
                         <h2>MANAGE YOUR POSTS</h2>
-                        <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <p>You can schedule your post when ever you want.</p>
                     </div>
                 </div>
                 <div class="can-do">
@@ -162,7 +164,7 @@
                     </div>
                     <div class="can-do-info">
                         <h2>GET REPORTS TO YOUR ACCOUNTS</h2>
-                        <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <p>You can get your all data to one place.</p>
                     </div>
                 </div>
             </div>
@@ -215,128 +217,29 @@
                 </ul>
             </div>
         </section>
-        <section class="plans" id="plans">
-            <div class="plans-content">
-                <h1>PLANS</h1>
-                <div class="plans-area">
-                    <div class="plan">
-                        <div class="topbar">
-                            Basic
-                        </div>
-                        <div class="price">
-                            <div class="text">Free</div>
-                        </div>
-                        <div class="spacials">
-                            <ul>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="plan">
-                        <div class="topbar">
-                            Basic
-                        </div>
-                        <div class="price">
-                            <div class="price-number">
-                                <span class="dolar">$</span>
-                                <span class="number">20</span>
-                                <span class="time">/mo</span>
-                            </div>
-                        </div>
-                        <div class="spacials">
-                            <ul>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="plan">
-                        <div class="topbar">
-                            Basic
-                        </div>
-                        <div class="price">
-                            <div class="text">Contact for price</div>
-                        </div>
-                        <div class="spacials">
-                            <ul>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                    <div class="separator"></div>
-                                </li>
-                                <li>
-                                    <strong>Lorem ipsum</strong>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <section class="footer">
             <div class="footer-content">
                 <h1>Get in touch</h1>
                 <p>If you need help, or just want to tell us how you like socialgin.com, contact us at <a href="mailto:info@socialgin.com">info@socialgin.com</a>.</p>
                 <div class="follow-us">
-                    <h1>Follow us</h1>
+                    <div class="policy-area">
+                        <ul>
+                            <li>
+                                <a href="#">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="#">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#">Copyright</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="languages">
+                        <select>
+                                <option value="">English</option>
+                        </select>
+                    </div>
                     <div class="follow-social-media-area">
                         <a href="https://www.facebook.com/socialgin" class="follow" target="__blank">
                             <svg viewBox="0 0 24 24">

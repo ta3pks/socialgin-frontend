@@ -77,12 +77,33 @@
             width: 100%;
             user-select: none;
         }
+        &.headline{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: nowrap;
+            .cover{
+                display: none;
+            }
+            .info{
+                width: auto;
+                display: flex;
+                flex-direction: row;
+                svg{
+                    margin-right: 15px;
+                }
+            }
+        }
         .cover {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: block;
             color: #fff;
             width: 50%;
+            &.centered {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
             h2 {
                 font-size: 1.4em;
                 font-weight: 600;
