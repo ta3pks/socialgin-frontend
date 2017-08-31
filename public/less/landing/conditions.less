@@ -1,0 +1,36 @@
+//main:./main.less
+
+.conditions-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .conditions-content {
+        width: 100%;
+        max-width: @boxWidth;
+        display: block;
+        padding: 15px;
+        h2{
+            font-size: 1.875rem;
+            line-height: 1.3;
+            margin: 1.5rem 0;
+            font-weight: 600
+        }
+        ul{
+            display: block;
+            list-style-type: disc;
+            -webkit-margin-before: 1em;
+            -webkit-margin-after: 1em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            -webkit-padding-start: 40px;
+        }
+        a{
+            color: @maincolor;
+        }
+        p{
+            margin: 0 0 1.5rem
+        }
+    }
+}

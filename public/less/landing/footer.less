@@ -31,11 +31,46 @@
             font-weight: 600;
         }
         .follow-us{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
             width: 100%;
+            margin-top: 25px;
+            .policy-area{
+                min-width: 200px;
+                display: flex;
+                align-items: center;
+                flex-grow: 1;
+                ul{
+                    display: flex;
+                    flex-direction: row;
+                    list-style-type: none;
+                    li{
+                        margin-right: 7px;
+                    }
+                }
+            }
+            .languages{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                min-width: 200px;
+                flex-grow: 1;
+                select{
+                    width: 100%;
+                    padding: 6px 12px;
+                }
+            }
             .follow-social-media-area{
                 display: flex;
                 flex-direction: row;
-                width: 100%;
+                justify-content: center;
+                align-items: center;
+                min-width: 200px;
+                flex-grow: 1;
                 .follow{
                     display: flex;
                     flex-direction: column;
