@@ -1,7 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import cookier from "../../public/js/cookier";
-import notifier from "notifier/js/notifier.js";
 import ajax from "../functions/ajax/ajax";
 
 import config from "./../config";
@@ -13,7 +12,7 @@ import Menu from "./partials/menu";
 import Pages from "./pages/index.jsx";
 import Loading from "./pages/loading.jsx";
 
-import {fetchAccounts, userName, avatar, setMail} from "./../actions/accountActions";
+import {setMail} from "./../actions/accountActions";
 import {loadedSidebar, loadedTopbar} from "./../actions/settingsAcrions";
 
 
