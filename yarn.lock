@@ -3517,8 +3517,8 @@ loadjs@^3.3.1:
   resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-3.5.0.tgz#1dd8934c064c5dad9c62c513875918e87db8e6e1"
 
 lodash-es@^4.2.1:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
 
 lodash._basecopy@^3.0.0:
   version "3.0.1"
